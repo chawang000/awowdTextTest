@@ -1,10 +1,9 @@
-var detectionDistance = 300,
-    stopDistance = 300,
+var detectionDistance = 400,
+    stopDistance = 400,
     textBaseFontSize = 30,
     textTargetFontSize = 60,
     globalSpeed = 1;
 
-var currentProgress;
 
 // SPEED VARIABLES
 
@@ -30,21 +29,24 @@ $(window).on("load", function (e){
 function textAnimationInitialize(){
     for (var i = 0; i < animateTitleArray.length; i++){
         var animatedTitle = animateTitleArray[i];
-        animatedTitle.targetPosElement =  document.getElementById(animatedTitle.getAttribute('data-target-element'));
-        targetPosElement = animatedTitle.targetPosElement;
-        var animatedTitleParent = $(animatedTitle).parent('p');
-        var animatedTitleParentHeight = animatedTitleParent.height();
-        var titleParentPos = animatedTitleParent.offset();
-        // var animatedTitlePosition = $(animatedTitle).offset();
-        var animatedTitleHeight = $(animatedTitle).height();
 
-        var animatedTitleTop = titleParentPos.top + animatedTitleParentHeight -animatedTitleHeight;
+        setTextInitialPosition(animatedTitle);
+
+        targetPosElement =  document.getElementById(animatedTitle.getAttribute('data-target-element'));
+        var animatedTitleParent = $(animatedTitle).parent('p');
+        // var animatedTitlePosition = $(animatedTitle).offset();
+        var titleParentPos = animatedTitleParent.offset();
+        var firstWord = $(animatedTitle).find('.word')[0];
+        var lastWord = $(animatedTitle).find('.word:last-child');
         var targetPos = $(targetPosElement).offset();
+        var firstWordPos = $(firstWord).offset();
+        var lastWordPos = $(lastWord).offset();
+        var lastWordMarginLeft = 10;
+
+        var animatedTitleTop = lastWordPos.top;//because inline-block top is based on last element top
         var targetTop = targetPos.top;
 
-        // console.log(animatedTitleHeight);
-
-        animateDistance = targetTop - animatedTitleTop;
+        animateDistance = (targetTop - stopDistance - animatedTitleTop + detectionDistance);
         animatedTitle.targetFixedTop = targetTop;
         animatedTitle.animatedTitleTop = animatedTitleTop;
         animatedTitle.animateDistance = animateDistance;
@@ -57,17 +59,27 @@ function textAnimationInitialize(){
         getTransformSpeed();
         function getTransformSpeed(){
             transformDistanceX = targetPos.left - titleParentPos.left;
-            transformDistanceY = targetPos.top - animatedTitleTop;
+            transformDistanceY = targetPos.top - lastWordPos.top;
             animatedTitle.transformSpeedX = transformDistanceX / animateDistance;
             animatedTitle.transformSpeedY = transformDistanceY / animateDistance;
+
+            innerOffsetDistanceX = firstWordPos.left - titleParentPos.left - lastWordMarginLeft;
+            innerOffsetDistanceY = lastWordPos.top - firstWordPos.top;
+            animatedTitle.innerOffsetSpeedX = innerOffsetDistanceX / animateDistance;
+            animatedTitle.innerOffsetSpeedY = innerOffsetDistanceY / animateDistance;
+            animatedTitle.lastWordMarginLeft = lastWordMarginLeft;
+            animatedTitle.firstWord = firstWord;
         }
+
+        animatedTitle.consoleElement = lastWordMarginLeft;
+
+        titleStates();//TODO Fix already scrolled.
     }
 }
 
 
 
 function titleStates(){
-
         for (var i = 0; i < animateTitleArray.length; i++){
             var animatedTitle = animateTitleArray[i];
             var currentScroll = $(document).scrollTop();
@@ -76,49 +88,85 @@ function titleStates(){
             var targetTop = animatedTitle.targetFixedTop - currentScroll;
             animateDistance = animatedTitle.animateDistance;
 
-            // console.log(animatedTitle.targetFixedTop);
-
             currentProgress = animateDistance - (targetTop - stopDistance);
 
             startAnimateTitle = canAnimateTitle(animatedTitleCurrentTop, targetTop);
+
+            // if(canInitialTitle){
+            //     setTextInitialPosition(animatedTitle);
+            // }
+
             if(startAnimateTitle){
-                // console.log(currentProgress);
-                setTextProgressingPosition(animatedTitle);
-                // console.log(animatedTitle.transformSpeedX);
+                setTextProgressingPosition(animatedTitle,currentProgress);
             }
         }
 }
 
-function canAnimateTitle(animatedTitleCurrentTop, targetTop){
+// function canInitialTitle(){
+//     if(animatedTitleCurrentTop > detectionDistance ){
+//         return true;
+//     }
+// }
 
+function canAnimateTitle(animatedTitleCurrentTop, targetTop){
     if(animatedTitleCurrentTop < detectionDistance && targetTop > stopDistance){
         return true;
-    }else{
-        // return false;
     }
 }
 
-// function
+function setTextInitialPosition(animatedTitle){
+    var currentProgress = 0;
+    var firstWord = animatedTitle.firstWord;
+    lastWordMarginLeft = animatedTitle.lastWordMarginLeft;
+    $(animatedTitle).css({
+                        // 'color':'rgb(' + textNextColor + ','+ textNextColor + ',' + textNextColor + ')',
+                        'transform':'translate( ' + 0 +'px, ' + 0 + 'px)',
+                        // 'font-family':'Avenir Next LT Pro Bold',
+                        'font-size': textBaseFontSize + currentProgress + 'px',
+                        'margin-top': lastWordMarginLeft + 'px',
+                        'display': 'inline'
+                        // 'letter-spacing': letterSpacingBase +TargetCurrentProgress/letterSpacingShrink,
+                    });
+}
 
-function setTextProgressingPosition(animatedTitle){
-     transformSpeedX = animatedTitle.transformSpeedX;
-    // console.log(currentProgress);
+function setTextProgressingPosition(animatedTitle, currentProgress){
+    // console.log(animatedTitle.consoleElement);
+    // TRANSFORM
     transformSpeedX = animatedTitle.transformSpeedX;
-    transformSpeedY = animatedTitle.transformSpeedY
-    textFontSizeSpeed = globalSpeed * animatedTitle.textFontSizeSpeed;
+    transformSpeedY = animatedTitle.transformSpeedY;
     textNextPositionX = globalSpeed * transformSpeedX * currentProgress;
     textNextPositionY = globalSpeed * transformSpeedY * currentProgress;
+
+    // INNEROFFSET
+    var firstWord = animatedTitle.firstWord;
+    lastWordMarginLeft = animatedTitle.lastWordMarginLeft;
+    innerOffsetSpeedX = animatedTitle.innerOffsetSpeedX;
+    innerOffsetSpeedY = animatedTitle.innerOffsetSpeedY;
+    animateDistance = animatedTitle.animateDistance;
+    textNestOffsetX = globalSpeed * innerOffsetSpeedX * (animateDistance - currentProgress);
+    textNestOffsetY = -1 * globalSpeed * innerOffsetSpeedY * (animateDistance - currentProgress);
+
+
+
+    textFontSizeSpeed = globalSpeed * animatedTitle.textFontSizeSpeed;
 
     $(animatedTitle).css({
                         // 'color':'rgb(' + textNextColor + ','+ textNextColor + ',' + textNextColor + ')',
                         'transform':'translate( ' + textNextPositionX +'px, ' + textNextPositionY + 'px)',
                         // 'font-family':'Avenir Next LT Pro Bold',
                         'font-size': textBaseFontSize + currentProgress * textFontSizeSpeed + 'px',
-                        // 'margin-top':'-100px',
-                        // 'display': 'block'
+
+                        'display': 'inline-block',
+                        'margin-top': textNestOffsetY + 'px'
                         // 'letter-spacing': letterSpacingBase +TargetCurrentProgress/letterSpacingShrink,
                     });
-    // console.log($(animateElement).css('color'));
+
+
+    $(firstWord).css({
+        'margin-left': lastWordMarginLeft + textNestOffsetX + 'px'
+    });
+
+
 }
 
 

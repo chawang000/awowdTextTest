@@ -139,7 +139,8 @@ html, body {
   margin-top: 200px; }
 
 .animatedTitle {
-  display: inline-block;
+  /*display: inline-block;*/
+  /*margin-top: -10px;*/
   /*    position: relative;
       top: -50px;*/
   /*float: left;*/
@@ -157,7 +158,8 @@ html, body {
 
 .animatedTitle .textSpan .word:first-child {
   /*position: relative;*/
-  /*transform: translate(20px,20px);*/ }
+  /*transform: translate(20px,20px);*/
+  /*margin-left: 200px;*/ }
 
 .word {
   display: block;
