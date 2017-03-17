@@ -2,8 +2,9 @@ var detectionDistance = 300,
     stopDistance = 500,
     textBaseFontSize = 30,
     textTargetFontSize = 60,
-    globalSpeed = 1,
-    lastWordMarginLeft = 10;//need to keep the same with css .word margin left
+    globalSpeed = 1;
+
+var lastWordMarginLeft;
 
 
 // SPEED VARIABLES
@@ -29,7 +30,6 @@ $(window).on("load", function (e){
 
 function textAnimationInitialize(){
     for (var i = 0; i < animateTitleArray.length; i++){
-
         var animatedTitle = animateTitleArray[i];
         setTextInitialPosition(animatedTitle);
         targetPosElement =  document.getElementById(animatedTitle.getAttribute('data-target-element'));
@@ -137,7 +137,7 @@ function setTextInitialPosition(animatedTitle){
 }
 
 function setTextProgressingPosition(animatedTitle, currentProgress){
-    console.log(animatedTitle.consoleElement);
+    // console.log(animatedTitle.consoleElement);
     // TRANSFORM
     transformSpeedX = animatedTitle.transformSpeedX;
     transformSpeedY = animatedTitle.transformSpeedY;
@@ -189,7 +189,9 @@ function textToSpan(){
                 $(paragraphSection).append($("<span class='word'>").text(v));
             });
         }
-
     }
+    wordElement = $(paragraphSections[0]).find('.word:first-child');
+    lastWordMarginLeft = parseInt(wordElement.css('margin-left'));
+    // console.log(lastWordMarginLeft);
 }
 
