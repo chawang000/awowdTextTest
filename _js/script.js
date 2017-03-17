@@ -1,8 +1,9 @@
-var detectionDistance = 400,
-    stopDistance = 400,
+var detectionDistance = 300,
+    stopDistance = 500,
     textBaseFontSize = 30,
     textTargetFontSize = 60,
-    globalSpeed = 1;
+    globalSpeed = 1,
+    lastWordMarginLeft = 10;//need to keep the same with css .word margin left
 
 
 // SPEED VARIABLES
@@ -28,25 +29,26 @@ $(window).on("load", function (e){
 
 function textAnimationInitialize(){
     for (var i = 0; i < animateTitleArray.length; i++){
+
         var animatedTitle = animateTitleArray[i];
-
         setTextInitialPosition(animatedTitle);
-
         targetPosElement =  document.getElementById(animatedTitle.getAttribute('data-target-element'));
         var animatedTitleParent = $(animatedTitle).parent('p');
         // var animatedTitlePosition = $(animatedTitle).offset();
         var titleParentPos = animatedTitleParent.offset();
+        var firstTextSpan = animatedTitleParent.find('.textSpan:first-child');
+        var firstTextSpanPos = firstTextSpan.offset();
         var firstWord = $(animatedTitle).find('.word')[0];
-        var lastWord = $(animatedTitle).find('.word:last-child');
+        var lastWord = firstTextSpan.find('.word:last-child');
         var targetPos = $(targetPosElement).offset();
         var firstWordPos = $(firstWord).offset();
         var lastWordPos = $(lastWord).offset();
-        var lastWordMarginLeft = 10;
 
-        var animatedTitleTop = lastWordPos.top;//because inline-block top is based on last element top
+
+        var animatedTitleTop = lastWordPos.top + $(lastWord).height();//because inline-block top is based on last element top
         var targetTop = targetPos.top;
 
-        animateDistance = (targetTop - stopDistance - animatedTitleTop + detectionDistance);
+        animateDistance = targetTop - stopDistance - animatedTitleTop + detectionDistance;
         animatedTitle.targetFixedTop = targetTop;
         animatedTitle.animatedTitleTop = animatedTitleTop;
         animatedTitle.animateDistance = animateDistance;
@@ -59,19 +61,19 @@ function textAnimationInitialize(){
         getTransformSpeed();
         function getTransformSpeed(){
             transformDistanceX = targetPos.left - titleParentPos.left;
-            transformDistanceY = targetPos.top - lastWordPos.top;
+            transformDistanceY = targetPos.top - animatedTitleTop;
             animatedTitle.transformSpeedX = transformDistanceX / animateDistance;
             animatedTitle.transformSpeedY = transformDistanceY / animateDistance;
 
             innerOffsetDistanceX = firstWordPos.left - titleParentPos.left - lastWordMarginLeft;
-            innerOffsetDistanceY = lastWordPos.top - firstWordPos.top;
+            innerOffsetDistanceY = lastWordPos.top - firstWordPos.top + $(firstWord).height();
             animatedTitle.innerOffsetSpeedX = innerOffsetDistanceX / animateDistance;
             animatedTitle.innerOffsetSpeedY = innerOffsetDistanceY / animateDistance;
-            animatedTitle.lastWordMarginLeft = lastWordMarginLeft;
+            // animatedTitle.lastWordMarginLeft = lastWordMarginLeft;
             animatedTitle.firstWord = firstWord;
         }
 
-        animatedTitle.consoleElement = lastWordMarginLeft;
+        animatedTitle.consoleElement = transformDistanceY;
 
         titleStates();//TODO Fix already scrolled.
     }
@@ -117,20 +119,25 @@ function canAnimateTitle(animatedTitleCurrentTop, targetTop){
 function setTextInitialPosition(animatedTitle){
     var currentProgress = 0;
     var firstWord = animatedTitle.firstWord;
-    lastWordMarginLeft = animatedTitle.lastWordMarginLeft;
+    // lastWordMarginLeft = animatedTitle.lastWordMarginLeft;
     $(animatedTitle).css({
                         // 'color':'rgb(' + textNextColor + ','+ textNextColor + ',' + textNextColor + ')',
                         'transform':'translate( ' + 0 +'px, ' + 0 + 'px)',
                         // 'font-family':'Avenir Next LT Pro Bold',
                         'font-size': textBaseFontSize + currentProgress + 'px',
-                        'margin-top': lastWordMarginLeft + 'px',
-                        'display': 'inline'
+                        'margin-left': 0 + 'px',
+                        'position':'inherit',
+                        'display': 'inline',
+                        'top': 0 + 'px'
                         // 'letter-spacing': letterSpacingBase +TargetCurrentProgress/letterSpacingShrink,
                     });
+    $(firstWord).css({
+        'margin-left': lastWordMarginLeft + 'px'
+    });
 }
 
 function setTextProgressingPosition(animatedTitle, currentProgress){
-    // console.log(animatedTitle.consoleElement);
+    console.log(animatedTitle.consoleElement);
     // TRANSFORM
     transformSpeedX = animatedTitle.transformSpeedX;
     transformSpeedY = animatedTitle.transformSpeedY;
@@ -139,7 +146,7 @@ function setTextProgressingPosition(animatedTitle, currentProgress){
 
     // INNEROFFSET
     var firstWord = animatedTitle.firstWord;
-    lastWordMarginLeft = animatedTitle.lastWordMarginLeft;
+    // lastWordMarginLeft = animatedTitle.lastWordMarginLeft;
     innerOffsetSpeedX = animatedTitle.innerOffsetSpeedX;
     innerOffsetSpeedY = animatedTitle.innerOffsetSpeedY;
     animateDistance = animatedTitle.animateDistance;
@@ -155,9 +162,9 @@ function setTextProgressingPosition(animatedTitle, currentProgress){
                         'transform':'translate( ' + textNextPositionX +'px, ' + textNextPositionY + 'px)',
                         // 'font-family':'Avenir Next LT Pro Bold',
                         'font-size': textBaseFontSize + currentProgress * textFontSizeSpeed + 'px',
-
+                        'position':'relative',
                         'display': 'inline-block',
-                        'margin-top': textNestOffsetY + 'px'
+                        'top': textNestOffsetY + 'px'
                         // 'letter-spacing': letterSpacingBase +TargetCurrentProgress/letterSpacingShrink,
                     });
 
