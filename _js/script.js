@@ -1,5 +1,5 @@
 var detectionDistance = 300,
-    stopDistance = 500,
+    stopDistance = 300,
     textBaseFontSize = 30,
     textTargetFontSize = 60,
     globalSpeed = 1;
@@ -14,14 +14,27 @@ var lastWordMarginLeft;
 $(window).on("load", function (e){
     animateTitleArray = document.getElementsByClassName("animatedTitle");
     textToSpan();
-    textAnimationInitialize();
+
+    for (var i = 0; i < animateTitleArray.length; i++){
+        animatedTitle = animateTitleArray[i];
+        setTextInitialPosition(animatedTitle);
+        textAnimationInitialize(animatedTitle);
+    }
+    
 
     $(window).resize(function(){
-        textAnimationInitialize();
+        for (var i = 0; i < animateTitleArray.length; i++){
+            animatedTitle = animateTitleArray[i];
+            setTextInitialPosition(animatedTitle);
+            textAnimationInitialize(animatedTitle);
+        }
     });
 
     $(window).scroll(function(){
-        titleStates();
+        for (var i = 0; i < animateTitleArray.length; i++){
+            animatedTitle = animateTitleArray[i];
+            titleStates(animatedTitle);
+        }
     });
 
 });//Window load END
@@ -29,9 +42,6 @@ $(window).on("load", function (e){
 
 
 function textAnimationInitialize(){
-    for (var i = 0; i < animateTitleArray.length; i++){
-        var animatedTitle = animateTitleArray[i];
-        setTextInitialPosition(animatedTitle);
         targetPosElement =  document.getElementById(animatedTitle.getAttribute('data-target-element'));
         var animatedTitleParent = $(animatedTitle).parent('p');
         // var animatedTitlePosition = $(animatedTitle).offset();
@@ -76,14 +86,12 @@ function textAnimationInitialize(){
         animatedTitle.consoleElement = transformDistanceY;
 
         titleStates();//TODO Fix already scrolled.
-    }
+    
 }
 
 
 
 function titleStates(){
-        for (var i = 0; i < animateTitleArray.length; i++){
-            var animatedTitle = animateTitleArray[i];
             var currentScroll = $(document).scrollTop();
             var animatedTitleCurrentTop = animatedTitle.animatedTitleTop - currentScroll;
             targetPosElement = animatedTitle.targetPosElement;
@@ -101,7 +109,7 @@ function titleStates(){
             if(startAnimateTitle){
                 setTextProgressingPosition(animatedTitle,currentProgress);
             }
-        }
+        
 }
 
 // function canInitialTitle(){
