@@ -86,7 +86,6 @@ function textAnimationInitialize(){
         animatedTitle.consoleElement = transformDistanceY;
 
         titleStates();//TODO Fix already scrolled.
-    
 }
 
 
@@ -107,7 +106,7 @@ function titleStates(){
             // }
 
             if(startAnimateTitle){
-                setTextProgressingPosition(animatedTitle,currentProgress);
+                // setTextProgressingPosition(animatedTitle,currentProgress);
             }
         
 }
@@ -180,8 +179,6 @@ function setTextProgressingPosition(animatedTitle, currentProgress){
     $(firstWord).css({
         'margin-left': lastWordMarginLeft + textNestOffsetX + 'px'
     });
-
-
 }
 
 
