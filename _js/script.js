@@ -1,5 +1,6 @@
 var detectionDistance = 300,
     stopDistance = 300,
+    scrollTextParaOffset = 300,
     textBaseFontSize = 30,
     textTargetFontSize = 60,
     globalSpeed = 1;
@@ -17,23 +18,26 @@ $(window).on("load", function (e){
 
     for (var i = 0; i < animateTitleArray.length; i++){
         animatedTitle = animateTitleArray[i];
-        setTextInitialPosition(animatedTitle);
-        textAnimationInitialize(animatedTitle);
+        setTextInitialPosition();
+        textAnimationInitialize();
     }
     
 
     $(window).resize(function(){
         for (var i = 0; i < animateTitleArray.length; i++){
             animatedTitle = animateTitleArray[i];
-            setTextInitialPosition(animatedTitle);
-            textAnimationInitialize(animatedTitle);
+            setTextInitialPosition();
+            textAnimationInitialize();
         }
     });
 
     $(window).scroll(function(){
         for (var i = 0; i < animateTitleArray.length; i++){
             animatedTitle = animateTitleArray[i];
-            titleStates(animatedTitle);
+            if(animateTitleArray[i-1] != null){
+                lastTitle = animateTitleArray[i - 1]
+            }
+            titleStates();
         }
     });
 
@@ -83,9 +87,17 @@ function textAnimationInitialize(){
             animatedTitle.firstWord = firstWord;
         }
 
+        getTextParaScrollSpeed();
+        function getTextParaScrollSpeed(){
+            a = 200;
+            animatedTitle.TextParaScrollSpeed = a / (a + scrollTextParaOffset);
+        }
+
+
+
         animatedTitle.consoleElement = transformDistanceY;
 
-        titleStates();//TODO Fix already scrolled.
+        // titleStates();//TODO Fix already scrolled.
 }
 
 
@@ -97,18 +109,25 @@ function titleStates(){
             var targetTop = animatedTitle.targetFixedTop - currentScroll;
             animateDistance = animatedTitle.animateDistance;
 
+
             currentProgress = animateDistance - (targetTop - stopDistance);
+            textScrollProgress = scrollTextParaOffset - (animatedTitleCurrentTop - detectionDistance);
 
             startAnimateTitle = canAnimateTitle(animatedTitleCurrentTop, targetTop);
+            startScrollTextPara = canScrollTextPara(animatedTitleCurrentTop);
 
             // if(canInitialTitle){
             //     setTextInitialPosition(animatedTitle);
             // }
 
             if(startAnimateTitle){
-                // setTextProgressingPosition(animatedTitle,currentProgress);
+                // console.log(textScrollProgress);
+                setTextProgressingPosition(currentProgress);
+                
+            }else if(startScrollTextPara){
+                // console.log('title');
+                textParaScroll(textScrollProgress);
             }
-        
 }
 
 // function canInitialTitle(){
@@ -123,7 +142,7 @@ function canAnimateTitle(animatedTitleCurrentTop, targetTop){
     }
 }
 
-function setTextInitialPosition(animatedTitle){
+function setTextInitialPosition(){
     var currentProgress = 0;
     var firstWord = animatedTitle.firstWord;
     // lastWordMarginLeft = animatedTitle.lastWordMarginLeft;
@@ -143,7 +162,41 @@ function setTextInitialPosition(animatedTitle){
     });
 }
 
-function setTextProgressingPosition(animatedTitle, currentProgress){
+// function setTitleFinalPosition(){
+//     var currentProgress = animateDistance;
+//     var firstWord = animatedTitle.firstWord;
+//     // lastWordMarginLeft = animatedTitle.lastWordMarginLeft;
+//     transformSpeedX = animatedTitle.transformSpeedX;
+//     transformSpeedY = animatedTitle.transformSpeedY;
+//     textNextPositionX = globalSpeed * transformSpeedX * currentProgress;
+//     textNextPositionY = globalSpeed * transformSpeedY * currentProgress;
+
+//     // INNEROFFSET
+//     var firstWord = animatedTitle.firstWord;
+//     // lastWordMarginLeft = animatedTitle.lastWordMarginLeft;
+//     innerOffsetSpeedX = animatedTitle.innerOffsetSpeedX;
+//     innerOffsetSpeedY = animatedTitle.innerOffsetSpeedY;
+//     animateDistance = animatedTitle.animateDistance;
+//     textNestOffsetX = globalSpeed * innerOffsetSpeedX * (animateDistance - currentProgress);
+//     textNestOffsetY = -1 * globalSpeed * innerOffsetSpeedY * (animateDistance - currentProgress);
+
+
+
+//     textFontSizeSpeed = globalSpeed * animatedTitle.textFontSizeSpeed;
+
+//     $(animatedTitle).css({
+//                         // 'color':'rgb(' + textNextColor + ','+ textNextColor + ',' + textNextColor + ')',
+//                         'transform':'translate( ' + textNextPositionX +'px, ' + textNextPositionY + 'px)',
+//                         // 'font-family':'Avenir Next LT Pro Bold',
+//                         'font-size': textBaseFontSize + currentProgress * textFontSizeSpeed + 'px',
+//                         'position':'relative',
+//                         'display': 'inline-block',
+//                         'top': textNestOffsetY + 'px'
+//                         // 'letter-spacing': letterSpacingBase +TargetCurrentProgress/letterSpacingShrink,
+//                     });
+// }
+
+function setTextProgressingPosition(currentProgress){
     // console.log(animatedTitle.consoleElement);
     // TRANSFORM
     transformSpeedX = animatedTitle.transformSpeedX;
@@ -180,6 +233,38 @@ function setTextProgressingPosition(animatedTitle, currentProgress){
         'margin-left': lastWordMarginLeft + textNestOffsetX + 'px'
     });
 }
+
+
+
+function canScrollTextPara(animatedTitleCurrentTop){
+    if(animatedTitleCurrentTop > detectionDistance && animatedTitleCurrentTop < detectionDistance + scrollTextParaOffset){
+        return true;
+    }
+}
+
+function textParaScroll(textScrollProgress){
+    TextParaScrollSpeed = animatedTitle.TextParaScrollSpeed
+    animatedTitleParent = $(animatedTitle).parent('p');
+
+    currentProgress = animateDistance;
+    transformSpeedX = animatedTitle.transformSpeedX;
+    transformSpeedY = animatedTitle.transformSpeedY;
+    textNextPositionX = -1 * globalSpeed * transformSpeedX * currentProgress;
+    textNextPositionY = globalSpeed * transformSpeedY * currentProgress+textScrollProgress*TextParaScrollSpeed;
+    
+    animatedTitleParent.css({
+        'transform':'translate( ' + 0 +'px, ' + textScrollProgress*TextParaScrollSpeed + 'px)'
+    });
+
+    $(lastTitle).css({
+        'transform':'translate( ' + textNextPositionX +'px, ' + textNextPositionY + 'px)'
+    });
+
+    console.log(textNextPositionY);
+    // console.log(lastTitle);
+
+}
+
 
 
 function textToSpan(){

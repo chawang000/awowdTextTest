@@ -71,7 +71,7 @@ html, body {
 
 .threeFifthContainer {
   text-align: center;
-  width: 40%;
+  width: 60%;
   height: 100%;
   /*background-color: red;*/ }
 
@@ -91,11 +91,17 @@ html, body {
 
 .floatLeft {
   float: left;
-  margin-left: 5%; }
+  margin-left: 10%; }
+
+.floatLeftNoMargin {
+  float: left; }
 
 .floatRight {
   float: right;
-  margin-right: 5%; }
+  margin-right: 10%; }
+
+.floatRightNoMargin {
+  float: right; }
 
 .alignRight {
   text-align: right; }
@@ -105,9 +111,10 @@ html, body {
   height: auto; }
 
 .textArea {
-  padding-top: 0px;
-  display: inline-block;
-  width: 40%;
+  padding-top: 80px;
+  /*display: inline-block;*/
+  width: 70%;
+  max-width: 500px;
   /*// height: 300px;*/
   text-align: left; }
 
