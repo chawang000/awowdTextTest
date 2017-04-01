@@ -46,8 +46,8 @@ html,body{
 
 .content{
   width: 100%;
-  height: 100vh;
-  min-height: 800px;
+  /*height: 100vh;*/
+  /*min-height: 800px;*/
   padding-top: 100px;
   padding-bottom: 100px;
     /*background-color: #eee;*/
@@ -208,6 +208,10 @@ html,body{
     margin-left: 8px;
     /*background-color: yellow;*/
     /*clear: top;*/
+}
+
+#videoBG .threeFifthContainer{
+    margin-top: 200px;
 }
 
 #textPara_1{
