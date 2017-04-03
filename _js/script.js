@@ -1,10 +1,12 @@
+// TODO CONTENT DIV HEIGHT NEED TO BE CACULATED
+
 var detectionDistance = 200,
     stopDistance = 400,
     scrollTextParaOffset = 300, //this is how many px before detectionDistance that trigger the paragraph scroll
     paraScrollDistanceMax = 300,
-    paraScrollDistanceMultiplier = 0.9,
-    textBaseFontSize = 30,
-    textTargetFontSize = 60,
+    paraScrollDistanceMultiplier = 0.3,
+    textBaseFontSize = 25,
+    textTargetFontSize = 50,
     globalSpeed = 1;
 
 var lastWordMarginLeft,
@@ -19,7 +21,10 @@ $(document).ready(function(){
 });
 
 $(window).on("load", function (e){
-    
+    var windowW = $(window).width();
+    $('.content').css({
+        'height': 9/16 * windowW + 'px'
+    });
     animateTitleArray = document.getElementsByClassName("animatedTitle");
     textToSpan();
 
@@ -64,20 +69,22 @@ function textAnimationInitialize(animatedTitle,lastTitle,nextTitle){
         var paraScrollDistance = caculateParaScrollDistance();
         function caculateParaScrollDistance(){
             var sectionDiv = $(animatedTitle).parents('div.content');
-            if(sectionDiv == null){
-                sectionDiv = $(animatedTitle).parents('div#videoBG');
+            if(sectionDiv[0] == null){
+                sectionDiv = $(animatedTitle).parents('#videoBG');
+                // console.log(sectionDiv);
             }
-            var sectionBottom = sectionDiv.offset().top + sectionDiv.height();
 
+            var sectionBottom = sectionDiv.offset().top + sectionDiv.height();
             var textArea = $(animatedTitle).parents('.textArea');
             var textAreaBottom = textArea.offset().top + textArea.height();
 
             var paraScrollDistance = (sectionBottom - textAreaBottom) * paraScrollDistanceMultiplier;
-            if (paraScrollDistance <= 0) {
-                paraScrollDistance = 0;
+            if (paraScrollDistance <= 50) {
+                paraScrollDistance = 50;
             }else if(paraScrollDistance > paraScrollDistanceMax){
                 paraScrollDistance = paraScrollDistanceMax
             }
+            // paraScrollDistance = 100;
             return paraScrollDistance;
         }
 
@@ -321,6 +328,13 @@ function textParaScroll(animatedTitle,paraScrollProgress,lastTitle){
     // console.log(textNextPositionY);
     // console.log(lastTitle);
 
+}
+
+function divHeightSetter(){
+    var windowW = $(window).width();
+    $('.content').css({
+        'height': 9/16 * windowW + 'px'
+    });
 }
 
 function textToSpan(){
