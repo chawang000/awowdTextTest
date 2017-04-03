@@ -81,14 +81,28 @@ html, body {
   height: 100%;
   /*background-color: green;*/ }
 
-.contentPortraitImage {
-  transition: all 0.3s;
+.contentImage {
+  /*  transform: translate(0px,0px);
+    opacity: 1;*/
   display: inline-block; }
 
-.showla {
-  transform: translateX(0px);
-  opacity: 1; }
+/*.imageShow{
+  transform: translateX(0px,0px);
+  opacity: 1;
+  transition: all 1s;
+}
 
+.imageDown{
+  transform: translateX(0px,200px);
+  opacity: 0;
+  transition: all 1s;
+}
+
+.imageUp{
+  transform: translateX(0px,200px);
+  opacity: 0;
+  transition: all 1s;
+}*/
 .floatLeft {
   float: left;
   margin-left: 10%; }

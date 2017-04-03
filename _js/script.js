@@ -1,6 +1,8 @@
 var detectionDistance = 200,
     stopDistance = 400,
     scrollTextParaOffset = 300, //this is how many px before detectionDistance that trigger the paragraph scroll
+    paraScrollDistanceMax = 300,
+    paraScrollDistanceMultiplier = 0.9,
     textBaseFontSize = 30,
     textTargetFontSize = 60,
     globalSpeed = 1;
@@ -30,8 +32,9 @@ $(window).on("load", function (e){
         for (var i = 0; i < animateTitleArray.length; i++){
             var animatedTitle = animateTitleArray[i];
             var lastTitle = animateTitleArray[i-1];
+            var nextTitle = animateTitleArray[i+1];
             setTextInitialPosition(animatedTitle);//set to initial position before caculation
-            textAnimationInitialize(animatedTitle,lastTitle);
+            textAnimationInitialize(animatedTitle,lastTitle,nextTitle);
         }
     });
 
@@ -39,14 +42,15 @@ $(window).on("load", function (e){
         for (var i = 0; i < animateTitleArray.length; i++){
             var animatedTitle = animateTitleArray[i];
             var lastTitle = animateTitleArray[i-1];
-            titleStates(animatedTitle,lastTitle);
+            var nextTitle = animateTitleArray[i+1];
+            titleStates(animatedTitle,lastTitle,nextTitle);
         }
     });
 });//Window load END
 
 
 
-function textAnimationInitialize(animatedTitle,lastTitle){
+function textAnimationInitialize(animatedTitle,lastTitle,nextTitle){
         var targetPosElement =  document.getElementById(animatedTitle.getAttribute('data-target-element'));
         var animatedTitleParent = $(animatedTitle).parent('p');
         var firstTextSpan = animatedTitleParent.find('.textSpan:first-child');
@@ -68,11 +72,11 @@ function textAnimationInitialize(animatedTitle,lastTitle){
             var textArea = $(animatedTitle).parents('.textArea');
             var textAreaBottom = textArea.offset().top + textArea.height();
 
-            var paraScrollDistance = (sectionBottom - textAreaBottom) * 0.7;
+            var paraScrollDistance = (sectionBottom - textAreaBottom) * paraScrollDistanceMultiplier;
             if (paraScrollDistance <= 0) {
                 paraScrollDistance = 0;
-            }else if(paraScrollDistance > 300){
-                paraScrollDistance = 300
+            }else if(paraScrollDistance > paraScrollDistanceMax){
+                paraScrollDistance = paraScrollDistanceMax
             }
             return paraScrollDistance;
         }
@@ -122,10 +126,6 @@ function textAnimationInitialize(animatedTitle,lastTitle){
 
         animatedTitle.consoleElement = paraScrollDistance;
 
-        // if ("undefined" === typeof animatedTitle.hasOwnProperty()){
-        //     console.log(animatedTitle.prop);
-        // }
-
         // titleStates();//TODO Fix already scrolled.
         setCurrentState();
         function setCurrentState(){
@@ -140,14 +140,24 @@ function textAnimationInitialize(animatedTitle,lastTitle){
             }else{
                 textParaScroll(animatedTitle,0,lastTitle);
             }
-
         }
 
+        setContentImage();
+        function setContentImage(){
+            var contentImage = $(animatedTitle).parents('.threeFifthContainer').siblings('.contentImage');
+            if(typeof contentImage !== 'undefined'){
+                contentImage.css({
+                    'transform':'translate(0px,100px)',
+                    'opacity':'0'
+                    // 'transition':'all 1s'
+                });
+            }
+        }
 }
 
 
 
-function titleStates(animatedTitle,lastTitle){
+function titleStates(animatedTitle,lastTitle,nextTitle){
     var paraScrollDistance = animatedTitle.paraScrollDistance;
     var currentScroll = $(document).scrollTop();
     // var textParaScrolledDistance = TextParaScrollSpeed * 
@@ -190,6 +200,16 @@ function titleStates(animatedTitle,lastTitle){
     if(titleLastFrameProgress <= animateDistance && titleCurrentProgress > animateDistance){
         // console.log('Title Final Position');
         setTextProgressingPosition(animatedTitle,animateDistance);
+        if(typeof nextTitle !== 'undefined'){
+            var nextContentImage = $(nextTitle).parents('.threeFifthContainer').siblings('.contentImage'); 
+            nextContentImage.css({
+                // 'transform-origin':'0px 200px',
+                'transform':'translate(0px,0px)',
+                'opacity':'1',
+                'transition':'all 0.5s'
+            });
+        }
+        
     }
 
 
@@ -248,40 +268,6 @@ function setTextInitialPosition(animatedTitle){
         'margin-left': lastWordMarginLeft + 'px'
     });
 }
-
-// function setTitleFinalPosition(){
-//     var titleCurrentProgress = animateDistance;
-//     var firstWord = animatedTitle.firstWord;
-//     // lastWordMarginLeft = animatedTitle.lastWordMarginLeft;
-//     transformSpeedX = animatedTitle.transformSpeedX;
-//     transformSpeedY = animatedTitle.transformSpeedY;
-//     textNextPositionX = globalSpeed * transformSpeedX * titleCurrentProgress;
-//     textNextPositionY = globalSpeed * transformSpeedY * titleCurrentProgress;
-
-//     // INNEROFFSET
-//     var firstWord = animatedTitle.firstWord;
-//     // lastWordMarginLeft = animatedTitle.lastWordMarginLeft;
-//     innerOffsetSpeedX = animatedTitle.innerOffsetSpeedX;
-//     innerOffsetSpeedY = animatedTitle.innerOffsetSpeedY;
-//     animateDistance = animatedTitle.animateDistance;
-//     textNestOffsetX = globalSpeed * innerOffsetSpeedX * (animateDistance - titleCurrentProgress);
-//     textNestOffsetY = -1 * globalSpeed * innerOffsetSpeedY * (animateDistance - titleCurrentProgress);
-
-
-
-//     textFontSizeSpeed = globalSpeed * animatedTitle.textFontSizeSpeed;
-
-//     $(animatedTitle).css({
-//                         // 'color':'rgb(' + textNextColor + ','+ textNextColor + ',' + textNextColor + ')',
-//                         'transform':'translate( ' + textNextPositionX +'px, ' + textNextPositionY + 'px)',
-//                         // 'font-family':'Avenir Next LT Pro Bold',
-//                         'font-size': textBaseFontSize + titleCurrentProgress * textFontSizeSpeed + 'px',
-//                         'position':'relative',
-//                         'display': 'inline-block',
-//                         'top': textNestOffsetY + 'px'
-//                         // 'letter-spacing': letterSpacingBase +TargettitleCurrentProgress/letterSpacingShrink,
-//                     });
-// }
 
 
 function setTextProgressingPosition(animatedTitle,titleCurrentProgress){
