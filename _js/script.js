@@ -95,6 +95,7 @@ function textAnimationInitialize(animatedTitle,lastTitle,nextTitle){
     if(targetPosElement != null){//check if there are next Target Title Position OTHERWISE just get animatedTitleTop to for text paragraph scroll
         insertTitleToTarget();
         function insertTitleToTarget(){
+            removePeriod(animatedTitle);
             targetPosElement.innerHTML = $(animatedTitle).find('.textSpan')[0].innerHTML;
             $(targetPosElement).css({
                 'opacity':0,
@@ -152,6 +153,7 @@ function textAnimationInitialize(animatedTitle,lastTitle,nextTitle){
         var titleCompleteAnimate = animatedTitleCurrentTop <= (detectionDistance - paraScrollDistance);
         
         if(titleCompleteAnimate){
+            removePeriod(animatedTitle);
             textParaScroll(animatedTitle,paraTotalDistance,lastTitle);
             setTextProgressingPosition(animatedTitle,animateDistance);
         }else if(titleCanAnimate){
@@ -169,11 +171,8 @@ function textAnimationInitialize(animatedTitle,lastTitle,nextTitle){
         var imgAtTop = lastTitleTargetTop <= stopDistance && !imgShow;
         var imgAtBottom = animatedTitleCurrentTop >= (detectionDistance - paraScrollDistance) && !imgShow;
         if(imgAtTop){
-            // console.log(imgAtTop);
-            // setContentImage(animatedTitle,-imgTransformDistance,imgFadeOpacity);
             setImageTransform(animatedTitle,-imgTransformDistance,imgFadeOpacity,0);
         }else if(imgAtBottom){
-            // setContentImage(animatedTitle,imgTransformDistance,imgFadeOpacity);
             setImageTransform(animatedTitle,imgTransformDistance,imgFadeOpacity,0);
         }
     }
@@ -223,16 +222,18 @@ function titleStates(animatedTitle,lastTitle,nextTitle){
         if(typeof nextTitle != 'undefined'){
             // console.log(nextTitle);
             setImageTransform(animatedTitle,-imgTransformDistance,imgFadeOpacity,0.5);
+            removePeriod(animatedTitle);
         }
         
         
     }
-    // TITLE START POSITION
+    // TITLE START POSITION(MOVING BACK)
     // ======set position to where title was not scrolled
     if(titleLastFrameProgress >= 0 && titleCurrentProgress < 0){
         setTextInitialPosition(animatedTitle);
         setImageTransform(animatedTitle,0,1,0.5);
-        // console.log('TITLE START POSITION');
+        addPeriod(animatedTitle);
+        // console.log('TITLE START POSITION(MOVING BACK)');
     }
     // TITLE FINAL POSITION
     // ======set position to where title should be at finnal position
@@ -259,6 +260,20 @@ function titleStates(animatedTitle,lastTitle,nextTitle){
     animatedTitle.titleLastFrameProgress = titleCurrentProgress; 
 }
 
+function addPeriod(animatedTitle){
+    var lastWord = $(animatedTitle).find('.word:last-child').html();
+    lastWord = lastWord.replace(/\./g, "");
+    lastWord = lastWord + '.';
+    $(animatedTitle).find('.word:last-child').html(lastWord);
+    // console.log(lastWord);
+}
+
+function removePeriod(animatedTitle){
+    var lastWord = $(animatedTitle).find('.word:last-child').html();
+    lastWord = lastWord.replace(/\./g, "");
+    $(animatedTitle).find('.word:last-child').html(lastWord);
+    // console.log(lastWord);
+}
 
 
 
