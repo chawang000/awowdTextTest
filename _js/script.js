@@ -1,64 +1,112 @@
 // TODO TITLE ANIMATION SHOULD NOT FIRE IF THE WINDOW HEIGHT IS SMALLER THAN CERTAIN PX
+// TODO SOMETIMES NON OF THE PROPERTY IS SAVED, PROPERTY READ AS UNDEFINED
+// TODO MORE STYLES FOR TITLE AND PARA ANIMATION
+// TODO FIX ANIMATION DISTANCE TOO SHORT BUG,IF WINDOW IS NOT WIDE ENOUGH,THERE IS NO SCROLL ANIMATION
 
-var detectionDistance = 200,
-    stopDistance = 400,
+var detectionDistance = 150,//TODO this value is depending on (#videoBG .threeFifthContainer)' margin-top for the first para
+    stopDistance = 250,
     scrollTextParaOffset = 300, //this is how many px before detectionDistance that trigger the paragraph scroll
     paraScrollDistanceMax = 300,
     paraScrollDistanceMultiplier = .4,
     imgFadeOpacity = 0.5,
+    imgTransformTime = 0.3,
     globalSpeed = 1;
 
-var textBaseFontSize,
-    textBaseFontFamily,
-    textTargetFontFamily,
-    textTargetFontSize,
-    lastWordMarginLeft, // set in textToSpan() based on CSS marginLeft
-    paraLastFrameProgress,// set in titleStates()
-    imgTransformDistance,// set in contentDivSetter() window width
-    titleLastFrameProgress;// set in titleStates()
-
-
+var textBaseFontSize, // set in contentDivSetter() 
+    textBaseFontFamily, // set in contentDivSetter() 
+    textTargetFontFamily, // set in contentDivSetter() 
+    textTargetFontSize, // set in contentDivSetter() 
+    lastWordMarginLeft, // set in contentDivSetter() 
+    paraLastFrameProgress, // set in scrollDetection()
+    imgTransformDistance, // set in contentDivSetter() window width
+    titleLastFrameProgress; // set in scrollDetection()
 // SPEED VARIABLES
 
 $(document).ready(function(){
     
 });
 
+// =========================================================================
+// WINDOW LOAD SETTER
+// -------------------------------------------------------------------------
+// * calculate here to ensure content are fully loaded and styled
+// =========================================================================
 $(window).on("load", function (e){
+    // WINDOW LOAD SETTER
     animateTitleArray = document.getElementsByClassName("animatedTitle");
     textToSpan();
     contentDivSetter();
-    
+   
+
+    // SETTER AND CALCULATION OF EACH SECTION
     for (var i = 0; i < animateTitleArray.length; i++){
         var animatedTitle = animateTitleArray[i];
         var lastTitle = animateTitleArray[i-1];
         var nextTitle = animateTitleArray[i+1];
-        textAnimationInitialize(animatedTitle,lastTitle,nextTitle);
+        animationInitialize(animatedTitle,lastTitle,nextTitle);
     }
 
+
+    // RESIZE
     $(window).resize(function(){
+        // RESIZE AND RECALCULATE THE ATTRIBUTES
+        // * scroll event will be fired if the window is scrolled after resize
         contentDivSetter();
         for (var i = 0; i < animateTitleArray.length; i++){
             var animatedTitle = animateTitleArray[i];
             var lastTitle = animateTitleArray[i-1];
             var nextTitle = animateTitleArray[i+1];
-            setTextInitialPosition(animatedTitle);//set to initial position before caculation
-            textAnimationInitialize(animatedTitle,lastTitle,nextTitle);
+            setToInitialPosition(animatedTitle);//set to initial position before caculation
+            animationInitialize(animatedTitle,lastTitle,nextTitle);
         }
     });
 
+
+
+    // SCROLL
     $(window).scroll(function(){
+        // RESIZE AND RECALCULATE THE ATTRIBUTES
         for (var i = 0; i < animateTitleArray.length; i++){
             var animatedTitle = animateTitleArray[i];
             var lastTitle = animateTitleArray[i-1];
             var nextTitle = animateTitleArray[i+1];
-            titleStates(animatedTitle,lastTitle,nextTitle);
+            scrollDetection(animatedTitle,lastTitle,nextTitle);
         }
     });
 });//Window load END
 
 
-function textAnimationInitialize(animatedTitle,lastTitle,nextTitle){
+
+// =========================================================================
+// =========================================================================
+// =========================================================================
+//                                HOME PAGE
+// =========================================================================
+// =========================================================================
+// =========================================================================
+// -------------------------------------------------------------------------
+// * Home page has two types of animations: TITLE ANIMATION and PARA ANIMATON
+
+
+
+// =========================================================================
+// "ANIMATION FLOW"
+// -------------------------------------------------------------------------
+// (detectionDistance + scrollTextParaOffset) ===> trigger para scroll animation
+// detectionDistance ===> stop para scroll, trigger title animation
+// stopDistance ===> titile reach the target position
+
+
+
+
+// =========================================================================
+// SET AND CALCULATE PROPERTIES OF EACH SECTION
+// -------------------------------------------------------------------------
+// * animatedTitle is based on the titles that need to be animated
+// * it will calculate data that are needed and save them individually as properties
+// * it will reset positions of all elements based on current scroll
+// =========================================================================
+function animationInitialize(animatedTitle,lastTitle,nextTitle){
     var targetPosElement =  document.getElementById(animatedTitle.getAttribute('data-target-element'));
     var animatedTitleParent = $(animatedTitle).parent('p');
     var firstTextSpan = animatedTitleParent.find('.textSpan:first-child');
@@ -68,13 +116,15 @@ function textAnimationInitialize(animatedTitle,lastTitle,nextTitle){
     var animatedTitleTop = lastWordPos.top + $(lastWord).height();//because inline-block top is based on last element top
     animatedTitle.animatedTitleTop = animatedTitleTop;
 
-    // CACULATE paraScroll Distance
+
+    // CALCULATE PARA SCROLL DISTANCE
+    // * paraScrollDistance is need for how much distance the paragraph can be scrolled
+    // * calculated by comparing parent div bottom boarder and textArea bottom boarder
     var paraScrollDistance = caculateParaScrollDistance();
     function caculateParaScrollDistance(){
         var sectionDiv = $(animatedTitle).parents('div.content');
         if(sectionDiv[0] == null){
             sectionDiv = $(animatedTitle).parents('#videoBG');
-            // console.log(sectionDiv);
         }
 
         var sectionBottom = sectionDiv.offset().top + sectionDiv.height();
@@ -87,12 +137,19 @@ function textAnimationInitialize(animatedTitle,lastTitle,nextTitle){
         }else if(paraScrollDistance > paraScrollDistanceMax){
             paraScrollDistance = paraScrollDistanceMax
         }
-        // paraScrollDistance = 100;
         return paraScrollDistance;
     }
     animatedTitle.paraScrollDistance = paraScrollDistance;
+    animatedTitle.TextParaScrollSpeed = paraScrollDistance / ( paraScrollDistance + scrollTextParaOffset);
 
-    if(targetPosElement != null){//check if there are next Target Title Position OTHERWISE just get animatedTitleTop to for text paragraph scroll
+
+
+    // CHECK IF THERE IS A NEXT TARGET TITLE POSITION
+    // -------------------------------------------------------------------------
+    // * if there is, it means current paragraphy is not the last paragraph
+    // * calculate the data that are needed to animate the title
+    // * otherwise just get animatedTitleTop and paraScrollDistance which were calculated above
+    if(targetPosElement != null){
         insertTitleToTarget();
         function insertTitleToTarget(){
             removePeriod(animatedTitle);
@@ -110,8 +167,6 @@ function textAnimationInitialize(animatedTitle,lastTitle,nextTitle){
         var firstWordPos = $(firstWord).offset();
         var targetTop = targetPos.top;
         var animateDistance = targetTop - stopDistance - animatedTitleTop + detectionDistance - paraScrollDistance;
-        // animatedTitle.consoleElement = stopDistance;
-
         animatedTitle.targetFixedTop = targetTop;
         animatedTitle.animateDistance = animateDistance;
 
@@ -131,52 +186,58 @@ function textAnimationInitialize(animatedTitle,lastTitle,nextTitle){
             innerOffsetDistanceY = lastWordPos.top - firstWordPos.top + $(firstWord).height();
             animatedTitle.innerOffsetSpeedX = innerOffsetDistanceX / animateDistance;
             animatedTitle.innerOffsetSpeedY = innerOffsetDistanceY / animateDistance;
-            // animatedTitle.lastWordMarginLeft = lastWordMarginLeft;
             animatedTitle.firstWord = firstWord;
         }
     }
 
-    getTextParaScrollSpeed();
-    function getTextParaScrollSpeed(){
-        animatedTitle.TextParaScrollSpeed = paraScrollDistance / ( paraScrollDistance + scrollTextParaOffset);
-    }
-    animatedTitle.consoleElement = paraScrollDistance;
-    // titleStates();//TODO Fix already scrolled.
 
+    // SET ELEMENTS' POSITIONS BASED ON CURRENT SCROLL
+    // -------------------------------------------------------------------------
+    // * to ensure elements are positioned correctly after refresh or resize
+    // * setter is based on three states. ABOVE, DURING AND COMPLETE
     setCurrentState();
     function setCurrentState(){
         var currentScroll = $(document).scrollTop();
         var animatedTitleCurrentTop = animatedTitleTop - currentScroll;
-        var paraTotalDistance = paraScrollDistance+scrollTextParaOffset;
-
-        var titleCanAnimate = animatedTitleCurrentTop <= detectionDistance + scrollTextParaOffset;
+        var paraTotalDistance = paraScrollDistance+scrollTextParaOffset; 
+        var titleNotTriggered = animatedTitleCurrentTop <= detectionDistance + scrollTextParaOffset;
         var titleCompleteAnimate = animatedTitleCurrentTop <= (detectionDistance - paraScrollDistance);
         
+
+        // * titleNotTriggered MEANING current scroll is during para scroll, but not triggered title animation yet
+        // * titleCompleteAnimate MEANING current title has reached the target position
+        // * else MEANING current scroll is above the title, neither title animation nor para animation has been triggered.
         if(titleCompleteAnimate){
             removePeriod(animatedTitle);
             textParaScroll(animatedTitle,paraTotalDistance,lastTitle);
-            setTextProgressingPosition(animatedTitle,animateDistance);
-        }else if(titleCanAnimate){
-            textParaScroll(animatedTitle,paraTotalDistance,lastTitle);
+            setTitleProgressingPosition(animatedTitle,animateDistance);
+        }else if(titleNotTriggered){
+            // do not need to set anything because if window is not at starting position, it will run functions inside of scroll event
+            addPeriod(animatedTitle);
         }else{
             textParaScroll(animatedTitle,0,lastTitle);
+            addPeriod(animatedTitle);
         }
+
 
         if(typeof lastTitle !== 'undefined'){
             var lastTitleTargetTop = lastTitle.targetFixedTop - currentScroll; //this is the lastTitle's targetTop
         }
 
         var imgShow = animatedTitleCurrentTop >= (detectionDistance - paraScrollDistance) && lastTitleTargetTop <= stopDistance;
-        // console.log(lastTitle);
-        var imgAtTop = lastTitleTargetTop <= stopDistance && !imgShow;
-        var imgAtBottom = animatedTitleCurrentTop >= (detectionDistance - paraScrollDistance) && !imgShow;
-        if(imgAtTop){
+        var imgIsAbove = lastTitleTargetTop <= stopDistance && !imgShow;
+        var imgIsBelow = animatedTitleCurrentTop >= (detectionDistance - paraScrollDistance) && !imgShow;
+
+        if(imgIsAbove){
             setImageTransform(animatedTitle,-imgTransformDistance,imgFadeOpacity,0);
-        }else if(imgAtBottom){
+        }else if(imgIsBelow){
             setImageTransform(animatedTitle,imgTransformDistance,imgFadeOpacity,0);
         }
     }
+
+    animatedTitle.consoleElement = paraScrollDistance;// used for debug
 }
+
 
 
 function setImageTransform(theTitle,imgTransform,imgOpacity,transformTime){
@@ -191,10 +252,17 @@ function setImageTransform(theTitle,imgTransform,imgOpacity,transformTime){
 }
 
 
-function titleStates(animatedTitle,lastTitle,nextTitle){
+
+// =========================================================================
+// FUNCTION THAT DETEMINES WHICH FUNCTION SHOULD BE TRIGGERED DURING SCROLL
+// -------------------------------------------------------------------------
+// * get all properties that were saved during animationInitialize
+// * set positions within the scroll detection
+// * set position outside of the detection but elements are not at the final position
+// =========================================================================
+function scrollDetection(animatedTitle,lastTitle,nextTitle){
     var paraScrollDistance = animatedTitle.paraScrollDistance;
     var currentScroll = $(document).scrollTop();
-    // var textParaScrolledDistance = TextParaScrollSpeed * 
     var animatedTitleCurrentTop = animatedTitle.animatedTitleTop - currentScroll;
     var targetPosElement = animatedTitle.targetPosElement;
     var targetTop = animatedTitle.targetFixedTop - currentScroll;
@@ -210,81 +278,87 @@ function titleStates(animatedTitle,lastTitle,nextTitle){
     paraLastFrameProgress = animatedTitle.paraLastFrameProgress;
     titleLastFrameProgress = animatedTitle.titleLastFrameProgress;
 
-    // PARA START POSITION
-    // ======set position to where paragraph should be when scroll back
+
+
+    // LAST FRAME SETTER
+    // -------------------------------------------------------------------------
+    // * set elements to the correct position by comparing last frame scroll poistion and current scroll position
+    // * need this because it is difficult for users to scroll to where elements should be
+
+    // PARA START POSITION (SCROLL UP)
+    // set position to where paragraph should be when scroll back
     if(paraLastFrameProgress >= 0 && paraScrollProgress < 0 ){
         textParaScroll(animatedTitle,0,lastTitle);
     }
-    // PARA FINAL POSITION
-    // ======set position to where para should be at finnal position
+    // PARA FINAL POSITION (SCROLL DOWN)
+    // set position to where para should be at finnal position
     if(paraLastFrameProgress <= scrollFullDistance && paraScrollProgress > scrollFullDistance){
         textParaScroll(animatedTitle,scrollFullDistance,lastTitle);
         if(typeof nextTitle != 'undefined'){
-            // console.log(nextTitle);
-            setImageTransform(animatedTitle,-imgTransformDistance,imgFadeOpacity,0.5);
+            setImageTransform(animatedTitle,-imgTransformDistance,imgFadeOpacity,imgTransformTime);
             removePeriod(animatedTitle);
         }
-        
-        
     }
-    // TITLE START POSITION(MOVING BACK)
-    // ======set position to where title was not scrolled
+    // TITLE START POSITION (SCROLL UP)
+    // set position to where title was not scrolled
     if(titleLastFrameProgress >= 0 && titleCurrentProgress < 0){
-        setTextInitialPosition(animatedTitle);
-        setImageTransform(animatedTitle,0,1,0.5);
+        setToInitialPosition(animatedTitle);
+        setImageTransform(animatedTitle,0,1,imgTransformTime);
         addPeriod(animatedTitle);
-        // console.log('TITLE START POSITION(MOVING BACK)');
     }
-    // TITLE FINAL POSITION
-    // ======set position to where title should be at finnal position
+    // TITLE FINAL POSITION (SCROLL DOWN)
+    // set position to where title should be at finnal position
     if(titleLastFrameProgress <= animateDistance && titleCurrentProgress > animateDistance){
-        setTextProgressingPosition(animatedTitle,animateDistance);
-        setImageTransform(nextTitle,0,1,0.5);
+        setTitleProgressingPosition(animatedTitle,animateDistance);
+        setImageTransform(nextTitle,0,1,imgTransformTime);
     }
-
-    // TITLE FINAL POSITION OPPOSITE DIRECTION
-    // ======leave the final position
+    // TITLE FINAL POSITION (SCROLL UP)
+    // leave the final position
     if(titleLastFrameProgress >= animateDistance && titleCurrentProgress < animateDistance){
-        setTextProgressingPosition(animatedTitle,animateDistance);
-        setImageTransform(nextTitle,imgTransformDistance,imgFadeOpacity,0.5);
+        setTitleProgressingPosition(animatedTitle,animateDistance);
+        setImageTransform(nextTitle,imgTransformDistance,imgFadeOpacity,imgTransformTime);
     }
 
 
+    // CHECK IF ELEMENTS' POSITIONS WITHIN THE DETECTION
     if(startAnimateTitle){
-        setTextProgressingPosition(animatedTitle,titleCurrentProgress);
+        setTitleProgressingPosition(animatedTitle,titleCurrentProgress);
     }else if(startScrollTextPara){
         textParaScroll(animatedTitle,paraScrollProgress,lastTitle);
     }
-// caculate last frame progress
+    // caculate last frame progress
     animatedTitle.paraLastFrameProgress = paraScrollProgress;   
     animatedTitle.titleLastFrameProgress = titleCurrentProgress; 
-}
+}//END OF scrollDetection
 
+
+// add/remove the period for the animating title
 function addPeriod(animatedTitle){
     var lastWord = $(animatedTitle).find('.word:last-child').html();
     lastWord = lastWord.replace(/\./g, "");
     lastWord = lastWord + '.';
     $(animatedTitle).find('.word:last-child').html(lastWord);
-    // console.log(lastWord);
 }
-
 function removePeriod(animatedTitle){
     var lastWord = $(animatedTitle).find('.word:last-child').html();
     lastWord = lastWord.replace(/\./g, "");
     $(animatedTitle).find('.word:last-child').html(lastWord);
-    // console.log(lastWord);
 }
 
 
 
-
+// =========================================================================
+// CONDITION CHECKERS
+// -------------------------------------------------------------------------
+// * canScrollTextPara checks if can animate Paragraph scroll
+// * canAnimateTitle checks if can animate Title animation
+// * check the comment "ANIMATION FLOW" 
+// =========================================================================
 function canScrollTextPara(animatedTitleCurrentTop,paraScrollDistance){
     if(animatedTitleCurrentTop >= (detectionDistance - paraScrollDistance) && animatedTitleCurrentTop <= detectionDistance + scrollTextParaOffset){
         return true;
     }
 }
-
-
 function canAnimateTitle(animatedTitleCurrentTop, targetTop,paraScrollDistance){
     if(animatedTitleCurrentTop < (detectionDistance - paraScrollDistance)  && targetTop > stopDistance){
         return true;
@@ -292,13 +366,17 @@ function canAnimateTitle(animatedTitleCurrentTop, targetTop,paraScrollDistance){
 }
 
 
-// =========SET EVERYTHING TO INITIAL POSITION=========
-// =========Need this because all properties are caculated based on the initial stats
-function setTextInitialPosition(animatedTitle){
+
+// =========================================================================
+// SET EVERYTHING TO INITIAL POSITION
+// -------------------------------------------------------------------------
+// * run before animationInitialize after user resize the window
+// * need this because all properties are caculated based on the initial stats
+// =========================================================================
+function setToInitialPosition(animatedTitle){
     var animatedTitleParent = $(animatedTitle).parent('p');
     var titleCurrentProgress = 0;
     var firstWord = animatedTitle.firstWord;
-    // lastWordMarginLeft = animatedTitle.lastWordMarginLeft;
     animatedTitleParent.css({
         'transform':'translate( ' + 0 +'px, ' + 0 + 'px)'
     });
@@ -308,7 +386,6 @@ function setTextInitialPosition(animatedTitle){
         'transform':'translate( ' + 0 +'px, ' + 0 + 'px)',
         'font-family':textBaseFontFamily,
         'font-size': textBaseFontSize + titleCurrentProgress + 'px',
-        'margin-left': 0 + 'px',
         'position':'inherit',
         'display': 'inline',
         'top': 0 + 'px'
@@ -321,7 +398,14 @@ function setTextInitialPosition(animatedTitle){
 }
 
 
-function setTextProgressingPosition(animatedTitle,titleCurrentProgress){
+
+// =========================================================================
+// SET TITLE POSITION WITHIN THE DETECTION
+// -------------------------------------------------------------------------
+// * get all properties that were saved during animationInitialize
+// * initial title position is very different than progressing and final position because former is styled as paragraph small text and latters are styled as titles.
+// =========================================================================
+function setTitleProgressingPosition(animatedTitle,titleCurrentProgress){
     // console.log(animatedTitle.consoleElement);
     // TRANSFORM
     var transformSpeedX = animatedTitle.transformSpeedX;
@@ -331,7 +415,6 @@ function setTextProgressingPosition(animatedTitle,titleCurrentProgress){
 
     // INNEROFFSET
     var firstWord = animatedTitle.firstWord;
-    // lastWordMarginLeft = animatedTitle.lastWordMarginLeft;
     var innerOffsetSpeedX = animatedTitle.innerOffsetSpeedX;
     var innerOffsetSpeedY = animatedTitle.innerOffsetSpeedY;
     var animateDistance = animatedTitle.animateDistance;
@@ -355,6 +438,12 @@ function setTextProgressingPosition(animatedTitle,titleCurrentProgress){
 }
 
 
+
+// =========================================================================
+// SET PARAGRAPH POSITION WITHIN DETECTION
+// -------------------------------------------------------------------------
+// * animate current paragraph and the title from the last paragraph
+// =========================================================================
 function textParaScroll(animatedTitle,paraScrollProgress,lastTitle){
     var TextParaScrollSpeed = animatedTitle.TextParaScrollSpeed;
     var animatedTitleParent = $(animatedTitle).parent('p');
@@ -368,18 +457,24 @@ function textParaScroll(animatedTitle,paraScrollProgress,lastTitle){
             'transform':'translate( ' + (lastTitle.transformSpeedX*lastTitle.animateDistance) +'px, ' + (lastTitle.transformSpeedY*lastTitle.animateDistance+paraScrollProgress * TextParaScrollSpeed) + 'px)'
         });
     }
-    // console.log(textNextPositionY);
-    // console.log(lastTitle);
 }
 
 
+
+// =========================================================================
+// SET ATTRIBUTES THAT ARE NOT VERIED FROM DEFERENT PARAGRAPHS
+// -------------------------------------------------------------------------
+// * content div h/w ratio is 8/16
+// * 200 is the content div padding-top + padding-bottom
+// * setter of base and final attributes. Get from css styling
+// =========================================================================
 function contentDivSetter(){
     var windowW = $(window).width();
     var windowH = $(window).height();
-    var contentDivHeight = 9/16 * windowW;
-    if(windowH < contentDivHeight){//videoBG should be at least as tall as the content div to ensure the text animation
+    var contentDivHeight = 8/16 * windowW;
+    if(windowH < contentDivHeight + 200){//videoBG should be at least as tall as the content div to ensure the text animation
         $('#videoBG').css({
-            'height': contentDivHeight + 'px'
+            'height': contentDivHeight + 200 + 'px'
         });
     }else{
         $('#videoBG').css({
@@ -402,16 +497,24 @@ function contentDivSetter(){
     textTargetFontFamily = $('.titleTargetPosition').css('font-family');
     textTargetFontSize = parseInt($('.titleTargetPosition').css('font-size'));
     textBaseFontFamily = $('.smallText p').css('font-family');
-    // console.log(textBaseFontSize);
+    lastWordMarginLeft = parseInt($('.word').css('margin-left'));
 }
 
 
+
+
+// =========================================================================
+// SEPRATE EACH WORD TO INDIVIDUAL BLOCKS
+// -------------------------------------------------------------------------
+// * seprate the paragraph to two textSpan
+// * the structure for the second textSpan is <span class="animatedTitle"><span class="textSpan">BLA BLA BLA</span></span>
+// * seprate each word to span block and give each them a class ".word"
+// =========================================================================
 function textToSpan(){
     var paragraphSections = $(".smallText p .textSpan");
     for(i = 0; i < paragraphSections.length; i++){
         paragraphSection = paragraphSections[i];
         if(paragraphSection != null){
-            // console.log(paragraphSection);
             var words = $(paragraphSection).text().split(" ");
             $(paragraphSection).empty();
             $.each(words, function(i, v) {
@@ -419,8 +522,5 @@ function textToSpan(){
             });
         }
     }
-    var wordElement = $(paragraphSections[0]).find('.word:first-child');
-    lastWordMarginLeft = parseInt(wordElement.css('margin-left'));
-    // console.log(lastWordMarginLeft);
 }
 
