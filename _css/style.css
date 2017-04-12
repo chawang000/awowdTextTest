@@ -1,3 +1,173 @@
+html, body {
+  /*background: gray;*/
+  tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent; }
+
+#spaceholder {
+  position: relative;
+  /*margin-top: $mobileUpperHeight + $mobileLowerHeight;*/
+  width: 100%;
+  height: 2000px;
+  background: #eee;
+  /*z-index: -1;*/ }
+
+#top {
+  /*width: 100%;*/ }
+
+#mobileHeader {
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /*height: 100vh;*/
+  /*transform: translate(0px,200px);*/ }
+
+.shadow {
+  /*position: absolute;*/
+  z-index: -1;
+  /*width: 100%;*/
+  /*height: 100%;*/
+  opacity: 1;
+  /*border-radius: 5px;*/
+  box-shadow: 0 0px 3px rgba(0, 0, 0, 0.3);
+  /*transition: opacity .2s ease-in-out;*/ }
+
+/*MOBILE UPPER*/
+#mobileUpperHeader {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 38px;
+  background: #fff;
+  overflow: hidden;
+  z-index: 11; }
+
+#mobileUpperWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 76px;
+  transition: transform .5s;
+  /*transition-timing-function: linear;*/
+  transition-timing-function: ease-out; }
+
+#mobileUpperLogo {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 38px;
+  /*background: blue;*/ }
+
+#mobileUpperClose {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  height: 38px;
+  transition: opacity 1s;
+  transition-timing-function: ease-in;
+  /*transition-timing-function: linear;*/
+  /*background: red;*/
+  /*line-height: $mobileUpperHeight;*/
+  /*vertical-align: text-bottom;*/ }
+
+#MobileCloseText {
+  width: 100%;
+  height: 30px;
+  position: absolute;
+  top: 8px;
+  text-align: center;
+  font-size: 20px;
+  font-family: 'Avenir Next LT Pro Regular';
+  color: #000;
+  line-height: 30px;
+  /*vertical-align: top;*/
+  overflow: hidden;
+  /*background: purple;*/ }
+
+/*MOBILE LOWER*/
+#mobileLowerHeader {
+  position: relative;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 58px;
+  background: #fff;
+  z-index: 9;
+  transition: transform .2s;
+  transition-timing-function: linear;
+  /*transform: translate(0px,100px);*/ }
+
+/*MOBILE MENU*/
+#mobileMenu {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  /*background: purple;*/
+  /*height: 200px;*/
+  z-index: 10; }
+
+#mobileMenuDisplay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /*height: 200px;*/
+  /*background: green;*/
+  overflow: hidden;
+  /*transform: translate(0px,100px);*/
+  transition: transform .2s;
+  transition-timing-function: linear; }
+
+#mobileMenuContent {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  height: 100%;
+  /*background: url(../_img/IMG_5832.JPG);*/
+  background: #fff;
+  background-size: cover;
+  background-position: center center;
+  transition: transform .2s;
+  transition-timing-function: linear; }
+
+/*Book A Life*/
+#mobileBookLife {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  /*background: purple;*/
+  /*height: 200px;*/
+  z-index: 8; }
+
+#mobileBookDisplay {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  /*NEED TO KEEP THE MINIMUM HEIGHT AT 1PX FOR BOX-SHADOW*/
+  height: 1px;
+  /*background: green;*/
+  overflow: hidden;
+  /*transform: translate(0px,100px);*/
+  transition: transform .2s;
+  transition-timing-function: linear; }
+
+#mobileBookContent {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  height: 100%;
+  background: url(../_img/IMG_5832.JPG);
+  /*background: #fff;*/
+  transition: transform .2s;
+  transition-timing-function: linear; }
+
 /*BASKERVILLE*/
 @font-face {
   font-family: 'Libre Baskerville';
