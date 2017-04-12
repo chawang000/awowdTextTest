@@ -1,5 +1,9 @@
 $mobileUpperHeight: 38px;
 $mobileLowerHeight: 58px;
+$mibileThinMarginTop: 8px;
+$mibileThinMarginLeft: 3%;
+$mibileInnerMarginLeft: 5%;
+$mibileFullMarginLeft: $mibileThinMarginLeft + $mibileInnerMarginLeft;
 
 
 html,body{
@@ -8,6 +12,16 @@ html,body{
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
+/*#hugeWrapper{
+	height: 100vh;
+	width: 100%;
+	overflow: hidden;
+}*/
+/*#main{
+	height: 100vh;
+	width: 100%;
+	overflow: hidden;
+}*/
 
 #spaceholder{
 	position: relative;
@@ -43,6 +57,10 @@ html,body{
 	/*transition: opacity .2s ease-in-out;*/
 }
 
+.noScroll{
+	height: 100%;
+	overflow: hidden;
+}
 
 /*MOBILE UPPER*/
 
@@ -98,7 +116,7 @@ html,body{
 	position: absolute;
 	top: 8px;
 	text-align: center;
-	font-size: 20px;
+	font-size: 16px;
 	font-family: 'Avenir Next LT Pro Regular';
 	color: #000;
 	line-height: 30px;
@@ -121,6 +139,95 @@ html,body{
 	transition: transform .2s;
 	transition-timing-function: linear;
 	/*transform: translate(0px,100px);*/
+}
+
+#mobileEmailOuter{
+	position: relative;
+	width: 100% - $mibileThinMarginLeft*2;
+	height: $mobileLowerHeight - $mibileThinMarginTop*2;
+	top: $mibileThinMarginTop;
+	margin-left: $mibileThinMarginLeft;
+	border: 1px solid #eee;
+	box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border-radius: 5px;
+    overflow: hidden;
+	/*background: red;*/
+}
+
+#menuBookTitle{
+	float: left;
+	/*transform: translate(-100px,0px);*/
+	padding-left: $mibileInnerMarginLeft + 0.4%;
+	width: 100px;
+	height: 100%;
+	line-height: $mobileLowerHeight - $mibileThinMarginTop*2;
+	text-align: left;
+	vertical-align: center;
+	font-size: 16px;
+	color: #000;
+	font-family: 'Avenir Next LT Pro Regular';
+	/*background-color: red;*/
+}
+
+#menuBookInputBox{
+	float: left;
+	height: 100%;
+
+	/*background-color: blue;*/
+}
+
+
+#menuBookInputBox input{
+	height: 100%;
+	width: 100%;
+	border: none;
+	line-height: $mobileLowerHeight - $mibileThinMarginTop*2;
+	text-align: left;
+	vertical-align: center;
+	font-size: 16px;
+	font-family: 'Avenir Next LT Pro Regular';
+
+	box-shadow: none;
+	padding: 0px;
+	margin: 0px;
+	border: none;
+}
+
+#menuBookInputBox input::placeholder{
+	font-family: FontAwesome,'Avenir Next LT Pro Regular';
+	font-size: 16px;
+	padding-left: 2px;
+	letter-spacing: 1px;
+	color: 000;
+	opacity: 0.2;
+	/*font-size: 16px;*/
+}
+
+input[type=email]:focus, textarea:focus {
+	outline:0;
+}
+
+
+#menuBookSendButton{
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 60px;
+	height: 100%;
+	
+	opacity: 0.2;
+}
+
+#menuBookSendButton i{
+	height: 100%;
+	width: 100%;
+	line-height: $mobileLowerHeight - $mibileThinMarginTop*2;
+	text-align: center;
+	vertical-align: center;
+	font-size: 20px;
+	/*background: red;*/
 }
 
 
@@ -164,6 +271,8 @@ html,body{
 }
 
 
+
+
 /*Book A Life*/
 #mobileBookLife{
 	position: relative;
@@ -194,12 +303,48 @@ html,body{
 	top: 100%;
 	width: 100%;
 	height: 100%;
-	background: url(../_img/IMG_5832.JPG);
-	/*background: #fff;*/
+	/*background: url(../_img/IMG_5832.JPG);*/
+	background: #fff;
 	transition: transform .2s;
 	transition-timing-function: linear;
+	overflow-y: scroll;
 }
 
+#mobileBookText{
+	position: absolute;
+	top: 0;
+	width: 100% - $mibileFullMarginLeft*2;
+	padding-left: $mibileFullMarginLeft;
+	height: auto;
+	/*background: url(../_img/IMG_5832.JPG);*/
+	background: #fff;
+	transition: transform .2s;
+	transition-timing-function: linear;
+	color: #999;
+}
 
+#mobileMailFeedback{
+	height: 50px;
+	width: 100%;
+	/*background: red;*/
+	/*color: #000;*/
+	font-size: 16px;
+	font-family: 'Avenir Next LT Pro Regular';
+}
+
+#mobileBookText h3{
+	/*color: #000;*/
+	font-size: 30px;
+	letter-spacing: 1px;
+	font-family: 'Avenir Next LT Pro Regular';
+}
+
+#mobileBookText p{
+	/*color: #000;*/
+	padding-top: 20px;
+	font-size: 25px;
+	letter-spacing: 1px;
+	font-family: 'Avenir Next LT Pro Regular';
+}
 
 
