@@ -110,7 +110,7 @@ html,body{
 	/*vertical-align: text-bottom;*/
 }
 
-#MobileCloseText{
+#mobileCloseText{
 	width: 100%;
 	height: 30px;
 	position: absolute;
@@ -156,6 +156,15 @@ html,body{
 	/*background: red;*/
 }
 
+#inputLeftWrapper{
+	position: relative;
+	height: 100%;
+	left: 0;
+	top: 0;
+	transition: transform .2s;
+	transition-timing-function: linear;
+}
+
 #menuBookTitle{
 	float: left;
 	/*transform: translate(-100px,0px);*/
@@ -169,12 +178,15 @@ html,body{
 	color: #000;
 	font-family: 'Avenir Next LT Pro Regular';
 	/*background-color: red;*/
+	transition: transform .2s;
+	transition-timing-function: linear;
 }
 
 #menuBookInputBox{
 	float: left;
 	height: 100%;
-
+	transition: transform .2s;
+	transition-timing-function: linear;
 	/*background-color: blue;*/
 }
 
@@ -193,15 +205,15 @@ html,body{
 	padding: 0px;
 	margin: 0px;
 	border: none;
+	padding-left: 20px;
 }
 
 #menuBookInputBox input::placeholder{
 	font-family: FontAwesome,'Avenir Next LT Pro Regular';
 	font-size: 16px;
-	padding-left: 2px;
 	letter-spacing: 1px;
 	color: 000;
-	opacity: 0.2;
+	opacity: 0.4;
 	/*font-size: 16px;*/
 }
 
@@ -216,8 +228,7 @@ input[type=email]:focus, textarea:focus {
 	top: 0;
 	width: 60px;
 	height: 100%;
-	
-	opacity: 0.2;
+	opacity: 0;
 }
 
 #menuBookSendButton i{

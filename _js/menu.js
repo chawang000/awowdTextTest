@@ -10,13 +10,15 @@ var mobileHeader = $('#mobileHeader'),
 	mobileMenuDisplay = $('#mobileMenuDisplay'),
 	mobileMenuContent = $('#mobileMenuContent'),
 	mobileUpperLogo = $('#mobileUpperLogo'),
-	mobileUpperClose = $('#mobileUpperClose'),
+	mobileUpperClose = $('#mobileUpperClose'),//close button
+	mobileCloseText = $('#mobileCloseText'),
 	mobileUpperWrapper = $('#mobileUpperWrapper'),
 	mobileBookLife = $('#mobileBookLife'),
 	mobileBookDisplay = $('#mobileBookDisplay'),
 	mobileBookContent = $('#mobileBookContent'),
 	mobileBookText = $('#mobileBookText'),
 	mobileEmailOuter = $('#mobileEmailOuter'),
+	inputLeftWrapper= $('#inputLeftWrapper'),
 	menuBookTitle = $('#menuBookTitle'),
 	menuBookInputBox = $('#menuBookInputBox'),
 	menuBookSendButton = $('#menuBookSendButton');
@@ -28,6 +30,7 @@ var mUpperHeight,
 	mLowerHeight,
 	mBookHeight,
 	mBookTitleWidth,
+	mBookInputBoxWidth,
 	mHeaderOffset = 8;
 
 $(window).on("load", function (e){
@@ -38,7 +41,7 @@ $(window).on("load", function (e){
 	mobileBookToggle(menuBookInputBox,mobileUpperClose);
 
 	$(window).resize(function(){
-		mobileMenuSetter();
+		// mobileMenuSetter();
 	});
 
 	$(document).on({
@@ -52,10 +55,24 @@ $(window).on("load", function (e){
 	    	lockScroll(e);
 	    }
 	});
-	
+
+	menuBookInputBox.find('input')[0].addEventListener("focus", bookFocusStyle);
+	menuBookInputBox.find('input')[0].addEventListener("blur", bookBlurStyle);
 });
 
+function bookFocusStyle(){
+	// console.log('focused');
+	mobileEmailOuter.css('border-color','#000');
+	// mobileCloseText.css('color','#ccc');
+	menuBookSendButton.css('opacity','1');
+}
 
+function bookBlurStyle(){
+	// console.log('focused');
+	mobileEmailOuter.css('border-color','#eee');
+	// mobileCloseText.css('color','#000');
+	menuBookSendButton.css('opacity','0');
+}
 
 function lockScroll(e){
 	// if (!mobileMenuActived && !mobileBookActived && !mobileTransitioning) return;
@@ -72,6 +89,7 @@ function lockScroll(e){
 
 }
 
+
 function mobileMenuSetter(){
 	var windowH = $(window).height();
 	var mOutterWidth = mobileEmailOuter.width();
@@ -81,7 +99,7 @@ function mobileMenuSetter(){
 	mBookTitleWidth = parseInt(menuBookTitle.css('width')) + parseInt(menuBookTitle.css('padding-left'));
 	mMenuHeight = windowH - mUpperHeight - mLowerHeight - mHeaderOffset;
 	mBookHeight = windowH - mUpperHeight - mLowerHeight;
-	var mBookInputBoxWidth = mOutterWidth - mEmailSendWidth - mBookTitleWidth;
+	mBookInputBoxWidth = parseInt(mOutterWidth - mEmailSendWidth - mBookTitleWidth);
 	mobileMenuDisplay.css('height', mMenuHeight +'px');
 	mobileBookDisplay.css('height', mBookHeight + 'px');
 	menuBookInputBox.css('width', mBookInputBoxWidth + 'px');
@@ -165,6 +183,7 @@ function mobileBookOpen(closeTransformDistance,bookTransformDistance,toggle){
 	mobileTransitioning = true;
 
 	mobileBookShow(bookTransformDistance);
+	bookTitleLeave();
 	// call Closs Button Show after BookDisplay transition finished.
 	function transitionCallback(){
 		mobileCloseShow(closeTransformDistance);
@@ -194,6 +213,7 @@ function mobileBookClose(){
 
 
 	mobileBookLeave();
+	bookTitleIn();
 	// call Closs Button Leave after BookDisplay transition finished.
 	function transitionCallback(){
 		mobileCloseLeave();
@@ -339,6 +359,25 @@ function mobileBookLeave(){
 	mobileBookContent.css({
 		'transform':'translate(0px, ' + 0 + 'px)',
 	});
+}
+
+
+function bookTitleLeave(){
+	inputLeftWrapper.css({
+		'transform':'translate(' + -mBookTitleWidth + 'px, 0px)',
+	});
+	menuBookSendButton.css({
+		'opacity':0.4
+	})
+}
+
+function bookTitleIn(){
+	inputLeftWrapper.css({
+		'transform':'translate(' + 0 + 'px, 0px)',
+	});
+	menuBookSendButton.css({
+		'opacity':0
+	})
 }
 
 
