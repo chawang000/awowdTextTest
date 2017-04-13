@@ -1,3 +1,8 @@
+// TODO make entire inputLeftWrapper or mobileEmailOuter clickable for input, stop propagation on children buttons
+
+
+
+
 var mobileMenuActived = false,
 	mobileBookActived = false,
 	mobileTransitioning = false,
@@ -44,6 +49,8 @@ $(window).on("load", function (e){
 		// mobileMenuSetter();
 	});
 
+
+	// check during scroll
 	$(document).on({
 		'touchmove': function(e) {
 	        lockScroll(e);
@@ -56,32 +63,37 @@ $(window).on("load", function (e){
 	    }
 	});
 
+
+
 	menuBookInputBox.find('input')[0].addEventListener("focus", bookFocusStyle);
 	menuBookInputBox.find('input')[0].addEventListener("blur", bookBlurStyle);
 });
 
+
+
+
 function bookFocusStyle(){
-	// console.log('focused');
 	mobileEmailOuter.css('border-color','#000');
-	// mobileCloseText.css('color','#ccc');
 	menuBookSendButton.css('opacity','1');
 }
 
 function bookBlurStyle(){
-	// console.log('focused');
 	mobileEmailOuter.css('border-color','#eee');
-	// mobileCloseText.css('color','#000');
 	menuBookSendButton.css('opacity','0');
 }
 
+
+
+
+// =========================================================================
+// LOCK BACKGROUND BODY
+// -------------------------------------------------------------------------
+// * prevent scrolling background when the menu or book page is opening
+// =========================================================================
 function lockScroll(e){
-	// if (!mobileMenuActived && !mobileBookActived && !mobileTransitioning) return;
 	if(mobileMenuActived || mobileBookActived || mobileTransitioning){
 		$('html,body').addClass('noScroll');
 		bodyLocked = true;
-
-    	// e.stopPropagation();
-    	// mobileBookContent.css('overflow-y','scroll');
 	}else if(bodyLocked){
 		$('html,body').removeClass('noScroll');
 		bodyLocked = false;
@@ -90,6 +102,12 @@ function lockScroll(e){
 }
 
 
+
+// =========================================================================
+// SETTING MOBILE MENU HEIGHT
+// -------------------------------------------------------------------------
+// * prevent scrolling background when the menu or book page is opening
+// =========================================================================
 function mobileMenuSetter(){
 	var windowH = $(window).height();
 	var mOutterWidth = mobileEmailOuter.width();
@@ -103,54 +121,45 @@ function mobileMenuSetter(){
 	mobileMenuDisplay.css('height', mMenuHeight +'px');
 	mobileBookDisplay.css('height', mBookHeight + 'px');
 	menuBookInputBox.css('width', mBookInputBoxWidth + 'px');
-
-	// console.log(mEmailSendWidth);
 }
 
 
 
-//Menu toggle
+// =========================================================================
+// MOBILE MENU TOGGLE
+// -------------------------------------------------------------------------
+// * checking the mobile menu states
+// =========================================================================
 function mobileMenuToggle(toggle){
 	toggle.click(function(){
 		var menuTransformDistance = mMenuHeight;
-		// console.log(menuTransformDistance);
 		if(mobileMenuActived && !mobileTransitioning){
 			mobileMenuClose();
 		}else if( !mobileMenuActived && !mobileTransitioning){
 			mobileMenuOpen(menuTransformDistance);
-			
 		}
 	});
 }
 
 
 
-//Book a life toggle
+// =========================================================================
+// MOBILE BOOK PAGE TOGGLE
+// -------------------------------------------------------------------------
+// * checking the mobile book page states
+// * toggle is the opening button and toggle2 is the closing button
+// =========================================================================
 function mobileBookToggle(toggle,toggle2){
 	toggle.on({
 		'mousedown': function(event) {
-	        clickedAnim(event);
+	        checkBookOpen(event);
 	    },
 	    'touchstart': function(event) {
-	    	clickedAnim(event);
+	    	checkBookOpen(event);
 	    }
 	});
 
-	function clickedAnim(event){
-		var closeTransformDistance = mUpperHeight;
-		var bookTransformDistance = mBookHeight;
-		// if
-		if(mobileMenuActived && !mobileBookActived && !mobileTransitioning){
-			// console.log('menu is actived');
-			event.preventDefault();
-			mobileMenuClose();
-			mobileBookOpen(closeTransformDistance,bookTransformDistance,toggle);
-		}else if(!mobileBookActived && !mobileTransitioning){
-			mobileBookOpen(closeTransformDistance,bookTransformDistance,toggle);
-		}
-	}
-
-
+	// blur the input if user touch the content area, disable the virtual keyboard
 	mobileBookText.on({
 		'mousedown': function() {
 	        blur();
@@ -160,21 +169,43 @@ function mobileBookToggle(toggle,toggle2){
 	    }
 	});
 
-	function blur(){
-		if(mobileBookActived || mobileTransitioning){
-			menuBookInputBox.find('input').blur();
-		}
-	}
-		
+	// check if can close the book page
 	toggle2.click(function(){
 		if(mobileBookActived && !mobileTransitioning){
 			mobileBookClose();
 		}
 	});
+
+	// Check if can open the book page during the different states
+	function checkBookOpen(event){
+		var closeTransformDistance = mUpperHeight;
+		var bookTransformDistance = mBookHeight;
+		if(mobileMenuActived && !mobileBookActived && !mobileTransitioning){
+			event.preventDefault();
+			mobileMenuClose();
+			mobileBookOpen(closeTransformDistance,bookTransformDistance,toggle);
+		}else if(!mobileBookActived && !mobileTransitioning){
+			mobileBookOpen(closeTransformDistance,bookTransformDistance,toggle);
+		}
+	}
+
+	function blur(){
+		if(mobileBookActived || mobileTransitioning){
+			menuBookInputBox.find('input').blur();
+		}
+	}
 }
 
 
 
+// =========================================================================
+// MOBILE BOOK PAGE GENERAL ANIMATION AND STRUCTURE
+// -------------------------------------------------------------------------
+// * 1. mobileBookShow and bookTitleLeave===> animate book page content in and texts
+// * 2. after transition finished show close button on the upper header. 
+//		if the toggle is the input box, focus input box after the transition
+// * 3. after the close button transition, set states and remove listeners.
+// =========================================================================
 function mobileBookOpen(closeTransformDistance,bookTransformDistance,toggle){
 	var element = document.getElementById("mobileBookDisplay");
 	var element2 = document.getElementById("mobileUpperClose");
@@ -187,6 +218,7 @@ function mobileBookOpen(closeTransformDistance,bookTransformDistance,toggle){
 	// call Closs Button Show after BookDisplay transition finished.
 	function transitionCallback(){
 		mobileCloseShow(closeTransformDistance);
+		// TODO CURRENT FOCUS()NOT WORKING ON IOS
 		if(toggle == menuBookInputBox){
 			menuBookInputBox.find('input').focus();
 		}
@@ -199,19 +231,18 @@ function mobileBookOpen(closeTransformDistance,bookTransformDistance,toggle){
 		element.removeEventListener("transitionend", transitionCallback, false);
 		element2.removeEventListener("transitionend", transitionCallback2, false);
 	}
-	
 }
 
 
 
+
 function mobileBookClose(){
+	mobileTransitioning = true;
 	var element = document.getElementById("mobileBookDisplay");
 	var element2 = document.getElementById("mobileUpperClose");
 	element.addEventListener("transitionend", transitionCallback, false);
 	element2.addEventListener("transitionend", transitionCallback2, false);
-	mobileTransitioning = true;
-
-
+	
 	mobileBookLeave();
 	bookTitleIn();
 	// call Closs Button Leave after BookDisplay transition finished.
@@ -230,23 +261,29 @@ function mobileBookClose(){
 
 
 
-
+// =========================================================================
+// MOBILE MENU GENERAL ANIMATION AND STRUCTURE
+// -------------------------------------------------------------------------
+// * 1. animate upperHeader height
+// * 2. after animation, animate menu content and lowerHeader
+// * 3. after transition, call transitionCallback to set states and remove listeners
+// =========================================================================
 function mobileMenuOpen(menuTransformDistance){
+	mobileTransitioning = true;
 	var element = document.getElementById("mobileLowerHeader");
 	element.addEventListener("transitionend", transitionCallback, false);
-	mobileTransitioning = true;
-	function transitionCallback(){
-		element.removeEventListener("transitionend", transitionCallback, false);
-		mobileMenuActived = true;
-		mobileTransitioning = false;
-	}
 
 	mobileUpperHeader.animate({
 		height: mUpperHeight + mHeaderOffset +'px'
 	},200,function(){
 		mobileMenuShow(menuTransformDistance);
 	});
-	// mobileMenuActived = true;
+
+	function transitionCallback(){
+		element.removeEventListener("transitionend", transitionCallback, false);
+		mobileMenuActived = true;
+		mobileTransitioning = false;
+	}
 }
 
 
@@ -281,6 +318,7 @@ function mobileMenuClose(){
 }
 
 
+
 function mobileMenuShow(menuTransformDistance){
 	mobileUpperHeader.addClass('shadow');
 	mobileLowerHeader.addClass('shadow');
@@ -299,6 +337,8 @@ function mobileMenuShow(menuTransformDistance){
 		'transform':'translate(0px, ' + -menuTransformDistance + 'px)'
 	});
 }
+
+
 
 function mobileMenuLeave(){
 	mobileLowerHeader.css({
@@ -366,6 +406,7 @@ function bookTitleLeave(){
 	inputLeftWrapper.css({
 		'transform':'translate(' + -mBookTitleWidth + 'px, 0px)',
 	});
+
 	menuBookSendButton.css({
 		'opacity':0.4
 	})
