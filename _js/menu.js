@@ -15,6 +15,8 @@ var mobileHeader = $('#mobileHeader'),
 	mobileMenuDisplay = $('#mobileMenuDisplay'),
 	mobileMenuContent = $('#mobileMenuContent'),
 	mobileUpperLogo = $('#mobileUpperLogo'),
+	menuLogo = $('#menuLogo'),
+	burgerToggle = $('.menu_icon'),
 	mobileUpperClose = $('#mobileUpperClose'),//close button
 	mobileCloseText = $('#mobileCloseText'),
 	mobileUpperWrapper = $('#mobileUpperWrapper'),
@@ -41,9 +43,9 @@ var mUpperHeight,
 $(window).on("load", function (e){
 	// console.log('yoyoyo');
 	mobileMenuSetter();
-	mobileMenuToggle(mobileUpperLogo);
-	mobileBookToggle(menuBookTitle,mobileUpperClose);
-	mobileBookToggle(menuBookInputBox,mobileUpperClose);
+	mobileMenuToggle(burgerToggle);
+	mobileBookToggle(menuBookTitle,mobileUpperClose,burgerToggle);
+	mobileBookToggle(mobileEmailOuter,mobileUpperClose,burgerToggle);
 
 	$(window).resize(function(){
 		// mobileMenuSetter();
@@ -79,7 +81,7 @@ function bookFocusStyle(){
 
 function bookBlurStyle(){
 	mobileEmailOuter.css('border-color','#eee');
-	menuBookSendButton.css('opacity','0');
+	menuBookSendButton.css('opacity','0.1');
 }
 
 
@@ -130,15 +132,24 @@ function mobileMenuSetter(){
 // -------------------------------------------------------------------------
 // * checking the mobile menu states
 // =========================================================================
-function mobileMenuToggle(toggle){
-	toggle.click(function(){
-		var menuTransformDistance = mMenuHeight;
-		if(mobileMenuActived && !mobileTransitioning){
-			mobileMenuClose();
-		}else if( !mobileMenuActived && !mobileTransitioning){
-			mobileMenuOpen(menuTransformDistance);
-		}
-	});
+function mobileMenuToggle(burgerToggle){
+    burgerToggle[0].addEventListener('click', function(){
+    	var menuTransformDistance = mMenuHeight;
+        if(mobileMenuActived && !mobileTransitioning){
+            mobileMenuClose(burgerToggle);
+        }else if(!mobileMenuActived && !mobileTransitioning){
+            mobileMenuOpen(burgerToggle,menuTransformDistance);
+        }
+    });
+
+	// toggle.click(function(){
+	// 	var menuTransformDistance = mMenuHeight;
+	// 	if(mobileMenuActived && !mobileTransitioning){
+	// 		mobileMenuClose();
+	// 	}else if( !mobileMenuActived && !mobileTransitioning){
+	// 		mobileMenuOpen(menuTransformDistance);
+	// 	}
+	// });
 }
 
 
@@ -148,8 +159,9 @@ function mobileMenuToggle(toggle){
 // -------------------------------------------------------------------------
 // * checking the mobile book page states
 // * toggle is the opening button and toggle2 is the closing button
+// * email functions
 // =========================================================================
-function mobileBookToggle(toggle,toggle2){
+function mobileBookToggle(toggle,toggle2,burgerToggle){
 	toggle.on({
 		'mousedown': function(event) {
 	        checkBookOpen(event);
@@ -176,16 +188,33 @@ function mobileBookToggle(toggle,toggle2){
 		}
 	});
 
-	// Check if can open the book page during the different states
+
+	menuBookSendButton.on({
+		'mousedown': function(e) {
+	        emailSend(e);
+
+	    },
+	    'touchstart': function(e) {
+	    	emailSend(e);
+	    }
+	});
+
+	// Check if can open the tbook page during the different states
 	function checkBookOpen(event){
 		var closeTransformDistance = mUpperHeight;
 		var bookTransformDistance = mBookHeight;
 		if(mobileMenuActived && !mobileBookActived && !mobileTransitioning){
 			event.preventDefault();
-			mobileMenuClose();
+			mobileMenuClose(burgerToggle);
 			mobileBookOpen(closeTransformDistance,bookTransformDistance,toggle);
 		}else if(!mobileBookActived && !mobileTransitioning){
+			event.preventDefault();
 			mobileBookOpen(closeTransformDistance,bookTransformDistance,toggle);
+		}else if(mobileBookActived){
+			event.preventDefault();
+			menuBookInputBox.find('input').focus();
+			// console.log('big clicked');
+			// event.stopPropagation();
 		}
 	}
 
@@ -195,6 +224,16 @@ function mobileBookToggle(toggle,toggle2){
 		}
 	}
 }
+
+// email functions
+function emailSend(e){
+	if(mobileBookActived && !mobileTransitioning){
+		e.preventDefault();
+		menuBookInputBox.find('input').focus();//
+		e.stopImmediatePropagation();
+	}
+}
+
 
 
 
@@ -215,13 +254,16 @@ function mobileBookOpen(closeTransformDistance,bookTransformDistance,toggle){
 
 	mobileBookShow(bookTransformDistance);
 	bookTitleLeave();
+
+
+	// console.log(menuBookInputBox.find('input'));
 	// call Closs Button Show after BookDisplay transition finished.
 	function transitionCallback(){
 		mobileCloseShow(closeTransformDistance);
 		// TODO CURRENT FOCUS()NOT WORKING ON IOS
-		if(toggle == menuBookInputBox){
-			menuBookInputBox.find('input').focus();
-		}
+		// if(toggle == menuBookInputBox){
+			// menuBookInputBox.find('input').focus();
+		// }
 	}
 
 	//do this after close button transition finished.
@@ -268,11 +310,11 @@ function mobileBookClose(){
 // * 2. after animation, animate menu content and lowerHeader
 // * 3. after transition, call transitionCallback to set states and remove listeners
 // =========================================================================
-function mobileMenuOpen(menuTransformDistance){
+function mobileMenuOpen(burgerToggle,menuTransformDistance){
 	mobileTransitioning = true;
 	var element = document.getElementById("mobileLowerHeader");
 	element.addEventListener("transitionend", transitionCallback, false);
-
+	burgerToggle.addClass('active');
 	mobileUpperHeader.animate({
 		height: mUpperHeight + mHeaderOffset +'px'
 	},200,function(){
@@ -289,17 +331,17 @@ function mobileMenuOpen(menuTransformDistance){
 
 
 
-function mobileMenuClose(){
+function mobileMenuClose(burgerToggle){
 	var element = document.getElementById("mobileLowerHeader");
 	element.addEventListener("transitionend", transitionCallback, false);
 	mobileTransitioning = true;
 
 	mobileMenuLeave();
-
+	burgerToggle.removeClass('active');
 	function transitionCallback(){
-		mobileUpperHeader.removeClass('shadow');
-		mobileLowerHeader.removeClass('shadow');
-		mobileBookDisplay.addClass('shadow');
+		// mobileUpperHeader.removeClass('shadow');
+		// mobileLowerHeader.removeClass('shadow');
+		// mobileBookDisplay.addClass('shadow');
 		mobileMenu.css({
 			'z-index':10
 		});
@@ -320,9 +362,9 @@ function mobileMenuClose(){
 
 
 function mobileMenuShow(menuTransformDistance){
-	mobileUpperHeader.addClass('shadow');
-	mobileLowerHeader.addClass('shadow');
-	mobileBookDisplay.removeClass('shadow');
+	// mobileUpperHeader.addClass('shadow');
+	// mobileLowerHeader.addClass('shadow');
+	// mobileBookDisplay.removeClass('shadow');
 	mobileMenu.css({
 		'z-index':9
 	});
@@ -336,6 +378,7 @@ function mobileMenuShow(menuTransformDistance){
 	mobileMenuContent.css({
 		'transform':'translate(0px, ' + -menuTransformDistance + 'px)'
 	});
+
 }
 
 
@@ -365,6 +408,11 @@ function mobileCloseShow(closeTransformDistance){
 		'transition': 'opacity 1s',
 		'transition-timing-function': 'ease-in'
 	});
+	menuLogo.css({
+		'opacity':0,
+		'transition': 'opacity .5s',
+		'transition-timing-function': 'ease-out'
+	});
 }
 
 
@@ -378,6 +426,11 @@ function mobileCloseLeave(){
 		'opacity':0,
 		'transition': 'opacity .2s',
 		'transition-timing-function': 'ease-out'
+	});
+	menuLogo.css({
+		'opacity':1,
+		'transition': 'opacity 1s',
+		'transition-timing-function': 'ease-int'
 	});
 }
 
@@ -408,7 +461,7 @@ function bookTitleLeave(){
 	});
 
 	menuBookSendButton.css({
-		'opacity':0.4
+		'opacity':0.1
 	})
 }
 

@@ -54,7 +54,7 @@ html,body{
 	opacity: 1;
 	/*border-radius: 5px;*/
 	box-shadow: 0 0px 3px rgba(0,0,0,0.3);
-	/*transition: opacity .2s ease-in-out;*/
+	/*transition: box-shadow .2s ease-in-out;*/
 }
 
 .noScroll{
@@ -81,7 +81,6 @@ html,body{
 	left: 0;
 	width: 100%;
 	height: $mobileUpperHeight*2;
-
 	transition: transform .5s;
 	/*transition-timing-function: linear;*/
 	transition-timing-function: ease-out;
@@ -95,6 +94,100 @@ html,body{
 	height: $mobileUpperHeight;
 	/*background: blue;*/
 }
+
+#menuLogo{
+	float: left;
+	margin-top: 14px;
+	margin-left: 8%;
+	height: 26px;
+	width: 150px;
+	overflow: hidden;
+	/*background: blue;*/
+}
+
+#menuLogo img{
+	float: left;
+}
+
+#logoVerticalBar{
+	float: left;
+	margin-left: 10px;
+	margin-top: 6px;
+	height: 17px;
+	width: 1px;
+	background-color: #000;
+}
+
+#awowdName{
+	float: left;
+	margin-left: 10px;
+	line-height: 26px;
+	margin-top: 4px;
+	vertical-align: bottom;
+	font-size: 12px;
+	letter-spacing: 4px;
+	color: #000;
+	font-family: 'Avenir Next LT Pro Regular';
+}
+
+
+/*menu icon*/
+.menu_icon {
+  position: relative;
+  display: inline-block;
+  float: right;
+  /*background-color: #eee;*/
+  width: 25px;
+  height: 25px;
+  margin-right: 8%;
+  top: 10px;
+  text-align: center;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.nav_bar {
+  width: 20px;
+  height: 1px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background-color: #000;
+  transition: all 0.2s;
+}
+
+.nav_bar:nth-child(2) {
+  top: 20px;
+}
+
+.menu_icon.active .nav_bar {
+  top: 0 !important;
+  left: 0 !important;
+  -ms-transform: rotate(45deg);
+  /* IE 9 */
+  -webkit-transform: rotate(45deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(45deg);
+  background-color: #000;
+}
+
+.menu_icon.active .nav_bar:nth-child(2) {
+  top: 0 !important;
+  left: 0 !important;
+  -ms-transform: rotate(-45deg);
+  /* IE 9 */
+  -webkit-transform: rotate(-45deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(-45deg);
+  background-color: #000;
+}
+
+
+
+
 #mobileUpperClose{
 	position: relative;
 	top: 0;
@@ -153,6 +246,7 @@ html,body{
     -webkit-box-sizing: border-box;
     border-radius: 5px;
     overflow: hidden;
+    cursor: pointer;
 	/*background: red;*/
 }
 
@@ -175,7 +269,7 @@ html,body{
 	text-align: left;
 	vertical-align: center;
 	font-size: 16px;
-	color: #000;
+	color: #777;
 	font-family: 'Avenir Next LT Pro Regular';
 	/*background-color: red;*/
 	transition: transform .2s;
@@ -200,6 +294,7 @@ html,body{
 	vertical-align: center;
 	font-size: 16px;
 	font-family: 'Avenir Next LT Pro Regular';
+	cursor: pointer;
 
 	box-shadow: none;
 	padding: 0px;
@@ -278,10 +373,43 @@ input[type=email]:focus, textarea:focus {
 	background-position: center center;
 	transition: transform .2s;
 	transition-timing-function: linear;
-
 }
 
+#mobileMenuContent ul{
+	position: absolute;
+	top: 50%;
+	width: 100% - $mibileFullMarginLeft;
+	padding-left: $mibileFullMarginLeft;
+	/*height: 50%;*/
+	transform: translateY(-50%);
+	/*background-color: #ccc;*/
+}
 
+#mobileMenuContent ul li{
+	list-style: none;
+	width: 250px;
+	height: 40px;
+	margin-top: 10px;
+	/*text-align: right;*/
+	line-height: 40px;
+	vertical-align: bottom;
+	box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+	border-bottom: 2px solid #eee;
+	float: right;
+	/*clear: both;*/
+	font-size: 30px;
+	letter-spacing: 1px;
+	color: #eee;
+	font-family: 'Avenir Next LT Pro Regular';
+	/*background-color: blue;*/
+}
+
+.mobileMenuSelected{
+	color: #000 !important;
+	border-bottom: 2px solid #000 !important;
+}
 
 
 /*Book A Life*/
