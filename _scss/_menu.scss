@@ -5,12 +5,22 @@ $mibileThinMarginLeft: 3%;
 $mibileInnerMarginLeft: 5%;
 $mibileFullMarginLeft: $mibileThinMarginLeft + $mibileInnerMarginLeft;
 
-
+html{
+	/*height: 100vh !important;*/
+	/*overflow: hidden;*/
+	min-height: 100%;
+}
 html,body{
 	/*background: gray;*/
 	tap-highlight-color: rgba(0,0,0,0);
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
 }
+
+/*body{
+	height: 100% !important;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}*/
 
 /*#hugeWrapper{
 	height: 100vh;
@@ -28,7 +38,9 @@ html,body{
 	/*margin-top: $mobileUpperHeight + $mobileLowerHeight;*/
 	width: 100%;
 	height: 2000px;
-	background: #eee;
+	/*background: #eee;*/
+	font-size: 24px;
+	color: #000;
 	/*z-index: -1;*/
 }
 

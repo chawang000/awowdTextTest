@@ -1,9 +1,10 @@
 // TODO make entire inputLeftWrapper or mobileEmailOuter clickable for input, stop propagation on children buttons
+// TODO fix mobile device address bar bouncing
 
 
 
-
-var mobileMenuActived = false,
+var headerCanShow = true,
+	mobileMenuActived = false,
 	mobileBookActived = false,
 	mobileTransitioning = false,
 	bodyLocked = false;
@@ -38,39 +39,61 @@ var mUpperHeight,
 	mBookHeight,
 	mBookTitleWidth,
 	mBookInputBoxWidth,
+	bodyScrollValue,
+	lastScrollValue = 0,
+	documentHeight,
+	windowH,
 	mHeaderOffset = 8;
 
+
+
 $(window).on("load", function (e){
-	// console.log('yoyoyo');
 	mobileMenuSetter();
 	mobileMenuToggle(burgerToggle);
 	mobileBookToggle(menuBookTitle,mobileUpperClose,burgerToggle);
 	mobileBookToggle(mobileEmailOuter,mobileUpperClose,burgerToggle);
 
 	$(window).resize(function(){
-		// mobileMenuSetter();
 	});
 
 
-	// check during scroll
-	$(document).on({
-		'touchmove': function(e) {
-	        lockScroll(e);
-	    },
-	    'scroll': function(e) {
-	    	lockScroll(e);
-	    },
-	    'mousewheel': function(e){
-	    	lockScroll(e);
-	    }
+	$(document).on('touchmove scroll', function(){
+		headerStatesController(mobileHeader, (mUpperHeight + mLowerHeight));
 	});
-
-
 
 	menuBookInputBox.find('input')[0].addEventListener("focus", bookFocusStyle);
 	menuBookInputBox.find('input')[0].addEventListener("blur", bookBlurStyle);
 });
 
+
+
+
+function headerStatesController(header, headerHeight){
+	var currentWindowScroll = $(window).scrollTop();
+	if(currentWindowScroll > 300 && !mobileTransitioning && currentWindowScroll < (documentHeight-windowH-100)){
+		if(currentWindowScroll > lastScrollValue && headerCanShow){
+			header.css({
+				'transform':'translate(0px,' + -headerHeight + 'px)',
+				'transition':'transform 0.3s'
+			});
+			headerCanShow = false;
+		}else if(currentWindowScroll < lastScrollValue && !headerCanShow){
+			header.css({
+				'transform':'translate(0px,' + 0 + 'px)',
+				'transition':'transform 0.1s'
+			});
+			headerCanShow = true;
+		}
+	}
+	
+	// if(headerCanShow == false){
+		
+	// }else if(headerCanShow){
+		
+	// }
+
+	lastScrollValue = currentWindowScroll;
+}
 
 
 
@@ -86,32 +109,13 @@ function bookBlurStyle(){
 
 
 
-
-// =========================================================================
-// LOCK BACKGROUND BODY
-// -------------------------------------------------------------------------
-// * prevent scrolling background when the menu or book page is opening
-// =========================================================================
-function lockScroll(e){
-	if(mobileMenuActived || mobileBookActived || mobileTransitioning){
-		$('html,body').addClass('noScroll');
-		bodyLocked = true;
-	}else if(bodyLocked){
-		$('html,body').removeClass('noScroll');
-		bodyLocked = false;
-	}
-
-}
-
-
-
 // =========================================================================
 // SETTING MOBILE MENU HEIGHT
 // -------------------------------------------------------------------------
 // * prevent scrolling background when the menu or book page is opening
 // =========================================================================
 function mobileMenuSetter(){
-	var windowH = $(window).height();
+	windowH = $(window).height();
 	var mOutterWidth = mobileEmailOuter.width();
 	var mEmailSendWidth = menuBookSendButton.width();
 	mUpperHeight = parseInt(mobileUpperHeader.css('height'));
@@ -123,9 +127,18 @@ function mobileMenuSetter(){
 	mobileMenuDisplay.css('height', mMenuHeight +'px');
 	mobileBookDisplay.css('height', mBookHeight + 'px');
 	menuBookInputBox.css('width', mBookInputBoxWidth + 'px');
+	documentHeight = $(document).height();
 }
 
-
+function resetMenuHeights(){
+	windowH = $(window).height();
+	mUpperHeight = parseInt(mobileUpperHeader.css('height'));
+	mLowerHeight = parseInt(mobileLowerHeader.css('height'));
+	mMenuHeight = windowH - mUpperHeight - mLowerHeight - mHeaderOffset;
+	mBookHeight = windowH - mUpperHeight - mLowerHeight;
+	mobileMenuDisplay.css('height', mMenuHeight +'px');
+	mobileBookDisplay.css('height', mBookHeight + 'px');
+}
 
 // =========================================================================
 // MOBILE MENU TOGGLE
@@ -136,20 +149,13 @@ function mobileMenuToggle(burgerToggle){
     burgerToggle[0].addEventListener('click', function(){
     	var menuTransformDistance = mMenuHeight;
         if(mobileMenuActived && !mobileTransitioning){
+        	releaseScroll();
             mobileMenuClose(burgerToggle);
         }else if(!mobileMenuActived && !mobileTransitioning){
+        	lockScroll();
             mobileMenuOpen(burgerToggle,menuTransformDistance);
         }
     });
-
-	// toggle.click(function(){
-	// 	var menuTransformDistance = mMenuHeight;
-	// 	if(mobileMenuActived && !mobileTransitioning){
-	// 		mobileMenuClose();
-	// 	}else if( !mobileMenuActived && !mobileTransitioning){
-	// 		mobileMenuOpen(menuTransformDistance);
-	// 	}
-	// });
 }
 
 
@@ -164,9 +170,17 @@ function mobileMenuToggle(burgerToggle){
 function mobileBookToggle(toggle,toggle2,burgerToggle){
 	toggle.on({
 		'mousedown': function(event) {
-	        checkBookOpen(event);
+			// blur();
+			// event.preventDefault();
+	        // checkBookOpen(event);
 	    },
 	    'touchstart': function(event) {
+	    	// blur();
+	    	// event.preventDefault();
+	    	// checkBookOpen(event);
+	    },
+	    'click': function(event){
+	    	event.preventDefault();
 	    	checkBookOpen(event);
 	    }
 	});
@@ -192,7 +206,6 @@ function mobileBookToggle(toggle,toggle2,burgerToggle){
 	menuBookSendButton.on({
 		'mousedown': function(e) {
 	        emailSend(e);
-
 	    },
 	    'touchstart': function(e) {
 	    	emailSend(e);
@@ -204,14 +217,17 @@ function mobileBookToggle(toggle,toggle2,burgerToggle){
 		var closeTransformDistance = mUpperHeight;
 		var bookTransformDistance = mBookHeight;
 		if(mobileMenuActived && !mobileBookActived && !mobileTransitioning){
-			event.preventDefault();
+			// event.preventDefault();
+			releaseScroll();
 			mobileMenuClose(burgerToggle);
+			lockScroll();
 			mobileBookOpen(closeTransformDistance,bookTransformDistance,toggle);
 		}else if(!mobileBookActived && !mobileTransitioning){
-			event.preventDefault();
+			// event.preventDefault();
+			lockScroll();
 			mobileBookOpen(closeTransformDistance,bookTransformDistance,toggle);
 		}else if(mobileBookActived){
-			event.preventDefault();
+			// event.preventDefault();
 			menuBookInputBox.find('input').focus();
 			// console.log('big clicked');
 			// event.stopPropagation();
@@ -254,6 +270,7 @@ function mobileBookOpen(closeTransformDistance,bookTransformDistance,toggle){
 
 	mobileBookShow(bookTransformDistance);
 	bookTitleLeave();
+	
 
 
 	// console.log(menuBookInputBox.find('input'));
@@ -282,21 +299,24 @@ function mobileBookClose(){
 	mobileTransitioning = true;
 	var element = document.getElementById("mobileBookDisplay");
 	var element2 = document.getElementById("mobileUpperClose");
-	element.addEventListener("transitionend", transitionCallback, false);
 	element2.addEventListener("transitionend", transitionCallback2, false);
 	
+	releaseScroll();
+
 	mobileBookLeave();
 	bookTitleIn();
+	mobileCloseLeave();
 	// call Closs Button Leave after BookDisplay transition finished.
-	function transitionCallback(){
-		mobileCloseLeave();
-	}
+	// element.addEventListener("transitionend", transitionCallback, false);
+	// function transitionCallback(){
+	// 	mobileCloseLeave();
+	// }
 
 	//do this after close button transition finished.
 	function transitionCallback2(){
 		mobileBookActived = false;
 		mobileTransitioning = false;
-		element.removeEventListener("transitionend", transitionCallback, false);
+		// element.removeEventListener("transitionend", transitionCallback, false);
 		element2.removeEventListener("transitionend", transitionCallback2, false);
 	}
 }
@@ -314,6 +334,8 @@ function mobileMenuOpen(burgerToggle,menuTransformDistance){
 	mobileTransitioning = true;
 	var element = document.getElementById("mobileLowerHeader");
 	element.addEventListener("transitionend", transitionCallback, false);
+
+	
 	burgerToggle.addClass('active');
 	mobileUpperHeader.animate({
 		height: mUpperHeight + mHeaderOffset +'px'
@@ -336,6 +358,7 @@ function mobileMenuClose(burgerToggle){
 	element.addEventListener("transitionend", transitionCallback, false);
 	mobileTransitioning = true;
 
+	
 	mobileMenuLeave();
 	burgerToggle.removeClass('active');
 	function transitionCallback(){
@@ -357,6 +380,25 @@ function mobileMenuClose(burgerToggle){
 			mobileTransitioning = false;
 		});
 	}
+}
+
+
+
+// =========================================================================
+// LOCK BACKGROUND BODY
+// -------------------------------------------------------------------------
+// * prevent scrolling background when the menu or book page is opening
+// =========================================================================
+function lockScroll(){
+	bodyScrollValue = $(window).scrollTop();
+	$(window).scrollTop(0);
+	$('html,body').addClass('noScroll');
+	// console.log(bodyScrollValue);
+}
+
+function releaseScroll(){
+	$('html,body').removeClass('noScroll');
+	$(window).scrollTop(bodyScrollValue);
 }
 
 
@@ -460,9 +502,11 @@ function bookTitleLeave(){
 		'transform':'translate(' + -mBookTitleWidth + 'px, 0px)',
 	});
 
-	menuBookSendButton.css({
-		'opacity':0.1
-	})
+	if(!(menuBookInputBox.find('input')[0] === document.activeElement)){
+		menuBookSendButton.css({
+			'opacity':0.1
+		})
+	}
 }
 
 function bookTitleIn(){

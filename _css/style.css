@@ -1,8 +1,18 @@
+html {
+  /*height: 100vh !important;*/
+  /*overflow: hidden;*/
+  min-height: 100%; }
+
 html, body {
   /*background: gray;*/
   tap-highlight-color: transparent;
   -webkit-tap-highlight-color: transparent; }
 
+/*body{
+	height: 100% !important;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}*/
 /*#hugeWrapper{
 	height: 100vh;
 	width: 100%;
@@ -18,7 +28,9 @@ html, body {
   /*margin-top: $mobileUpperHeight + $mobileLowerHeight;*/
   width: 100%;
   height: 2000px;
-  background: #eee;
+  /*background: #eee;*/
+  font-size: 24px;
+  color: #000;
   /*z-index: -1;*/ }
 
 #top {
