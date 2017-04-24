@@ -36,15 +36,9 @@ html, body {
 #top {
   /*width: 100%;*/ }
 
-#mobileHeader {
-  position: fixed;
-  z-index: 99;
-  top: 0;
-  left: 0;
-  width: 100%;
-  /*height: 100vh;*/
-  /*transform: translate(0px,200px);*/ }
-
+/*================================================================================*/
+/*=====================================BOTH=======================================*/
+/*================================================================================*/
 .shadow {
   /*position: absolute;*/
   z-index: -1;
@@ -58,6 +52,19 @@ html, body {
 .noScroll {
   height: 100%;
   overflow: hidden; }
+
+/*================================================================================*/
+/*=====================================MOBILE=====================================*/
+/*================================================================================*/
+#mobileHeader {
+  display: none;
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /*height: 100vh;*/
+  /*transform: translate(0px,200px);*/ }
 
 /*MOBILE UPPER*/
 #mobileUpperHeader {
@@ -88,19 +95,22 @@ html, body {
   height: 38px;
   /*background: blue;*/ }
 
-#menuLogo {
+.menuLogo {
   float: left;
-  margin-top: 14px;
+  /*margin-top: 14px;*/
   margin-left: 8%;
   height: 26px;
   width: 150px;
   overflow: hidden;
   /*background: blue;*/ }
 
-#menuLogo img {
+#mobileHeader .menuLogo {
+  margin-top: 14px; }
+
+.menuLogo img {
   float: left; }
 
-#logoVerticalBar {
+.logoVerticalBar {
   float: left;
   margin-left: 10px;
   margin-top: 6px;
@@ -108,7 +118,7 @@ html, body {
   width: 1px;
   background-color: #000; }
 
-#awowdName {
+.awowdName {
   float: left;
   margin-left: 10px;
   line-height: 26px;
@@ -128,10 +138,13 @@ html, body {
   width: 25px;
   height: 25px;
   margin-right: 8%;
-  top: 10px;
+  /*top: 10px;*/
   text-align: center;
   opacity: 0.8;
   cursor: pointer; }
+
+#mobileHeader .menu_icon {
+  top: 10px; }
 
 .nav_bar {
   width: 20px;
@@ -361,7 +374,8 @@ input[type=email]:focus, textarea:focus {
   font-family: 'Avenir Next LT Pro Regular';
   /*background-color: blue;*/ }
 
-.mobileMenuSelected {
+.menuSelected {
+  letter-spacing: 5px !important;
   color: #000 !important;
   border-bottom: 2px solid #000 !important; }
 
@@ -387,7 +401,7 @@ input[type=email]:focus, textarea:focus {
   transition: transform .2s;
   transition-timing-function: linear; }
 
-#mobileBookContent {
+#mobileBookLowerDisplay {
   position: absolute;
   top: 100%;
   width: 100%;
@@ -398,7 +412,7 @@ input[type=email]:focus, textarea:focus {
   transition-timing-function: linear;
   overflow-y: scroll; }
 
-#mobileBookText {
+#mobileBookContent {
   position: absolute;
   top: 0;
   width: 84%;
@@ -418,18 +432,205 @@ input[type=email]:focus, textarea:focus {
   font-size: 16px;
   font-family: 'Avenir Next LT Pro Regular'; }
 
-#mobileBookText h3 {
+#mobileBookContent h3 {
   /*color: #000;*/
   font-size: 30px;
   letter-spacing: 1px;
   font-family: 'Avenir Next LT Pro Regular'; }
 
-#mobileBookText p {
+#mobileBookContent p {
   /*color: #000;*/
   padding-top: 20px;
   font-size: 25px;
   letter-spacing: 1px;
   font-family: 'Avenir Next LT Pro Regular'; }
+
+/*================================================================================*/
+/*=====================================WEB========================================*/
+/*================================================================================*/
+#webHeader {
+  /*display: none;*/
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  left: 0;
+  width: 100%; }
+
+#webHeaderDisplay {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 80px;
+  /*background: #fff;*/
+  overflow: hidden;
+  z-index: 11; }
+
+#webHeaderWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 160px;
+  transition: transform .5s;
+  /*transition-timing-function: linear;*/
+  transition-timing-function: ease-out;
+  background: #fff; }
+
+.webHeaderSublevel {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /*opacity: 0;*/
+  height: 80px;
+  transition: opacity 1s;
+  transition-timing-function: ease-in;
+  /*background: blue;*/ }
+
+#webMenu {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  /*background: purple;*/
+  /*height: 200px;*/
+  z-index: 10; }
+
+#webMenuDisplay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /*height: 200px;*/
+  /*background: #fff;*/
+  overflow: hidden;
+  /*transform: translate(0px,100px);*/
+  transition: transform .2s;
+  transition-timing-function: linear; }
+
+#webMenuContent {
+  position: relative;
+  top: 100%;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  transition: transform .2s;
+  transition-timing-function: linear; }
+
+#webMenuInnerContent {
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  padding: 0;
+  width: 100%;
+  text-align: center;
+  /*height: 100%;*/
+  /*background-color: blue;*/ }
+
+#webMenuContactInfo {
+  display: inline-block;
+  width: 400px;
+  padding: 0 25px;
+  height: 100%;
+  color: #999;
+  font-family: 'Avenir Next LT Pro Regular';
+  text-align: left; }
+
+#webMenuContactInfo h4 {
+  font-weight: normal;
+  letter-spacing: 6px;
+  font-size: 24px; }
+
+#webMenuContactInfo p {
+  padding: 0;
+  margin: 8px 0;
+  letter-spacing: 5px;
+  font-size: 16px; }
+
+#webMenuInnerContent ul {
+  float: right;
+  width: 250px;
+  padding: 0;
+  /*height: 50%;*/
+  /*background-color: #ccc;*/ }
+
+#webMenuInnerContent ul li {
+  list-style: none;
+  width: 100%;
+  height: 40px;
+  margin-top: 10px;
+  text-align: left;
+  line-height: 40px;
+  vertical-align: bottom;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-bottom: 1px solid #ccc;
+  float: left;
+  clear: both;
+  font-size: 30px;
+  letter-spacing: 1px;
+  color: #ccc;
+  font-family: 'Avenir Next LT Pro Regular';
+  transition: letter-spacing 1s,color 1s;
+  cursor: pointer;
+  /*transition-timing-function: linear;*/
+  /*background-color: blue;*/ }
+
+#webMenuContent ul li:hover {
+  letter-spacing: 5px;
+  color: #777; }
+
+#webHeader .menuLogo {
+  position: absolute;
+  margin-top: 27px; }
+
+#webHeaderLevel1 {
+  /*text-align: left;*/
+  /*position: absolute;*/
+  /*background: green;*/ }
+
+#webHeaderLevel2 {
+  /*background-color: red;*/ }
+
+#webBookButton {
+  width: 100px;
+  height: 26px;
+  line-height: 26px;
+  vertical-align: center;
+  position: absolute;
+  display: inline-block;
+  text-align: center;
+  margin-left: 50%;
+  left: -50px;
+  top: 31px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #000;
+  font-family: 'Avenir Next LT Pro Regular';
+  /*background: blue;*/ }
+
+#webHeader .menu_icon {
+  position: absolute;
+  right: 0;
+  top: 24px; }
+
+#webBookLifeDisplay {
+  position: relative;
+  top: 0px;
+  width: 100%;
+  /*height: 100px;*/
+  background: green;
+  overflow-y: scroll;
+  transition: transform .2s;
+  transition-timing-function: linear; }
+
+#webBookContent {
+  width: 100%;
+  height: 1000px;
+  background-color: blue; }
 
 /*BASKERVILLE*/
 @font-face {

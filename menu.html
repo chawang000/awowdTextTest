@@ -3,23 +3,26 @@
 <head>
 	<title>mobile menu</title>
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
-	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
 	<link rel="stylesheet" href="_fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="_css/style.css">
 </head>
 <body>
 <header id="top">
+
+	<!--==================================================================================-->
+	<!--===================================MOBILE HEADER==================================-->
+	<!--==================================================================================-->
 	<div id="mobileHeader">
 		<div id="mobileUpperHeader">
 			<div id="mobileUpperWrapper">
 				<div id="mobileUpperLogo">
-					<div id="menuLogo">
+					<div class="menuLogo">
 						<img src="_img/icons/logo/logoGraphOnly1.svg" width="26" height="26" alt="">
-						<div id="logoVerticalBar"></div>
-						<div id="awowdName">Awowd</div>
+						<div class="logoVerticalBar"></div>
+						<div class="awowdName">Awowd</div>
 					</div>
 
-					<div id="nav_icon" class="menu_icon">
+					<div class="menu_icon">
 			            <div class="nav_bar"></div>
 			            <div class="nav_bar"></div>
 			        </div>
@@ -38,7 +41,7 @@
 						<li>technology</li>
 						<li>team</li>
 						<li>about</li>
-						<li>contact</li>
+						<!-- <li>contact</li> -->
 					</ul>
 				</div>
 			</div>
@@ -61,8 +64,8 @@
 
 		<div id="mobileBookLife">
 			<div id="mobileBookDisplay" class="shadow">
-				<div id="mobileBookContent">
-					<div id="mobileBookText">
+				<div id="mobileBookLowerDisplay">
+					<div id="mobileBookContent">
 						<div id="mobileMailFeedback">
 
 						</div>
@@ -74,6 +77,71 @@
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<!--==================================================================================-->
+	<!--====================================WEB HEADER====================================-->
+	<!--==================================================================================-->
+	<div id="webHeader">
+
+		<!-- ============WEB HEADER============ -->
+		<!-- this is the displaying part of the header,not the full header which should include menu and booklife -->
+		<div id="webHeaderDisplay" class="shadow">
+			<div id="webHeaderWrapper">
+				<!-- LEVEL 1 IS WHERE LOGO, MENU BUTTON AND BOOK ARE AT -->
+				<div id="webHeaderLevel1" class="webHeaderSublevel">
+					<!-- logo -->
+					<div class="menuLogo">
+						<img src="_img/icons/logo/logoGraphOnly1.svg" width="26" height="26" alt="">
+						<div class="logoVerticalBar"></div>
+						<div class="awowdName">Awowd</div>
+					</div>
+
+					<div id="webBookButton">
+						book a life
+					</div>
+
+					<!-- menuIcon -->
+					<div class="menu_icon">
+			            <div class="nav_bar"></div>
+			            <div class="nav_bar"></div>
+			        </div>
+				</div>
+				<div id="webHeaderLevel2" class="webHeaderSublevel">
+					
+				</div>
+			</div>
+		</div>
+
+		<!-- ============WEB MENU============ -->
+		<div id="webMenu">
+			<div id="webMenuDisplay">
+				<div id="webMenuContent">
+					<canvas id="canvas"></canvas>
+					<div id="webMenuInnerContent">
+						<ul>
+							<li class="menuSelected">home</li>
+							<li>technology</li>
+							<li>team</li>
+							<li>about</li>
+							<!-- <li>contact</li> -->
+						</ul>
+						<div id="webMenuContactInfo">
+							<h4>bring life to virtual reality</h4>
+							<p>p:3101118192</p>
+							<p>e:contact@awowd.com</p>
+							<p>13372 sepulveda blvd, los angeles, ca, 90023</p>
+						</div>
+					</div>	
+				</div>
+				<!-- ============WEB BOOK A LIFE============ -->
+				<div id="webBookLifeDisplay">
+					<div id="webBookContent"></div>
+				</div>
+			</div>
+		</div>
+
+		
 	</div>
 </header>
 
