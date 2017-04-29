@@ -1,15 +1,17 @@
 
 // Particle
 class Particle {
-  constructor(context, x, y, d = 3, color = '#ccc', lerp = 0.01) {
+  constructor(context, x, y, d = 6, color = '#ccc', lerp = 0.01) {
     this.context = context;
 
+    this.originX = x;
+    this.originY = y;
     this.x = x;
     this.y = y;
     this.d = d;
     this.lerp = lerp;
     this.color = color;
-
+    this.active = false;
   }
 
 
@@ -19,19 +21,25 @@ class Particle {
     context.fillStyle = this.color;
     context.beginPath();
 
-    var x = this.x - r,
-        y = this.y - r;
-    
-    // if (Math.abs(this.targetX - this.currentX) < this.movement * 0.1) {
-    //   this.targetX = x + Math.random() * this.movement * (Math.random() < 0.5 ? -1 : 1);
-    // }
-    // if (Math.abs(this.targetY - this.currentY) < this.movement * 0.1) {
-    //   this.targetY = y + Math.random() * this.movement * (Math.random() < 0.5 ? -1 : 1);
-    // }
-    
-    // this.currentX += (this.targetX - this.currentX) * this.lerp;
-    // this.currentY += (this.targetY - this.currentY) * this.lerp;
-    
+    if(this.x != this.originX ){
+       var x = this.x,
+        y = this.y;
+
+        x += (this.originX - this.x) * 0.02;
+        this.x = x;
+
+        y += (this.originY - this.y) * 0.02;
+        this.y = y;
+
+      // console.log('current X is '+ this.x + ', origin X is ' + this.originX);
+    }else{
+      var x = this.x,
+        y = this.y;
+        // console.log('should not move');
+    }
+
+    // console.log('drawing');
+
     context.arc(x, y, r, 0, Math.PI * 2, false);
 
     context.closePath();
@@ -46,7 +54,7 @@ class Particle {
 
 // Canvas
 class Canvas {
-  constructor(element, particleSpacing = 20) {
+  constructor(element, particleSpacing = 25) {
     this.canvas = element;
     this.context = element.getContext('2d');
 
@@ -61,32 +69,47 @@ class Canvas {
     element.addEventListener('mousemove', (e) => this.moveToMouse(e));
   }
 
-      moveToMouse(e) {
-        var mouse = {
-          x: 0, 
-          y: 0,
-          rx:0,
-          ry:0,
-          speed:45,
-          delta:0
-      };
+  moveToMouse(e) {
+    var mouse = {
+        x: 0, 
+        y: 0,
+        rx:0,
+        ry:0,
+        speed:45,
+        delta:0
+    };
 
-      mouse.x = e.clientX || e.pageX; 
-      mouse.y = e.clientY || e.pageY;
-      // mouse.x-=W/2;
-      // mouse.y-=H/2;
-      // console.log(mouse.y)
-      // this.moveToMouse();
-      // console.log(this.particles);
-      if (this.particles) {
+    var offset = $('#canvas').offset();
+    mouse.x = e.clientX; 
+    mouse.x -= offset.left;
+    mouse.y = e.clientY;
+    mouse.y -= offset.top;
+    // mouse.x-=this.canvas.width/2;
+    // mouse.y-=this.canvas.height/2;
+    // console.log(offset.left);
+    // this.moveToMouse();
+    // console.log(this.particles);
+
+    if (this.particles) {
       for (let i = 0; i < this.particles.length; i++) {
-        if( mouse.x - this.particles[i].x <= 10 && mouse.x - this.particles[i].x >= -10){
-          this.particles[i].color = '#000';
-          this.particles[i].draw();
+        var disX = mouse.x - this.particles[i].originX,
+            disY = mouse.y - this.particles[i].originY,
+            dis = Math.sqrt(disX*disX+disY*disY);
+            // console.log(dis);
+        if( dis <= 300 ){
+          this.particles[i].x += (mouse.x - this.particles[i].x)/dis*1.5;
+        this.particles[i].y += (mouse.y - this.particles[i].y)/dis*1.5;
+        // this.particles[i].active = true;
+
+
+        // this.particles[i].color = 'rgba(0, 0, 0,' + (0.3+(150-dis)/150*0.3) +')';
+
+        }else{
+          // this.particles[i].color = 'rgba(0, 0, 0, 0.3)';
+          // this.particles[i].active = false;
         }
       }
     }
-
   }
 
   init () {
@@ -98,8 +121,8 @@ class Canvas {
   }
   
   resize() {
-    this.canvas.width = 500;
-    this.canvas.height = 400;
+    this.canvas.width = 400;
+    this.canvas.height = 300;
   }
 
   clear() {
@@ -133,6 +156,7 @@ class Canvas {
   }
 
   animate() {
+    // if(isNaN(mouse.delta) || mouse.delta <= 0) { return; }  
     this.draw();
     this.animationFrame = window.requestAnimationFrame(() => this.animate());
   }
