@@ -79,7 +79,8 @@ $(window).on("load", function (e){
 	});
 
 
-	$(document).on('touchmove scroll', function(){
+	$('body').on('touchmove scroll', function(e){
+		console.log($(this).pageYOffset);
 		headerStatesController(mobileHeader, (mUpperHeight + mLowerHeight));
 	});
 	menuBookInputBox.find('input')[0].addEventListener("focus", bookFocusStyle);
@@ -88,7 +89,7 @@ $(window).on("load", function (e){
 
 	// WEB
 	webHeaderSetter();
-	drawCanvas();
+	// drawCanvas();
 	webMenuToggle(webBurgerToggle);
 	// webBookToggle(webBookButton);
 
@@ -231,7 +232,8 @@ function webMenuLeave(){
 // =========================================================================
 // =========================================================================
 function headerStatesController(header, headerHeight){
-	var currentWindowScroll = $(window).scrollTop();
+	var currentWindowScroll = $('#main')[0].scrollTop;
+	// console.log(currentWindowScroll);
 	if(currentWindowScroll > 300 && !mobileTransitioning && currentWindowScroll < (documentHeight-windowH-100)){
 		if(currentWindowScroll > lastScrollValue && headerCanShow){
 			header.css({
@@ -380,9 +382,9 @@ function mobileBookToggle(toggle,toggle2,mobileBurgerToggle){
 		var bookTransformDistance = mBookHeight;
 		if(mobileMenuActived && !mobileBookActived && !mobileTransitioning){
 			// event.preventDefault();
-			releaseScroll();
+			// releaseScroll();
 			mobileMenuClose(mobileBurgerToggle);
-			lockScroll();
+			// lockScroll();
 			mobileBookOpen(closeTransformDistance,bookTransformDistance,toggle);
 		}else if(!mobileBookActived && !mobileTransitioning){
 			// event.preventDefault();
@@ -553,7 +555,7 @@ function mobileMenuClose(mobileBurgerToggle){
 // =========================================================================
 function lockScroll(){
 	bodyScrollValue = $(window).scrollTop();
-	$(window).scrollTop(0);
+	// $(window).scrollTop(0);
 	$('html,body').addClass('noScroll');
 	// console.log(bodyScrollValue);
 }
