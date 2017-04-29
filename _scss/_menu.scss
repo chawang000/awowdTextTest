@@ -7,11 +7,10 @@ $mibileFullMarginLeft: $mibileThinMarginLeft + $mibileInnerMarginLeft;
 
 $webHeaderHeight: 80px;
 
-html{
-	/*height: 100vh !important;*/
-	/*overflow: hidden;*/
-	min-height: 100%;
-}
+/*html{
+	height: 100vh;
+	overflow: hidden;
+}*/
 html,body{
 	/*background: gray;*/
 	tap-highlight-color: rgba(0,0,0,0);
@@ -19,7 +18,7 @@ html,body{
 }
 
 /*body{
-	height: 100% !important;
+	height: 100%;
 	overflow-y: scroll;
 	-webkit-overflow-scrolling: touch;
 }*/
@@ -75,7 +74,7 @@ html,body{
 /*=====================================MOBILE=====================================*/
 /*================================================================================*/
 #mobileHeader{
-	display: none;
+	/*display: none;*/
 	position: fixed;
 	z-index: 99;
 	top: 0;
@@ -526,7 +525,7 @@ input[type=email]:focus, textarea:focus {
 /*================================================================================*/
 
 #webHeader{
-	/*display: none;*/
+	display: none;
 	position: fixed;
 	z-index: 99;
 	top: 0;
