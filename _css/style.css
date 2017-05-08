@@ -1,36 +1,39 @@
-/*html{
-	height: 100vh;
-	overflow: hidden;
-}*/
+html {
+  height: 100vh;
+  overflow: hidden; }
+
+body {
+  height: 100%;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch; }
+
 html, body {
   /*background: gray;*/
   tap-highlight-color: transparent;
   -webkit-tap-highlight-color: transparent; }
 
-/*body{
-	height: 100%;
-	overflow-y: scroll;
-	-webkit-overflow-scrolling: touch;
-}*/
 /*#hugeWrapper{
 	height: 100vh;
 	width: 100%;
 	overflow: hidden;
 }*/
-/*#main{
-	height: 100vh;
-	width: 100%;
-	overflow: hidden;
-}*/
+#main {
+  margin: 0;
+  padding: 0; }
+
 #spaceholder {
   position: relative;
   /*margin-top: $mobileUpperHeight + $mobileLowerHeight;*/
   width: 100%;
   height: 2000px;
   /*background: #eee;*/
-  font-size: 24px;
   color: #000;
   /*z-index: -1;*/ }
+
+#spaceholder p {
+  padding: 0;
+  margin: 0;
+  font-size: 24px; }
 
 #top {
   /*width: 100%;*/ }
@@ -50,7 +53,8 @@ html, body {
 
 .noScroll {
   height: 100%;
-  overflow: hidden; }
+  overflow: hidden;
+  -webkit-overflow-scrolling: auto; }
 
 /*================================================================================*/
 /*=====================================MOBILE=====================================*/
@@ -631,6 +635,105 @@ input[type=email]:focus, textarea:focus {
   height: 1000px;
   background-color: blue; }
 
+.techDisplay {
+  overflow: hidden;
+  /*background-color: blue;*/
+  position: relative;
+  width: 100%;
+  /*height: 300px;*/ }
+
+.techSectionContent {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  /*width: 800px;*/
+  /*height: 500px;*/
+  /*background-color: green;*/ }
+
+.techTitle {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 50px;
+  width: 500px;
+  max-width: 100%;
+  /*top: 700px;*/
+  font-size: 35px;
+  color: #333;
+  text-align: center;
+  font-family: 'Avenir Next LT Pro Regular';
+  letter-spacing: 2px; }
+
+.techImg img {
+  width: 100%; }
+
+.techTextContent {
+  margin-left: auto;
+  margin-right: auto;
+  /*background: rgba(255,255,255,0.1);*/
+  width: 60%;
+  font-size: 20px;
+  color: #777;
+  text-align: center;
+  font-family: 'Avenir Next LT Pro Regular';
+  letter-spacing: 1px;
+  line-height: 35px; }
+
+.techTextContent p {
+  margin: 0; }
+
+.showMoreButton, .showLessButton {
+  height: 50px;
+  padding-top: 25px;
+  padding-bottom: 100px;
+  /*font-size: 0.8em;*/
+  color: #3989ed;
+  /*cursor: pointer;*/ }
+
+.showMoreButton p, .showLessButton p {
+  margin-left: auto;
+  margin-right: auto;
+  width: 150px;
+  cursor: pointer; }
+
+.additionalDisplay {
+  height: 175px;
+  overflow: hidden; }
+
+.additionalWrapper {
+  position: relative; }
+
+.hiddingPara {
+  opacity: 0; }
+
+.hiddingPara p:before {
+  padding: 10px;
+  font-family: FontAwesome;
+  font-size: 16px;
+  content: '\f20e';
+  display: block; }
+
+/*SECTION BRAIN*/
+#techSectionOne {
+  background: #cfcfcf;
+  margin-top: 80px; }
+
+#techSectionOne .techTextContent {
+  position: relative;
+  margin-top: 5%; }
+
+#techSectionOne .techImg {
+  margin-left: -10%;
+  margin-right: auto;
+  width: 120%; }
+
+#techSectionTwo {
+  background-color: #eee;
+  height: 1000px; }
+
+@media (max-width: 768px) {
+  .techTextContent {
+    width: 90%; } }
 /*BASKERVILLE*/
 @font-face {
   font-family: 'Libre Baskerville';

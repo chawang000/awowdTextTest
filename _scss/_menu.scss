@@ -7,32 +7,35 @@ $mibileFullMarginLeft: $mibileThinMarginLeft + $mibileInnerMarginLeft;
 
 $webHeaderHeight: 80px;
 
-/*html{
+html{
 	height: 100vh;
 	overflow: hidden;
-}*/
+}
+
+body{
+	height: 100%;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+
 html,body{
 	/*background: gray;*/
 	tap-highlight-color: rgba(0,0,0,0);
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
-/*body{
-	height: 100%;
-	overflow-y: scroll;
-	-webkit-overflow-scrolling: touch;
-}*/
 
 /*#hugeWrapper{
 	height: 100vh;
 	width: 100%;
 	overflow: hidden;
 }*/
-/*#main{
-	height: 100vh;
-	width: 100%;
-	overflow: hidden;
-}*/
+
+
+#main{
+	margin:0;
+	padding:0;
+}
 
 #spaceholder{
 	position: relative;
@@ -40,9 +43,15 @@ html,body{
 	width: 100%;
 	height: 2000px;
 	/*background: #eee;*/
-	font-size: 24px;
 	color: #000;
 	/*z-index: -1;*/
+}
+
+
+#spaceholder p{
+	padding: 0;
+	margin: 0;
+	font-size: 24px;
 }
 
 #top{
@@ -66,6 +75,7 @@ html,body{
 .noScroll{
 	height: 100%;
 	overflow: hidden;
+	-webkit-overflow-scrolling: auto;
 }
 
 

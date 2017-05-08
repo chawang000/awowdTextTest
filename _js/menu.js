@@ -75,12 +75,16 @@ $(window).on("load", function (e){
 	mobileBookToggle(menuBookTitle,mobileUpperClose,mobileBurgerToggle);
 	mobileBookToggle(mobileEmailOuter,mobileUpperClose,mobileBurgerToggle);
 
+
 	$(window).resize(function(){
 	});
 
 
 	$('body').on('touchmove scroll', function(e){
-		console.log($(this).pageYOffset);
+		// var html = $('html')[0];
+		// var body = $('#main')[0];
+		// var compare = body.getBoundingClientRect();
+		// console.log(-compare.top);
 		headerStatesController(mobileHeader, (mUpperHeight + mLowerHeight));
 	});
 	menuBookInputBox.find('input')[0].addEventListener("focus", bookFocusStyle);
@@ -232,7 +236,10 @@ function webMenuLeave(){
 // =========================================================================
 // =========================================================================
 function headerStatesController(header, headerHeight){
-	var currentWindowScroll = $('#main')[0].scrollTop;
+	// var body = $('#main')[0];
+	// var compare = body.getBoundingClientRect();
+	// console.log(-compare.top);
+	var currentWindowScroll = -$('#main')[0].getBoundingClientRect().top;
 	// console.log(currentWindowScroll);
 	if(currentWindowScroll > 300 && !mobileTransitioning && currentWindowScroll < (documentHeight-windowH-100)){
 		if(currentWindowScroll > lastScrollValue && headerCanShow){
@@ -240,21 +247,18 @@ function headerStatesController(header, headerHeight){
 				'transform':'translate(0px,' + -headerHeight + 'px)',
 				'transition':'transform 0.3s'
 			});
+
 			headerCanShow = false;
 		}else if(currentWindowScroll < lastScrollValue && !headerCanShow){
 			header.css({
 				'transform':'translate(0px,' + 0 + 'px)',
 				'transition':'transform 0.1s'
 			});
+			console.log('after: '+$(window).height());
 			headerCanShow = true;
 		}
 	}
 	
-	// if(headerCanShow == false){
-		
-	// }else if(headerCanShow){
-		
-	// }
 
 	lastScrollValue = currentWindowScroll;
 }
@@ -291,7 +295,7 @@ function mobileHeaderSetter(){
 	mobileMenuDisplay.css('height', mMenuHeight +'px');
 	mobileBookDisplay.css('height', mBookHeight + 'px');
 	menuBookInputBox.css('width', mBookInputBoxWidth + 'px');
-	documentHeight = $(document).height();
+	documentHeight = $('#main').height();
 }
 
 function resetMenuHeights(){
@@ -554,7 +558,7 @@ function mobileMenuClose(mobileBurgerToggle){
 // * prevent scrolling background when the menu or book page is opening
 // =========================================================================
 function lockScroll(){
-	bodyScrollValue = $(window).scrollTop();
+	// bodyScrollValue = $(window).scrollTop();
 	// $(window).scrollTop(0);
 	$('html,body').addClass('noScroll');
 	// console.log(bodyScrollValue);
@@ -562,7 +566,7 @@ function lockScroll(){
 
 function releaseScroll(){
 	$('html,body').removeClass('noScroll');
-	$(window).scrollTop(bodyScrollValue);
+	// $(window).scrollTop(bodyScrollValue);
 }
 
 
