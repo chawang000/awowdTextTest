@@ -1,5 +1,4 @@
-// TODO make entire inputLeftWrapper or mobileEmailOuter clickable for input, stop propagation on children buttons
-// TODO fix mobile device address bar bouncing
+//TODO headerStatesController() fix the bug that mobile menu can be scrolled after opening.
 
 
 

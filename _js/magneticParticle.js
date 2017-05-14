@@ -11,7 +11,7 @@ class Particle {
     this.d = d;
     this.lerp = lerp;
     this.color = color;
-    this.active = false;
+    
   }
 
 
@@ -55,18 +55,23 @@ class Particle {
 // Canvas
 class Canvas {
   constructor(element, particleSpacing = 25) {
+    
     this.canvas = element;
     this.context = element.getContext('2d');
 
     this.particleSpacing = particleSpacing;
+    this.active = false;
     
     window.addEventListener('resize', () => this.init());
     this.init();
 
-
-   
-
-    element.addEventListener('mousemove', (e) => this.moveToMouse(e));
+    // console.log(this.active)
+   $(element).on('mouseenter',function(){
+    // this.active = true;
+    console.log(active);
+   });
+    // while(element.mouseover(console.log('hovering')));
+    
   }
 
   moveToMouse(e) {
@@ -79,7 +84,7 @@ class Canvas {
         delta:0
     };
 
-    var offset = $('#canvas').offset();
+    var offset = $('#magneticCanvas').offset();
     mouse.x = e.clientX; 
     mouse.x -= offset.left;
     mouse.y = e.clientY;
@@ -99,11 +104,6 @@ class Canvas {
         if( dis <= 300 ){
           this.particles[i].x += (mouse.x - this.particles[i].x)/dis*1.5;
         this.particles[i].y += (mouse.y - this.particles[i].y)/dis*1.5;
-        // this.particles[i].active = true;
-
-
-        // this.particles[i].color = 'rgba(0, 0, 0,' + (0.3+(150-dis)/150*0.3) +')';
-
         }else{
           // this.particles[i].color = 'rgba(0, 0, 0, 0.3)';
           // this.particles[i].active = false;
@@ -121,8 +121,15 @@ class Canvas {
   }
   
   resize() {
-    this.canvas.width = 400;
-    this.canvas.height = 300;
+    var canvasParentExist = $('#techSectionTwo .techImg') != null;
+    if(canvasParentExist){
+      this.canvas.width = $('#techSectionTwo .techImg').width();
+      this.canvas.height = $('#techSectionTwo .techImg').height();
+    }else{
+      this.canvas.width = 400;
+      this.canvas.height = 300;
+    }
+    
   }
 
   clear() {
@@ -158,6 +165,10 @@ class Canvas {
   animate() {
     // if(isNaN(mouse.delta) || mouse.delta <= 0) { return; }  
     this.draw();
+    // if(this.active){
+    //   console.log('hovering');
+    // }
+    // this.canvas.addEventListener('mouseenter', (e) => this.moveToMouse(e));
     this.animationFrame = window.requestAnimationFrame(() => this.animate());
   }
 
@@ -168,4 +179,4 @@ class Canvas {
 
 
 // Init
-var cnvs = new Canvas(document.getElementById('canvas'));
+var cnvs = new Canvas(document.getElementById('magneticCanvas'));

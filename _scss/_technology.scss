@@ -25,7 +25,7 @@
 	width: 500px;
 	max-width: 100%;
 	/*top: 700px;*/
-	font-size: 35px;
+	font-size: 40px;
 	color: #333;
 	text-align: center;
 	font-family: 'Avenir Next LT Pro Regular';
@@ -116,8 +116,21 @@
 
 
 #techSectionTwo{
-	background-color: #eee;
-	height: 1000px;
+	background-color: #fff;
+}
+
+#techSectionTwo .techTitle{
+	/*padding-top: 300px;*/
+}
+
+
+#techSectionTwo .techImg{
+	margin: auto;
+	padding: 300px 200px 200px 200px;
+	width: 400px;
+	height: 300px;
+}
+#techSectionTwo canvas{
 }
 
 
@@ -130,6 +143,14 @@
   .techTextContent{
   	width: 90%;
   }
+
+  #techSectionTwo .techImg{
+	margin: auto;
+	padding: 100px 0 100px 0;
+	width: 90%;
+	height: 60vh;
+	}
+
 }
 
 

@@ -84,7 +84,7 @@ html,body{
 /*=====================================MOBILE=====================================*/
 /*================================================================================*/
 #mobileHeader{
-	/*display: none;*/
+	display: none;
 	position: fixed;
 	z-index: 99;
 	top: 0;
@@ -535,7 +535,7 @@ input[type=email]:focus, textarea:focus {
 /*================================================================================*/
 
 #webHeader{
-	display: none;
+	/*display: none;*/
 	position: fixed;
 	z-index: 99;
 	top: 0;

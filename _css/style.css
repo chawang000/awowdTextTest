@@ -60,7 +60,7 @@ html, body {
 /*=====================================MOBILE=====================================*/
 /*================================================================================*/
 #mobileHeader {
-  /*display: none;*/
+  display: none;
   position: fixed;
   z-index: 99;
   top: 0;
@@ -452,7 +452,7 @@ input[type=email]:focus, textarea:focus {
 /*=====================================WEB========================================*/
 /*================================================================================*/
 #webHeader {
-  display: none;
+  /*display: none;*/
   position: fixed;
   z-index: 99;
   top: 0;
@@ -658,7 +658,7 @@ input[type=email]:focus, textarea:focus {
   width: 500px;
   max-width: 100%;
   /*top: 700px;*/
-  font-size: 35px;
+  font-size: 40px;
   color: #333;
   text-align: center;
   font-family: 'Avenir Next LT Pro Regular';
@@ -728,12 +728,26 @@ input[type=email]:focus, textarea:focus {
   width: 120%; }
 
 #techSectionTwo {
-  background-color: #eee;
-  height: 1000px; }
+  background-color: #fff; }
+
+#techSectionTwo .techTitle {
+  /*padding-top: 300px;*/ }
+
+#techSectionTwo .techImg {
+  margin: auto;
+  padding: 300px 200px 200px 200px;
+  width: 400px;
+  height: 300px; }
 
 @media (max-width: 768px) {
   .techTextContent {
-    width: 90%; } }
+    width: 90%; }
+
+  #techSectionTwo .techImg {
+    margin: auto;
+    padding: 100px 0 100px 0;
+    width: 90%;
+    height: 60vh; } }
 /*BASKERVILLE*/
 @font-face {
   font-family: 'Libre Baskerville';
