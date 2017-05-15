@@ -834,6 +834,7 @@ html, body {
 .contentImage {
   /*  transform: translate(0px,0px);
     opacity: 1;*/
+  position: relative;
   display: inline-block; }
 
 /*.imageShow{
@@ -906,7 +907,7 @@ html, body {
   font-family: 'Avenir Next LT Pro Regular';
   font-size: 25px;
   letter-spacing: 2px;
-  color: #000; }
+  color: rgba(0, 0, 0, 0.7); }
 
 .videoText {
   display: block;
@@ -959,5 +960,13 @@ html, body {
 
 #textPara_4 {
   /*float: left;*/ }
+
+#homeSection_4 .contentImage img {
+  position: absolute;
+  left: 0;
+  top: 0; }
+
+#homeSection_4 {
+  background-color: #f1d2e0; }
 
 /*# sourceMappingURL=style.css.map */

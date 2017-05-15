@@ -68,7 +68,7 @@ class Canvas {
     // console.log(this.active)
    $(element).on('mouseenter',function(){
     // this.active = true;
-    console.log(active);
+    // console.log(active);
    });
     // while(element.mouseover(console.log('hovering')));
     

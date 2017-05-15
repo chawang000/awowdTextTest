@@ -72,6 +72,7 @@ function webFunctions(){
     animateTitleArray = document.getElementsByClassName("animatedTitle");
     textToSpan();
     contentDivSetter();
+    chameleonColor();
    
 
     // SETTER AND CALCULATION OF EACH SECTION
@@ -559,4 +560,77 @@ function textToSpan(){
         }
     }
 }
+
+// =========================================================================
+// SECTION 4 COLOR CHANGE
+// -------------------------------------------------------------------------
+// * 
+// =========================================================================
+function chameleonColor(){
+    var chameleonPink = {
+        imgObj:$('#chameleonPink'),
+        backgroundColor:'#f1d2e0'
+    }
+
+    var chameleonBlue = {
+        imgObj:$('#chameleonBlue'),
+        backgroundColor:'#93b8be'
+    }
+
+    var chameleonYellow = {
+        imgObj:$('#chameleonYellow'),
+        backgroundColor:'#f1da19'
+    }
+
+
+
+    var chameleons = [chameleonPink,chameleonBlue,chameleonYellow];
+
+    var count = 0;//start from the second image
+
+    var colorLoop = setInterval(function(){ 
+         if(count < chameleons.length-1){
+            count += 1;
+            changeColor(count,count-1);
+        }else{
+            count = 0;
+            changeColor(count,chameleons.length-1);
+            
+        }
+        
+    }, 7000);
+
+    function changeColor(count,lastImgCount){
+        // console.log(chameleons[count].imgObj);
+        // console.log(chameleons[lastImgCount].imgObj);
+        var currentChameleon = chameleons[count].imgObj;
+        var lastChameleon = chameleons[lastImgCount].imgObj;
+
+        $('#homeSection_4').animate({
+            backgroundColor:chameleons[count].backgroundColor
+        },500,function(){
+            window.setTimeout(function(){
+                currentChameleon.animate({
+                    opacity: 1
+                },3000);
+                lastChameleon.animate({
+                    opacity: 0
+                },3000);
+            } ,500);
+            
+        });
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
