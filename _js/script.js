@@ -70,6 +70,7 @@ $(window).on("load", function (){
 function webFunctions(){
         // WINDOW LOAD SETTER
     animateTitleArray = document.getElementsByClassName("animatedTitle");
+    loadSvgScript();
     textToSpan();
     contentDivSetter();
     chameleonColor();
@@ -569,17 +570,17 @@ function textToSpan(){
 function chameleonColor(){
     var chameleonPink = {
         imgObj:$('#chameleonPink'),
-        backgroundColor:'#f1d2e0'
+        backgroundColor:'#F1B8E9'
     }
 
     var chameleonBlue = {
         imgObj:$('#chameleonBlue'),
-        backgroundColor:'#93b8be'
+        backgroundColor:'#C1DFF4'
     }
 
     var chameleonYellow = {
         imgObj:$('#chameleonYellow'),
-        backgroundColor:'#f1da19'
+        backgroundColor:'#C4EFC5'
     }
 
 
@@ -598,7 +599,7 @@ function chameleonColor(){
             
         }
         
-    }, 7000);
+    }, 6000);
 
     function changeColor(count,lastImgCount){
         // console.log(chameleons[count].imgObj);
@@ -620,7 +621,21 @@ function chameleonColor(){
             
         });
     }
+}
 
+function loadSvgScript(){    
+    var svg = document.getElementById("deersvg");
+    // It's important to add an load event listener to the object,
+    // as it will load the svg doc asynchronously
+    // console.log(svg);
+
+    //  var svgDoc = svg.contentDocument;
+    //     console.log('svgDoc');
+    // // svg.addEventListener("load",function(){
+    // //     // get the inner DOM of deer.svg
+       
+
+    // // }, true);
 }
 
 
