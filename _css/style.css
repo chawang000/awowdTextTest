@@ -785,10 +785,6 @@ html, body {
   overflow: hidden;
   /*background-color: red;*/ }
 
-#videoBG {
-  background-color: #333;
-  height: 100vh; }
-
 .content {
   width: 100%;
   /*height: 100vh;*/
@@ -946,8 +942,28 @@ html, body {
   /*background-color: yellow;*/
   /*clear: top;*/ }
 
+#videoBG {
+  /*background-color: black;*/
+  width: 100%;
+  height: 100vh;
+  /*overflow: hidden;*/
+  position: relative;
+  z-index: -100; }
+
+#videoBG video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; }
+
+/*#title_p1{
+  color:#fff;
+}*/
 #videoBG .threeFifthContainer {
-  margin-top: 300px; }
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top: 200px; }
 
 #textPara_1 {
   /*float: left;*/ }
@@ -961,12 +977,15 @@ html, body {
 #textPara_4 {
   /*float: left;*/ }
 
+#homeSection_3 {
+  background: #000; }
+
 #homeSection_4 .contentImage img {
   position: absolute;
   left: 0;
   top: 0; }
 
 #homeSection_4 {
-  background-color: #F1B8E9; }
+  background-color: #cc3341; }
 
 /*# sourceMappingURL=style.css.map */

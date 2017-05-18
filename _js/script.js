@@ -570,22 +570,22 @@ function textToSpan(){
 function chameleonColor(){
     var chameleonPink = {
         imgObj:$('#chameleonPink'),
-        backgroundColor:'#F1B8E9'
+        backgroundColor:'#cc3341'
     }
 
     var chameleonBlue = {
         imgObj:$('#chameleonBlue'),
-        backgroundColor:'#C1DFF4'
+        backgroundColor:'#73B6DD'
     }
 
-    var chameleonYellow = {
-        imgObj:$('#chameleonYellow'),
-        backgroundColor:'#C4EFC5'
+    var chameleonOrange = {
+        imgObj:$('#chameleonOrange'),
+        backgroundColor:'#ff6026'
     }
 
 
 
-    var chameleons = [chameleonPink,chameleonBlue,chameleonYellow];
+    var chameleons = [chameleonPink,chameleonBlue,chameleonOrange];
 
     var count = 0;//start from the second image
 

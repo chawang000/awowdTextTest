@@ -7,49 +7,30 @@ $(document).ready(function(){
 	var shapesInfo = [];
 	var allPolyline = $('svg #shapes polyline');
 
-
-	
-	// for(var i = 0; i < allCircles.length; i++){
-	// 	var circleR = parseFloat(allCircles[i].getAttribute('r'));
-	// 	// console.log(circleR);
-	// 	if(circleR < 0.8){
-
-	// 		$(allCircles[i]).remove();
-	// 	}else if(circleR < 0.1){
-	// 		// $(allCircles[i]).remove();
-	// 		// $(allCircles[i]).addClass('cls-white');
-	// 		var randomX = (Math.random()-0.8)*85;
-	// 		var randomY = (Math.random()-0.7)*50;
-	// 		var randomTime = 15+ Math.random()*5;
-	// 		allCircles[i].innerHTML = '<animateMotion path="M 0 0 L '+randomX+','+randomY+' Z" dur="'+randomTime+'" keySplines="0.9 1.9 0.8 0.8" repeatCount="indefinite"></animateMotion>';
-	// 	}
-	// }
-
 	for(var i = 0; i < allShapes.length; i++){
 		var opacity = $('.'+allShapes[i].className.baseVal).css('opacity');
 		var shapeTargetX = (Math.random()-0.2)*30;
 		var shapeTargetY = (Math.random()-0.7)*50;
 		shapesInfo.push({
-			// shapeObj:allShapes[i],
 			shapePosition:allShapes[i].getAttribute('points').split(' '),
 			shapeOpacity:opacity,
 			targetX:shapeTargetX,
 			targetY:shapeTargetY
 		});
-		// var randomSpeed = Math.random()*2000;
 	}
 
 	$('#homeSection_2').on('mouseenter',function(){
 		for(var i = 0; i < allShapes.length; i++){
-			var randomTime = 0 + Math.random()*1;
-			allShapes[i].innerHTML = '<animateTransform attributeName="transform" attributeType="XML" type="translate" dur="'+randomTime+'s" fill="freeze" to="'+shapesInfo[i].targetX+' '+shapesInfo[i].targetY+'" />'
-		
-
+			var randomTime = 1 + Math.random()*2;
+			$(allShapes[i]).css({
+				'transform':'translate(' +shapesInfo[i].targetX+'px, '+shapesInfo[i].targetY+'px)',
+				// 'transition':'all ' + randomTime + 's'
+			});
 		}
 
 		$('svg #lines').css({
 			opacity:0,
-			transition:'opacity 1s'
+			transition:'opacity 1s',
 		});
 		
 		changefillColor(0.7,1,allShapes,allPolyline);
@@ -74,11 +55,12 @@ $(document).ready(function(){
 					var randomSpeed = Math.random()*2000;
 					$(target[i]).css({
 						fill:'rgba('+colorR+','+colorG+','+colorB+','+orgOpacity+')',
-						transition: "all "+randomSpeed/1000+'s'
-					});
-					$(target[i]).stop(true,true).animate({
 						opacity:targetOpacity,
-					},randomSpeed);
+						transition: "all "+randomSpeed/800+'s'
+					});
+					// $(target[i]).stop(true,true).animate({
+					// 	opacity:targetOpacity,
+					// },randomSpeed);
 				}
 			}
 		}
@@ -86,22 +68,21 @@ $(document).ready(function(){
 
 
 	$('#homeSection_2').on('mouseleave',function(){
-
+		var randomTime = 1 + Math.random()*1;
 		for(var i = 0; i < allShapes.length; i++){
-			allShapes[i].innerHTML = '<animateTransform attributeName="transform" attributeType="XML" type="translate" to="0 0" />'
-		
+			$(allShapes[i]).css({
+				'transform':'translate(' +0+'px, '+0+'px)',
+				'transition':'all ' + randomTime + 's'
+			});
 		}
 		$('svg #lines').css({
 			opacity:0.3,
-			transition:'opacity 1s'
+			transition:'opacity 1s',
+			webkitTransition: 'opacity 1s', 
 		});
 
 		changefillBW(0.3,0.1,allShapes,allPolyline);
 		function changefillBW(orgOpacity,targetOpacity,target1,target2,target3){
-
-			// var colorA = $(target[i]).css('opacity');
-			// console.log(target1);
-
 
 			if(target1 != null){
 				changeIndividualColor(target1);
@@ -114,19 +95,17 @@ $(document).ready(function(){
 			}
 			function changeIndividualColor(target){
 				for(var i = 0; i < target.length; i++){
-					// console.log(shapesInfo[i].shapeOpacity);
-					// console.log(target[i].className.baseVal);
-					var classFill = $('.'+target[i].className.baseVal).css('fill');
 					var classOpacity = shapesInfo[i].shapeOpacity;
 					// console.log();
 					var randomSpeed = Math.random()*2000;
 					$(target[i]).css({
 						fill:'#000',
-						// transition: "all 0s"
-					});
-					$(target[i]).stop(true,true).animate({
 						opacity:classOpacity,
-					},randomSpeed/2);
+						// transition: 'all '+randomSpeed/1000+'s'
+					});
+					// $(target[i]).stop(true,true).animate({
+					// 	opacity:classOpacity,
+					// },randomSpeed/2);
 				}
 			}
 		}
