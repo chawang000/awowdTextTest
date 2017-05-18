@@ -54,7 +54,8 @@ var webTransitioning = false,
 	webMenuActived = false,
 	webBookActived = false;
 
-var webHeaderDisplay = $('#webHeaderDisplay'),
+var webHeader = $('#webHeader'),
+	webHeaderDisplay = $('#webHeaderDisplay'),
 	webMenu = $('#webMenu'),
 	webMenuDisplay = $('#webMenuDisplay'),
 	webMenuContent = $('#webMenuContent'),
@@ -91,6 +92,7 @@ $(window).on("load", function (e){
 
 
 	// WEB
+	headerStatesController(webHeader, webHeader.height());
 	webHeaderSetter();
 	// drawCanvas();
 	webMenuToggle(webBurgerToggle);
@@ -98,6 +100,10 @@ $(window).on("load", function (e){
 
 	$(window).resize(function(){
 		webHeaderSetter();
+	});
+
+	$(window).on('scroll', function(e){
+		headerStatesController(webHeader, webHeader.height());
 	});
 
 });
@@ -253,7 +259,7 @@ function headerStatesController(header, headerHeight){
 				'transform':'translate(0px,' + 0 + 'px)',
 				'transition':'transform 0.1s'
 			});
-			console.log('after: '+$(window).height());
+			// console.log('after: '+$(window).height());
 			headerCanShow = true;
 		}
 	}

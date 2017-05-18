@@ -180,7 +180,7 @@ html,body{
     font-family: 'Avenir Next LT Pro Regular';
     font-size: 25px;
     letter-spacing: 2px;
-    color: rgba(0,0,0,0.7);
+    /*color: rgba(0,0,0,0.7);*/
 }
 
 .videoText{
@@ -243,9 +243,21 @@ html,body{
   width: 100%;
 }
 
-/*#title_p1{
-  color:#fff;
-}*/
+#textPara_1{
+  color:rgba(255,255,255,1);
+}
+
+#textPara_2{
+  color:rgba(0,0,0,1);
+}
+
+#textPara_3{
+  color:rgba(255,255,255,0.7);
+}
+
+#textPara_4{
+  color:rgba(255,255,255,1);
+}
 
 #videoBG .threeFifthContainer{
   position: absolute;

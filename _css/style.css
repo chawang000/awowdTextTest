@@ -903,7 +903,7 @@ html, body {
   font-family: 'Avenir Next LT Pro Regular';
   font-size: 25px;
   letter-spacing: 2px;
-  color: rgba(0, 0, 0, 0.7); }
+  /*color: rgba(0,0,0,0.7);*/ }
 
 .videoText {
   display: block;
@@ -956,9 +956,18 @@ html, body {
   left: 0;
   width: 100%; }
 
-/*#title_p1{
-  color:#fff;
-}*/
+#textPara_1 {
+  color: white; }
+
+#textPara_2 {
+  color: black; }
+
+#textPara_3 {
+  color: rgba(255, 255, 255, 0.7); }
+
+#textPara_4 {
+  color: white; }
+
 #videoBG .threeFifthContainer {
   position: absolute;
   top: 0;

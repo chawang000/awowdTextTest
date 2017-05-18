@@ -210,6 +210,39 @@ function animationInitialize(animatedTitle,lastTitle,nextTitle){
 
         getAnimatingSpeed();
         function getAnimatingSpeed(){
+            //COLOR SPEED
+            var currentColorString = $(animatedTitle).css('color');
+            var currentColor = currentColorString.substring(currentColorString.indexOf('(') + 1, currentColorString.lastIndexOf(')')).split(/,\s*/),
+                currentR = currentColor[0],
+                currentG = currentColor[1],
+                currentB = currentColor[2],
+                currentA = currentColor[3];
+            if(typeof currentA == 'undefined'){
+                currentA = 1;
+            }
+
+            var targetColorString = $(nextTitle).css('color');
+            var targetColor = targetColorString.substring(targetColorString.indexOf('(') + 1, targetColorString.lastIndexOf(')')).split(/,\s*/),
+                targetR = targetColor[0],
+                targetG = targetColor[1],
+                targetB = targetColor[2],
+                targetA = targetColor[3];
+            if(typeof targetA == 'undefined'){
+                targetA = 1;
+            }
+            animatedTitle.currentR = currentR;
+            animatedTitle.currentG = currentG;
+            animatedTitle.currentB = currentB;
+            animatedTitle.currentA = currentA;
+            animatedTitle.colorSpeedR = (targetR - currentR) / animateDistance;
+            animatedTitle.colorSpeedG = (targetG - currentG) / animateDistance;
+            animatedTitle.colorSpeedB = (targetB - currentB) / animateDistance;
+            animatedTitle.colorSpeedA = (targetA - currentA) / animateDistance;
+
+            // console.log(animatedTitle.colorSpeedR,animatedTitle.colorSpeedG,animatedTitle.colorSpeedB,animatedTitle.colorSpeedA);
+
+
+            //FONTSIZE SPEED
             animatedTitle.textFontSizeSpeed = (textTargetFontSize - textBaseFontSize) / animateDistance;
         }
 
@@ -282,8 +315,8 @@ function setImageTransform(theTitle,imgTransform,imgOpacity,transformTime){
     if(typeof theTitle !== 'undefined'){
         var contentImage = $(theTitle).parents('.threeFifthContainer').siblings('.contentImage'); 
         contentImage.css({
-            'transform':'translate(0px,' + imgTransform + 'px)',
-            'opacity':imgOpacity,
+            // 'transform':'translate(0px,' + imgTransform + 'px)',
+            // 'opacity':imgOpacity,
             'transition':'all ' + transformTime + 's'
         });
     }
@@ -459,8 +492,24 @@ function setTitleProgressingPosition(animatedTitle,titleCurrentProgress){
     var textNestOffsetX = globalSpeed * innerOffsetSpeedX * (animateDistance - titleCurrentProgress);
     var textNestOffsetY = -1 * globalSpeed * innerOffsetSpeedY * (animateDistance - titleCurrentProgress);
     var textFontSizeSpeed = globalSpeed * animatedTitle.textFontSizeSpeed;
+  
+    var currentR = parseInt(animatedTitle.currentR),
+        currentG = parseInt(animatedTitle.currentG),
+        currentB = parseInt(animatedTitle.currentB);
+        currentA = parseFloat(animatedTitle.currentA);
+    // if(typeof currentA == 'undefined'){
+    //     currentA = 1;
+    // }else{
+    //     currentA = parseFloat(currentA);
+    // }
+
+    var colorR = parseInt(currentR+(animatedTitle.colorSpeedR*titleCurrentProgress));
+    var colorG = parseInt(currentG+(animatedTitle.colorSpeedG*titleCurrentProgress));
+    var colorB = parseInt(currentB+(animatedTitle.colorSpeedB*titleCurrentProgress));
+    var colorA = currentA+(animatedTitle.colorSpeedA*titleCurrentProgress);
+    // console.log('rgba(' + colorR + ','+ colorG + ',' + colorB + ','+colorA+')');
     $(animatedTitle).css({
-                        // 'color':'rgb(' + textNextColor + ','+ textNextColor + ',' + textNextColor + ')',
+                        'color':'rgba(' + colorR + ','+ colorG + ',' + colorB + ','+colorA+')',
                         'transform':'translate( ' + textNextPositionX +'px, ' + textNextPositionY + 'px)',
                         'font-family':textTargetFontFamily,
                         'font-size': textBaseFontSize + titleCurrentProgress * textFontSizeSpeed + 'px',
@@ -526,7 +575,7 @@ function contentDivSetter(){
 
     
     $('.textArea').css({
-        'padding-top':1/16 * windowW + 'px'
+        'padding-top':2/16 * windowW + 'px'
     });//TODO MOVE TO TEXT INITIALIZE TO SET PADDING INDIVIDUALLY
 
     imgTransformDistance = 1/16 * windowW;
