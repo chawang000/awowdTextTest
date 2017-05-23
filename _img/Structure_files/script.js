@@ -1,5 +1,7 @@
-// TODO add mobile style after if(isMobile) return;
-
+// TODO TITLE ANIMATION SHOULD NOT FIRE IF THE WINDOW HEIGHT IS SMALLER THAN CERTAIN PX
+// TODO SOMETIMES NON OF THE PROPERTY IS SAVED, PROPERTY READ AS UNDEFINED
+// TODO MORE STYLES FOR TITLE AND PARA ANIMATION
+// TODO FIX ANIMATION DISTANCE TOO SHORT BUG,IF WINDOW IS NOT WIDE ENOUGH,THERE IS NO SCROLL ANIMATION
 
 var detectionDistance = 150,//TODO this value is depending on (#videoBG .threeFifthContainer)' margin-top for the first para
     stopDistance = 250,
@@ -94,7 +96,7 @@ $(window).on("load", function (){
 var webResizeFunctions = function(){
     // RESIZE AND RECALCULATE THE ATTRIBUTES
     // * scroll event will be fired if the window is scrolled after resize
-    if(isMobile) return;
+    // if(isMobile) return;
     contentDivSetter();
     for (var i = 0; i < animateTitleArray.length; i++){
         var animatedTitle = animateTitleArray[i];
@@ -122,8 +124,7 @@ var webResizeFunctions = function(){
 
 var webFunctions = function(){
         // WINDOW LOAD SETTER
-    if(isMobile) return;
-    // console.log("webFunctions");
+    console.log("webFunctions");
     animateTitleArray = document.getElementsByClassName("animatedTitle");
     textToSpan();
     contentDivSetter();
@@ -140,7 +141,6 @@ var webFunctions = function(){
 
 var webScrollFunctions = function(){
     // console.log('scroll');
-    if(isMobile) return;
     var currentScroll = $(document).scrollTop();
     for (var i = 0; i < animateTitleArray.length; i++){
         var animatedTitle = animateTitleArray[i];
@@ -348,7 +348,7 @@ function setImageTransform(theTitle,imgTransform,imgOpacity,transformTime){
 function scrollDetection(animatedTitle,lastTitle,nextTitle,currentScroll){
 
     var paraScrollDistance = animatedTitle.paraScrollDistance;
-    // console.log(currentScroll);
+    console.log(currentScroll);
     var animatedTitleCurrentTop = animatedTitle.animatedTitleTop - currentScroll;
     var targetPosElement = animatedTitle.targetPosElement;
     var targetTop = animatedTitle.targetFixedTop - currentScroll;
@@ -557,13 +557,10 @@ function textParaScroll(animatedTitle,paraScrollProgress,lastTitle){
 function contentDivSetter(){
     var windowW = $(window).width();
     var windowH = $(window).height();
-    var contentDivMinHeight = 600;
-    // if(contentDivMinHeight < 700){
-    //     contentDivMinHeight = 700;
-    // }
-    if(windowH < contentDivMinHeight){//videoBG should be at least as tall as the content div to ensure the text animation
+    var contentDivHeight = 8/16 * windowW;
+    if(windowH < contentDivHeight + 200){//videoBG should be at least as tall as the content div to ensure the text animation
         $('#videoBG').css({
-            'height': contentDivMinHeight + 'px'
+            'height': contentDivHeight + 200 + 'px'
         });
     }else{
         $('#videoBG').css({
@@ -572,7 +569,7 @@ function contentDivSetter(){
     }
 
     $('.content').css({
-        'min-height': contentDivMinHeight + 'px'
+        'height': contentDivHeight + 'px'
     });
 
     
