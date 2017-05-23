@@ -32,47 +32,28 @@ $(document).ready(function(){
 // * calculate here to ensure content are fully loaded and styled
 // =========================================================================
 $(window).on("load", function (){
-    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-        // some code..
-        $('html').css({
-            'height': '100vh',
-            'overflow': 'hidden'
-        });
+    if(isMobile) {
 
-        $('body').css({
-            'height': '100%',
-            'overflow-y': 'scroll',
-            '-webkit-overflow-scrolling': 'touch'
-        });
-
-        $('#mobileHeader').css('display','inherit');
-        $('#webHeader').css('display','none');
-        console.log('mobile device')
     }else{
-         $('html').css({
-            'height': 'auto',
-            'overflow': 'visible'
-        });
-
-        $('body').css({
-            'height': 'auto',
-            'overflow-y': 'visible',
-            '-webkit-overflow-scrolling': 'auto'
-        });
-        $('#mobileHeader').css('display','none');
-        $('#webHeader').css('display','inherit');
-        console.log('web');
         webFunctions();
     }
     
 });//Window load END
 
+// $(window).on("resize", function (){
+//     if(isMobile) {
+
+//     }else{
+//         webFunctions();
+//     }
+// });
+
 function webFunctions(){
         // WINDOW LOAD SETTER
-    animateTitleArray = document.getElementsByClassName("animatedTitle");
-    loadSvgScript();
-    textToSpan();
+    var animateTitleArray = document.getElementsByClassName("animatedTitle");
     contentDivSetter();
+    textToSpan();
+    initializeDeerData();
     chameleonColor();
    
 
@@ -89,6 +70,7 @@ function webFunctions(){
     $(window).resize(function(){
         // RESIZE AND RECALCULATE THE ATTRIBUTES
         // * scroll event will be fired if the window is scrolled after resize
+
         contentDivSetter();
         for (var i = 0; i < animateTitleArray.length; i++){
             var animatedTitle = animateTitleArray[i];
@@ -145,6 +127,7 @@ function webFunctions(){
 // * it will reset positions of all elements based on current scroll
 // =========================================================================
 function animationInitialize(animatedTitle,lastTitle,nextTitle){
+    // console.log('animationInitialize');
     var targetPosElement =  document.getElementById(animatedTitle.getAttribute('data-target-element'));
     var animatedTitleParent = $(animatedTitle).parent('p');
     var firstTextSpan = animatedTitleParent.find('.textSpan:first-child');
@@ -175,6 +158,7 @@ function animationInitialize(animatedTitle,lastTitle,nextTitle){
         }else if(paraScrollDistance > paraScrollDistanceMax){
             paraScrollDistance = paraScrollDistanceMax
         }
+        // console.log(paraScrollDistance);
         return paraScrollDistance;
     }
     animatedTitle.paraScrollDistance = paraScrollDistance;
@@ -193,7 +177,7 @@ function animationInitialize(animatedTitle,lastTitle,nextTitle){
             removePeriod(animatedTitle);
             targetPosElement.innerHTML = $(animatedTitle).find('.textSpan')[0].innerHTML;
             $(targetPosElement).css({
-                'opacity':0,
+                // 'opacity':0,
                 'font-family':textTargetFontFamily,
                 'font-size':textTargetFontSize + 'px'
             });
@@ -269,19 +253,33 @@ function animationInitialize(animatedTitle,lastTitle,nextTitle){
     setCurrentState();
     function setCurrentState(){
         var currentScroll = $(document).scrollTop();
-        var animatedTitleCurrentTop = animatedTitleTop - currentScroll;
+        var animatedTitleCurrentTop = animatedTitleTop;
         var paraTotalDistance = paraScrollDistance+scrollTextParaOffset; 
         var titleNotTriggered = animatedTitleCurrentTop <= detectionDistance + scrollTextParaOffset;
         var titleCompleteAnimate = animatedTitleCurrentTop <= (detectionDistance - paraScrollDistance);
-        
+        console.log(animatedTitleTop);
 
         // * titleNotTriggered MEANING current scroll is during para scroll, but not triggered title animation yet
         // * titleCompleteAnimate MEANING current title has reached the target position
         // * else MEANING current scroll is above the title, neither title animation nor para animation has been triggered.
+        
+        if(animatedTitle.id == 'animatedTitleP2'){//for the second section deer animation
+            if(titleCompleteAnimate){
+                deerIn();
+                // console.log('deerIn')
+            }else if(titleNotTriggered){
+                // console.log('deerIn')
+            }else{
+                deerOut();
+            }
+        }
+
         if(titleCompleteAnimate){
+// TODO RPOBLEM SHOULD BE HERE!!!!!!!!
             removePeriod(animatedTitle);
             textParaScroll(animatedTitle,paraTotalDistance,lastTitle);
             setTitleProgressingPosition(animatedTitle,animateDistance);
+            // console.log('completed');
         }else if(titleNotTriggered){
             // do not need to set anything because if window is not at starting position, it will run functions inside of scroll event
             addPeriod(animatedTitle);
@@ -373,6 +371,10 @@ function scrollDetection(animatedTitle,lastTitle,nextTitle){
     // TITLE START POSITION (SCROLL UP)
     // set position to where title was not scrolled
     if(titleLastFrameProgress >= 0 && titleCurrentProgress < 0){
+        // console.log('deerIn');
+        // if(animatedTitle.id == 'animatedTitleP2'){
+        //     deerIn();
+        // }
         setToInitialPosition(animatedTitle);
         setImageTransform(animatedTitle,0,1,imgTransformTime);
         addPeriod(animatedTitle);
@@ -380,12 +382,18 @@ function scrollDetection(animatedTitle,lastTitle,nextTitle){
     // TITLE FINAL POSITION (SCROLL DOWN)
     // set position to where title should be at finnal position
     if(titleLastFrameProgress <= animateDistance && titleCurrentProgress > animateDistance){
+        if(animatedTitle.id == 'animatedTitleP1'){
+            deerIn();
+        }
         setTitleProgressingPosition(animatedTitle,animateDistance);
         setImageTransform(nextTitle,0,1,imgTransformTime);
     }
     // TITLE FINAL POSITION (SCROLL UP)
     // leave the final position
     if(titleLastFrameProgress >= animateDistance && titleCurrentProgress < animateDistance){
+        if(animatedTitle.id == 'animatedTitleP1'){
+            deerOut();
+        }
         setTitleProgressingPosition(animatedTitle,animateDistance);
         setImageTransform(nextTitle,imgTransformDistance,imgFadeOpacity,imgTransformTime);
     }
@@ -445,6 +453,7 @@ function canAnimateTitle(animatedTitleCurrentTop, targetTop,paraScrollDistance){
 // * need this because all properties are caculated based on the initial stats
 // =========================================================================
 function setToInitialPosition(animatedTitle){
+
     var animatedTitleParent = $(animatedTitle).parent('p');
     var titleCurrentProgress = 0;
     var firstWord = animatedTitle.firstWord;
@@ -558,24 +567,24 @@ function textParaScroll(animatedTitle,paraScrollProgress,lastTitle){
 function contentDivSetter(){
     var windowW = $(window).width();
     var windowH = $(window).height();
-    var contentDivHeight = 8/16 * windowW;
-    if(windowH < contentDivHeight + 200){//videoBG should be at least as tall as the content div to ensure the text animation
-        $('#videoBG').css({
-            'height': contentDivHeight + 200 + 'px'
-        });
-    }else{
-        $('#videoBG').css({
-            'height': windowH + 'px'
-        });
-    }
+    // var contentDivHeight = 8/16 * windowW;
+    // if(windowH < contentDivHeight + 200){//videoBG should be at least as tall as the content div to ensure the text animation
+    //     $('#videoBG').css({
+    //         'height': contentDivHeight + 200 + 'px'
+    //     });
+    // }else{
+    //     $('#videoBG').css({
+    //         'height': windowH + 'px'
+    //     });
+    // }
 
-    $('.content').css({
-        'height': contentDivHeight + 'px'
-    });
+    // $('.content').css({
+    //     'height': contentDivHeight + 'px'
+    // });
 
     
     $('.textArea').css({
-        'padding-top':2/16 * windowW + 'px'
+        'padding-top':3/32 * windowW + 'px'
     });//TODO MOVE TO TEXT INITIALIZE TO SET PADDING INDIVIDUALLY
 
     imgTransformDistance = 1/16 * windowW;
@@ -670,21 +679,6 @@ function chameleonColor(){
             
         });
     }
-}
-
-function loadSvgScript(){    
-    var svg = document.getElementById("deersvg");
-    // It's important to add an load event listener to the object,
-    // as it will load the svg doc asynchronously
-    // console.log(svg);
-
-    //  var svgDoc = svg.contentDocument;
-    //     console.log('svgDoc');
-    // // svg.addEventListener("load",function(){
-    // //     // get the inner DOM of deer.svg
-       
-
-    // // }, true);
 }
 
 

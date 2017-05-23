@@ -43,8 +43,8 @@ html,body{
 
 .content{
   width: 100%;
-  /*height: 100vh;*/
-  /*min-height: 800px;*/
+  height: 100vh;
+  min-height: 700px;
   padding-top: 100px;
   padding-bottom: 100px;
     /*background-color: #eee;*/
@@ -74,11 +74,15 @@ html,body{
 .wrapper{
     position: relative;
     width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .threeFifthContainer{
+  position: relative;
+  top: 0;
+  left: 0;
   text-align: center;
   width: 60%;
   height: 100%;
@@ -86,6 +90,9 @@ html,body{
 }
 
 .twoFifthContainer{
+  position: relative;
+  top: 0;
+  left: 0;
   text-align: center;
   width: 40%;
   height: 100%;
@@ -148,8 +155,8 @@ html,body{
 .textArea{
     /*padding-top: 80px;*/
     /*display: inline-block;*/
-    width: 70%;
-    max-width: 500px;
+    width: 100%;
+    max-width: 480px;
     /*// height: 300px;*/
     text-align: left;
 }
@@ -178,7 +185,7 @@ html,body{
     margin-top: 0px;
     width: 100%;
     font-family: 'Avenir Next LT Pro Regular';
-    font-size: 25px;
+    font-size: 20px;
     letter-spacing: 2px;
     /*color: rgba(0,0,0,0.7);*/
 }
@@ -298,6 +305,23 @@ html,body{
 
 #homeSection_2 svg polygon{
 
+}
+
+@media (max-width: 768px) {
+  .threeFifthContainer, .twoFifthContainer{
+    width: 100%;
+    height: auto;
+  }
+/*  .content{
+    height: auto;
+  }*/
+/*  #videoBG{
+    height: 100vh;
+  }*/
+  #videoBG video{
+    height: 100vh;
+    width: auto;
+  }
 }
 
 

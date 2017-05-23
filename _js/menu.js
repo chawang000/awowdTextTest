@@ -77,6 +77,11 @@ $(window).on("load", function (e){
 
 
 	$(window).resize(function(){
+		if(isMobile){
+			toMobileStyle();
+		}else{
+			toWebStyle();
+		}
 	});
 
 
@@ -881,3 +886,37 @@ function drawCanvas(){
 	    }   
 	};  
 };
+
+
+function toMobileStyle(){
+    $('html').css({
+        'height': '100vh',
+        'overflow': 'hidden'
+    });
+
+    $('body').css({
+        'height': '100%',
+        'overflow-y': 'scroll',
+        '-webkit-overflow-scrolling': 'touch'
+    });
+
+    $('#mobileHeader').css('display','inherit');
+    $('#webHeader').css('display','none');
+    // console.log('mobile device');
+}
+
+function toWebStyle(){
+    $('html').css({
+        'height': 'auto',
+        'overflow': 'visible'
+    });
+
+    $('body').css({
+        'height': 'auto',
+        'overflow-y': 'visible',
+        '-webkit-overflow-scrolling': 'auto'
+    });
+    $('#mobileHeader').css('display','none');
+    $('#webHeader').css('display','inherit');
+    // console.log('web');
+}
