@@ -52,7 +52,8 @@ var mUpperHeight,
 // WEB VAR
 var webTransitioning = false,
 	webMenuActived = false,
-	webBookActived = false;
+	webBookActived = false,
+	scrollUpSensitive = 30;
 
 var webHeader = $('#webHeader'),
 	webHeaderDisplay = $('#webHeaderDisplay'),
@@ -295,18 +296,24 @@ function headerStatesController(header, headerHeight){
 		if(currentWindowScroll > lastScrollValue && headerCanShow){
 			header.css({
 				'transform':'translate(0px,' + -headerHeight + 'px)',
-				'transition':'transform 0.3s'
+				'transition':'transform 0.2s'
 			});
 
 			headerCanShow = false;
-		}else if(currentWindowScroll < lastScrollValue && !headerCanShow){
+		}else if(currentWindowScroll < (lastScrollValue-scrollUpSensitive) && !headerCanShow){
 			header.css({
 				'transform':'translate(0px,' + 0 + 'px)',
-				'transition':'transform 0.1s'
+				'transition':'transform 0.3s'
 			});
-			console.log('after: '+$(window).height());
+			// console.log('after: '+$(window).height());
 			headerCanShow = true;
 		}
+	}else if(currentWindowScroll <= 300 && !headerCanShow){
+		header.css({
+			'transform':'translate(0px,' + 0 + 'px)',
+			'transition':'transform 0.3s'
+		});
+		headerCanShow = true;
 	}
 	
 
