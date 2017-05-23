@@ -313,11 +313,11 @@ function animationInitialize(animatedTitle,lastTitle,nextTitle){
         var imgIsAbove = lastTitleTargetTop <= stopDistance && !imgShow;
         var imgIsBelow = animatedTitleCurrentTop >= (detectionDistance - paraScrollDistance) && !imgShow;
 
-        if(imgIsAbove){
-            setImageTransform(animatedTitle,-imgTransformDistance,imgFadeOpacity,0);
-        }else if(imgIsBelow){
-            setImageTransform(animatedTitle,imgTransformDistance,imgFadeOpacity,0);
-        }
+        // if(imgIsAbove){
+        //     setImageTransform(animatedTitle,-imgTransformDistance,imgFadeOpacity,0);
+        // }else if(imgIsBelow){
+        //     setImageTransform(animatedTitle,imgTransformDistance,imgFadeOpacity,0);
+        // }
     }
 
     animatedTitle.consoleElement = paraScrollDistance;// used for debug
@@ -381,7 +381,7 @@ function scrollDetection(animatedTitle,lastTitle,nextTitle,currentScroll){
     if(paraLastFrameProgress <= scrollFullDistance && paraScrollProgress > scrollFullDistance){
         textParaScroll(animatedTitle,scrollFullDistance,lastTitle);
         if(typeof nextTitle != 'undefined'){
-            setImageTransform(animatedTitle,-imgTransformDistance,imgFadeOpacity,imgTransformTime);
+            // setImageTransform(animatedTitle,-imgTransformDistance,imgFadeOpacity,imgTransformTime);
             removePeriod(animatedTitle);
         }
     }
@@ -389,20 +389,20 @@ function scrollDetection(animatedTitle,lastTitle,nextTitle,currentScroll){
     // set position to where title was not scrolled
     if(titleLastFrameProgress >= 0 && titleCurrentProgress < 0){
         setToInitialPosition(animatedTitle);
-        setImageTransform(animatedTitle,0,1,imgTransformTime);
+        // setImageTransform(animatedTitle,0,1,imgTransformTime);
         addPeriod(animatedTitle);
     }
     // TITLE FINAL POSITION (SCROLL DOWN)
     // set position to where title should be at finnal position
     if(titleLastFrameProgress <= animateDistance && titleCurrentProgress > animateDistance){
         setTitleProgressingPosition(animatedTitle,animateDistance);
-        setImageTransform(nextTitle,0,1,imgTransformTime);
+        // setImageTransform(nextTitle,0,1,imgTransformTime);
     }
     // TITLE FINAL POSITION (SCROLL UP)
     // leave the final position
     if(titleLastFrameProgress >= animateDistance && titleCurrentProgress < animateDistance){
         setTitleProgressingPosition(animatedTitle,animateDistance);
-        setImageTransform(nextTitle,imgTransformDistance,imgFadeOpacity,imgTransformTime);
+        // setImageTransform(nextTitle,imgTransformDistance,imgFadeOpacity,imgTransformTime);
     }
 
 
