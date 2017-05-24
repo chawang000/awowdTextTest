@@ -30,6 +30,7 @@ var eventListenerAdded = true;
 // * calculate here to ensure content are fully loaded and styled
 // =========================================================================
 $(document).ready(function(){
+    animateTitleArray = document.getElementsByClassName("animatedTitle");
     window.addEventListener("optimizedResize", resizeFunctions);
     window.addEventListener( 'load', webFunctions, false );
     if(isMobile){
@@ -53,11 +54,11 @@ var resizeFunctions = function(){
 
 // RUN ONE TIME
     if(isMobile && eventListenerAdded) {
-        console.log('removeEventListener scroll');
+        // console.log('removeEventListener scroll');
         window.removeEventListener( 'scroll', webScrollFunctions ,true );
         eventListenerAdded = false;
     }else if(!isMobile && !eventListenerAdded){
-        console.log('addEventListener scroll');
+        // console.log('addEventListener scroll');
         window.addEventListener( 'scroll', webScrollFunctions ,true );
         eventListenerAdded = true;
     }
@@ -77,7 +78,6 @@ var webFunctions = function(){
         // WINDOW LOAD SETTER
     // if(isMobile) return;
     // console.log("webFunctions");
-    animateTitleArray = document.getElementsByClassName("animatedTitle");
     textToSpan();
     contentDivSetter();
     chameleonColor();

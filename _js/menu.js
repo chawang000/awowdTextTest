@@ -68,60 +68,107 @@ var webHeader = $('#webHeader'),
 
 var webMenuHeight;
 
+// var menuMobileAdded = true;
+
 $(document).ready(function(){
 	window.addEventListener("optimizedResize", menuResizeSettings);
-
+	if(isMobile){
+		showMobileMenu();
+		mobileMenuFunctions();
+		webRemoveListener();
+		mobileAddListener();
+		// menuMobileAdded = true;
+	}else{
+		showWebMenu();
+		webMenuFunctions();
+		mobileRemoveListener();
+		webAddListener();
+		// menuMobileAdded = false;
+	}
 });
 
 var menuResizeSettings = function(){
 	if(isMobile){
 		showMobileMenu();
-	}else{
+		mobileMenuFunctions();
+		webRemoveListener();
+		mobileAddListener();
+		// menuMobileAdded = true;
+		// console.log('menuMobileAdded');
+	}else if(!isMobile){
 		showWebMenu();
+		webMenuFunctions();
+		mobileRemoveListener();
+		webAddListener();
+		// menuMobileAdded = false;
 	}
+}
+
+var webAddListener = function(){
+	window.addEventListener("scroll", webMenuScrollFunctions,false);
+	window.addEventListener("touchmove", webMenuScrollFunctions,false);
+}
+
+var webRemoveListener = function(){
+	window.removeEventListener("scroll", webMenuScrollFunctions,false);
+	window.removeEventListener("touchmove", webMenuScrollFunctions,false);
+}
+
+var mobileAddListener = function(){
+	$('body')[0].addEventListener("scroll", mobileMenuScrollFunctions,false);
+	$('body')[0].addEventListener("touchmove", mobileMenuScrollFunctions,false);
+}
+
+var mobileRemoveListener = function(){
+	$('body')[0].removeEventListener("scroll", mobileMenuScrollFunctions,false);
+	$('body')[0].removeEventListener("touchmove", mobileMenuScrollFunctions,false);
 }
 
 $(window).resize(function(){
 	});
 
 
-$(window).on("load", function (e){
-	if(isMobile){
-		showMobileMenu();
-	}else{
-		showWebMenu();
-	}
+var mobileMenuFunctions = function(){
 	// MOBILE
-	// mobileHeaderSetter();
-	// mobileMenuToggle(mobileBurgerToggle);
-	// mobileBookToggle(menuBookTitle,mobileUpperClose,mobileBurgerToggle);
-	// mobileBookToggle(mobileEmailOuter,mobileUpperClose,mobileBurgerToggle);
+	mobileHeaderSetter();
+	mobileMenuToggle(mobileBurgerToggle);
+	mobileBookToggle(menuBookTitle,mobileUpperClose,mobileBurgerToggle);
+	mobileBookToggle(mobileEmailOuter,mobileUpperClose,mobileBurgerToggle);
+	
+	menuBookInputBox.find('input')[0].addEventListener("focus", bookFocusStyle);
+	menuBookInputBox.find('input')[0].addEventListener("blur", bookBlurStyle);
+}
 
+var mobileMenuScrollFunctions = function(){
+	headerStatesController(mobileHeader, (mUpperHeight + mLowerHeight));
+}
 
+var webMenuFunctions = function(){
+	webHeaderSetter();
+	webMenuToggle(webBurgerToggle);
+}
+
+var webMenuScrollFunctions = function(){
+	headerStatesController(webHeader, webHeader.height());
+}
+
+var webResizeFunctions = function(){
+	webHeaderSetter();
+}
+
+$(window).on("load", function (e){
 	
 
-
-	// $('body').on('touchmove scroll', function(e){
-	// 	headerStatesController(mobileHeader, (mUpperHeight + mLowerHeight));
-	// });
-	// menuBookInputBox.find('input')[0].addEventListener("focus", bookFocusStyle);
-	// menuBookInputBox.find('input')[0].addEventListener("blur", bookBlurStyle);
 
 
 	// WEB
-	webHeaderSetter();
+	
 	// drawCanvas();
-	$(document).on('touchmove scroll', function(e){
-		headerStatesController(webHeader, webHeader.height());
-	});
 
 	
-	webMenuToggle(webBurgerToggle);
+	
 	// webBookToggle(webBookButton);
 
-	$(window).resize(function(){
-		webHeaderSetter();
-	});
 });
 
 
@@ -334,11 +381,11 @@ function headerStatesController(header, headerHeight){
 		var currentWindowScroll = $(document).scrollTop();
 	}
 	
-
+	// console.log(currentWindowScroll);
 	// var currentWindowScroll = -$('#main')[0].getBoundingClientRect().top;
 	// console.log(documentHeight);
 	if(!webMenuActived && currentWindowScroll > 300 && currentWindowScroll < (documentHeight-windowH-100)){
-		if(currentWindowScroll > lastScrollValue && headerCanShow){
+		if(currentWindowScroll > (lastScrollValue+scrollUpSensitive/3) && headerCanShow){
 			header.css({
 				'transform':'translate(0px,' + -headerHeight + 'px)',
 				'transition':'transform 0.2s'
