@@ -21,80 +21,48 @@ var textBaseFontSize, // set in contentDivSetter()
     titleLastFrameProgress; // set in scrollDetection()
 // SPEED VARIABLES
 
-$(document).ready(function(){
-    (function() {
-        var throttle = function(type, name, obj) {
-            obj = obj || window;
-            var running = false;
-            var func = function() {
-                if (running) { return; }
-                running = true;
-                 requestAnimationFrame(function() {
-                    obj.dispatchEvent(new CustomEvent(name));
-                    running = false;
-                });
-            };
-            obj.addEventListener(type, func);
-        };
+var eventListenerAdded = true;
 
-        /* init - you can init any event */
-        throttle("resize", "optimizedResize");
-    })();
-
-    
-    window.addEventListener( 'load', webFunctions, false );
-    window.addEventListener( 'scroll', webScrollFunctions ,true );
-    window.addEventListener("optimizedResize", webResizeFunctions);
-});
 
 // =========================================================================
 // WINDOW LOAD SETTER
 // -------------------------------------------------------------------------
 // * calculate here to ensure content are fully loaded and styled
 // =========================================================================
-$(window).on("load", function (){
-    // console.log('window width is'+ $(window).width());
-    // if(isMobile) {
-    //     // some code..
-    //     $('html').css({
-    //         'height': '100vh',
-    //         'overflow': 'hidden'
-    //     });
-
-    //     $('body').css({
-    //         'height': '100%',
-    //         'overflow-y': 'scroll',
-    //         '-webkit-overflow-scrolling': 'touch'
-    //     });
-
-    //     $('#mobileHeader').css('display','inherit');
-    //     $('#webHeader').css('display','none');
-    //     // console.log('mobile device')
-    // }else{
-    //      $('html').css({
-    //         'height': 'auto',
-    //         'overflow': 'visible'
-    //     });
-
-    //     $('body').css({
-    //         'height': 'auto',
-    //         'overflow-y': 'visible',
-    //         '-webkit-overflow-scrolling': 'auto'
-    //     });
-    //     $('#mobileHeader').css('display','none');
-    //     $('#webHeader').css('display','inherit');
-    //     // console.log('web');
-    //     // webFunctions();
-    // }
+$(document).ready(function(){
+    window.addEventListener("optimizedResize", resizeFunctions);
+    window.addEventListener( 'load', webFunctions, false );
+    if(isMobile){
+        eventListenerAdded = false;
+    }else{
+        window.addEventListener( 'scroll', webScrollFunctions ,true );
+        eventListenerAdded = true;
+    }
     
-});//Window load END
-// $(window).bind("load",webFunctions);
+    
+});
 
 
-var webResizeFunctions = function(){
+$(window).on("load", function (){});//Window load END
+
+
+var resizeFunctions = function(){
     // RESIZE AND RECALCULATE THE ATTRIBUTES
     // * scroll event will be fired if the window is scrolled after resize
-    if(isMobile) return;
+    // * bool eventListenerAdded to make sure on run one time
+
+// RUN ONE TIME
+    if(isMobile && eventListenerAdded) {
+        console.log('removeEventListener scroll');
+        window.removeEventListener( 'scroll', webScrollFunctions ,true );
+        eventListenerAdded = false;
+    }else if(!isMobile && !eventListenerAdded){
+        console.log('addEventListener scroll');
+        window.addEventListener( 'scroll', webScrollFunctions ,true );
+        eventListenerAdded = true;
+    }
+
+// RUN EVERY CALL
     contentDivSetter();
     for (var i = 0; i < animateTitleArray.length; i++){
         var animatedTitle = animateTitleArray[i];
@@ -105,24 +73,9 @@ var webResizeFunctions = function(){
     }
 }
 
-//  RESIZE
-// $(window).resize(function(){
-//     // RESIZE AND RECALCULATE THE ATTRIBUTES
-//     // * scroll event will be fired if the window is scrolled after resize
-//     // if(isMobile) return;
-//     contentDivSetter();
-//     for (var i = 0; i < animateTitleArray.length; i++){
-//         var animatedTitle = animateTitleArray[i];
-//         var lastTitle = animateTitleArray[i-1];
-//         var nextTitle = animateTitleArray[i+1];
-//         setToInitialPosition(animatedTitle);//set to initial position before caculation
-//         animationInitialize(animatedTitle,lastTitle,nextTitle);
-//     }
-// });
-
 var webFunctions = function(){
         // WINDOW LOAD SETTER
-    if(isMobile) return;
+    // if(isMobile) return;
     // console.log("webFunctions");
     animateTitleArray = document.getElementsByClassName("animatedTitle");
     textToSpan();
@@ -139,9 +92,15 @@ var webFunctions = function(){
 }
 
 var webScrollFunctions = function(){
+    // console.log($(document).scrollTop())
     // console.log('scroll');
-    if(isMobile) return;
+    // if(isMobile) return;
     var currentScroll = $(document).scrollTop();
+    if(isMobile){
+        currentScroll = -$('#main')[0].getBoundingClientRect().top;
+        // console.log('getBoundingClientRect');
+    }
+    
     for (var i = 0; i < animateTitleArray.length; i++){
         var animatedTitle = animateTitleArray[i];
         var lastTitle = animateTitleArray[i-1];
@@ -626,12 +585,12 @@ function chameleonColor(){
 
     var chameleonBlue = {
         imgObj:$('#chameleonBlue'),
-        backgroundColor:'#73B6DD'
+        backgroundColor:'#58ADDD'
     }
 
     var chameleonOrange = {
         imgObj:$('#chameleonOrange'),
-        backgroundColor:'#ff6026'
+        backgroundColor:'#A6D83A'
     }
 
 
@@ -650,9 +609,11 @@ function chameleonColor(){
             
         }
         
-    }, 6000);
+    }, 7000);
 
     function changeColor(count,lastImgCount){
+        var bgColorTime = 1000;
+        var chameleonColorDelay = 700;
         // console.log(chameleons[count].imgObj);
         // console.log(chameleons[lastImgCount].imgObj);
         var currentChameleon = chameleons[count].imgObj;
@@ -660,7 +621,7 @@ function chameleonColor(){
 
         $('#homeSection_4').animate({
             backgroundColor:chameleons[count].backgroundColor
-        },500,function(){
+        },bgColorTime,function(){
             window.setTimeout(function(){
                 currentChameleon.animate({
                     opacity: 1
@@ -668,7 +629,7 @@ function chameleonColor(){
                 lastChameleon.animate({
                     opacity: 0
                 },3000);
-            } ,500);
+            } ,chameleonColorDelay);
             
         });
     }
