@@ -151,6 +151,12 @@ var webScrollFunctions = function(){
 // * it will reset positions of all elements based on current scroll
 // =========================================================================
 function animationInitialize(animatedTitle,lastTitle,nextTitle){
+    // console.log('animation Initialde');
+    var sectionDiv = $(animatedTitle).parents('div.content');
+    if(sectionDiv[0] == null){
+        sectionDiv = $(animatedTitle).parents('#videoBG');
+    }
+
     var targetPosElement =  document.getElementById(animatedTitle.getAttribute('data-target-element'));
     var animatedTitleParent = $(animatedTitle).parent('p');
     var firstTextSpan = animatedTitleParent.find('.textSpan:first-child');
@@ -160,16 +166,17 @@ function animationInitialize(animatedTitle,lastTitle,nextTitle){
     var animatedTitleTop = lastWordPos.top + $(lastWord).height();//because inline-block top is based on last element top
     animatedTitle.animatedTitleTop = animatedTitleTop;
 
+    // function mobileContentDivSetter(animatedTitle){
+
+    // }
+
 
     // CALCULATE PARA SCROLL DISTANCE
     // * paraScrollDistance is need for how much distance the paragraph can be scrolled
     // * calculated by comparing parent div bottom boarder and textArea bottom boarder
     var paraScrollDistance = caculateParaScrollDistance();
     function caculateParaScrollDistance(){
-        var sectionDiv = $(animatedTitle).parents('div.content');
-        if(sectionDiv[0] == null){
-            sectionDiv = $(animatedTitle).parents('#videoBG');
-        }
+        
 
         var sectionBottom = sectionDiv.offset().top + sectionDiv.height();
         var textArea = $(animatedTitle).parents('.textArea');
@@ -199,10 +206,20 @@ function animationInitialize(animatedTitle,lastTitle,nextTitle){
             removePeriod(animatedTitle);
             targetPosElement.innerHTML = $(animatedTitle).find('.textSpan')[0].innerHTML;
             $(targetPosElement).css({
-                'opacity':0,
+                // 'opacity':0,
                 'font-family':textTargetFontFamily,
                 'font-size':textTargetFontSize + 'px'
             });
+
+            if(isMobile){
+                $(targetPosElement).css({
+                    'opacity':0.7,
+                });
+            }else{
+                $(targetPosElement).css({
+                    'opacity':0,
+                });
+            }
         }
 
         var titleParentPos = animatedTitleParent.offset();
@@ -239,7 +256,13 @@ function animationInitialize(animatedTitle,lastTitle,nextTitle){
     // -------------------------------------------------------------------------
     // * to ensure elements are positioned correctly after refresh or resize
     // * setter is based on three states. ABOVE, DURING AND COMPLETE
-    setCurrentState();
+
+    if(isMobile){
+        addPeriod(animatedTitle);   
+    }else{
+        setCurrentState();
+    }
+    
     function setCurrentState(){
         var currentScroll = $(document).scrollTop();
         var animatedTitleCurrentTop = animatedTitleTop - currentScroll;
@@ -506,6 +529,7 @@ function textParaScroll(animatedTitle,paraScrollProgress,lastTitle){
 
 
 
+
 // =========================================================================
 // SET ATTRIBUTES THAT ARE NOT VERIED FROM DEFERENT PARAGRAPHS
 // -------------------------------------------------------------------------
@@ -517,22 +541,36 @@ function contentDivSetter(){
     var windowW = $(window).width();
     var windowH = $(window).height();
     var contentDivMinHeight = 600;
-    // if(contentDivMinHeight < 700){
-    //     contentDivMinHeight = 700;
+
+
+    // if(windowH < contentDivMinHeight){//videoBG should be at least as tall as the content div to ensure the text animation
+    //     $('#videoBG').css({
+    //         'height': contentDivMinHeight + 'px'
+    //     });
+    // }else{
+    //     $('#videoBG').css({
+    //         'height': windowH + 'px'
+    //     });
     // }
-    if(windowH < contentDivMinHeight){//videoBG should be at least as tall as the content div to ensure the text animation
-        $('#videoBG').css({
-            'height': contentDivMinHeight + 'px'
-        });
-    }else{
-        $('#videoBG').css({
-            'height': windowH + 'px'
-        });
-    }
 
     $('.content').css({
-        'min-height': contentDivMinHeight + 'px'
+        // 'height': windowH + 'px',
+        'min-height': windowH + 'px'
     });
+
+
+    var biggestHeight = 0;
+    // Loop through elements children to find & set the biggest height
+    $("#homeSection_4 .contentImage *").each(function(){
+     // If this elements height is bigger than the biggestHeight
+     if ($(this).height() > biggestHeight ) {
+       // Set the biggestHeight to this Height
+       biggestHeight = $(this).height();
+     }
+    });
+    // Set the container height
+    $("#homeSection_4 .contentImage").height(biggestHeight);
+    console.log(biggestHeight);
 
     
     $('.textArea').css({

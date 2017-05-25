@@ -43,11 +43,17 @@ html,body{
 
 .content{
   width: 100%;
-  height: 100vh;
-  /*min-height: 800px;*/
+  /*height: 100vh;*/
+  /*min-height: 100vh;*/
 /*  padding-top: 100px;
   padding-bottom: 100px;*/
     /*background-color: #eee;*/
+}
+
+.clearfix::after{
+  content: "";
+  clear: both;
+  display: table;
 }
 
 .blankSpace{
@@ -74,8 +80,8 @@ html,body{
 .wrapper{
     position: relative;
     width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .threeFifthContainer{
@@ -99,23 +105,6 @@ html,body{
   display: inline-block;
 }
 
-/*.imageShow{
-  transform: translateX(0px,0px);
-  opacity: 1;
-  transition: all 1s;
-}
-
-.imageDown{
-  transform: translateX(0px,200px);
-  opacity: 0;
-  transition: all 1s;
-}
-
-.imageUp{
-  transform: translateX(0px,200px);
-  opacity: 0;
-  transition: all 1s;
-}*/
 
 .floatLeft{
   float: left;
@@ -180,7 +169,8 @@ html,body{
     font-family: 'Avenir Next LT Pro Regular';
     font-size: 25px;
     letter-spacing: 2px;
-    color: rgba(255,255,255,0.7);
+    
+    opacity: 0.7
 }
 
 .videoText{
@@ -188,7 +178,7 @@ html,body{
     width: 450px;
     /*height: 400px;*/
     text-align: left;
-    margin-top: 200px;
+    margin-top: 500px;
 }
 
 .animatedTitle{
@@ -252,31 +242,70 @@ html,body{
   transform: translate(-50%, -50%);
 }
 
-/*#title_p1{
-  color:#fff;
-}*/
-
 #videoBG .threeFifthContainer{
-  position: absolute;
-  top: 0;
+  /*position: absolute;*/
+  /*position: relative;*/
+  /*bottom: 0;*/
   left: 0;
   margin-top: 200px;
 }
 
-#textPara_1{
+
+.mobileText{
+  display: none;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  width: 84%;
+  opacity: 0.7;
+  padding-bottom: 50px;
+  letter-spacing: 1px;
+}
+
+.mobileText .mobileTitle{
+  letter-spacing: 2px;
+  font-size: 30px;
+  font-family:'Avenir Next LT Pro Bold';
+}
+
+.mobileText .mobileSmallText{
+  font-size: 20px;
+  font-family:'Avenir Next LT Pro Regular';
+}
+
+
+
+#textPara_1,#mobilePara_1{
     /*float: left;*/
+    color: rgb(255,255,255);
+    opacity: 0.7;
 }
 
-#textPara_2{
+#mobilePara_1{
+    top: 65vh;
+}
+
+#mobilePara_2{
+    padding-top: 50px;
+}
+
+#mobilePara_3{
+    padding-top: 80px;
+}
+
+#textPara_2,#mobilePara_2{
     /*float: right;*/
+    color: rgb(0,0,0);
 }
 
-#textPara_3{
+#textPara_3,#mobilePara_3{
     /*float: right;*/
+    color: rgb(255,255,255);
 }
 
-#textPara_4{
+#textPara_4,#mobilePara_4{
   /*float: left;*/
+  color: rgb(255,255,255);
 }
 
 #homeSection_3 {
@@ -296,6 +325,62 @@ html,body{
 #homeSection_2 svg polygon{
 
 }
+
+
+
+/*IsMobile in JS*/
+@media (max-width: 768px) {
+  .mobileText{
+    display: block
+  }
+
+  .threeFifthContainer{
+    display: none;
+  }
+
+  .twoFifthContainer{
+    width: 70%;
+    margin-left: 15%;
+  }
+
+  .floatLeft{
+    float: none;
+    margin-left: 0px;
+  }
+
+  .floatRight{
+    float: none;
+    margin-right: 0px;
+  }
+
+  .floatLeftNoMargin, .floatRightNoMargin{
+    float: none;
+  }
+
+  .titleTargetPosition{
+    font-size: 30px;
+  }
+
+  .smallText p{
+    font-size: 20px;
+  }
+
+  .wrapper{
+    width: 100%;
+  }
+  .textArea{
+    margin-left: 8%;
+    margin-right: auto;
+    width: 84%;
+    max-width: 100%;
+  }
+}
+
+
+
+
+
+
 
 
 

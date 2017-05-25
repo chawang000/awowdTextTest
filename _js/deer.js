@@ -1,7 +1,9 @@
 $(document).ready(function(){
-	// console.log('ready');
-	// <animateMotion path="M 0 0 H -5 Z" dur="3s" repeatCount="indefinite"></animateMotion>
-	var allCircles = $('svg #dots circle');
+	if(!isMobile){
+		deerFunctions();	
+	}
+	function deerFunctions(){
+		var allCircles = $('svg #dots circle');
 	var allPolygons = $('svg #lines polygon');
 	var allShapes = $('svg #shapes polygon');
 	var shapesInfo = [];
@@ -109,8 +111,11 @@ $(document).ready(function(){
 				}
 			}
 		}
-
 	});
+	}
+	// console.log('ready');
+	// <animateMotion path="M 0 0 H -5 Z" dur="3s" repeatCount="indefinite"></animateMotion>
+	
 });
 
 

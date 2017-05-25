@@ -377,6 +377,7 @@ function headerStatesController(header, headerHeight){
 	// var compare = body.getBoundingClientRect();
 	if(isMobile){
 		var currentWindowScroll = -$('#main')[0].getBoundingClientRect().top;
+		scrollUpSensitive = scrollUpSensitive/2;
 	}else{
 		var currentWindowScroll = $(document).scrollTop();
 	}
@@ -384,7 +385,7 @@ function headerStatesController(header, headerHeight){
 	// console.log(currentWindowScroll);
 	// var currentWindowScroll = -$('#main')[0].getBoundingClientRect().top;
 	// console.log(documentHeight);
-	if(!webMenuActived && currentWindowScroll > 300 && currentWindowScroll < (documentHeight-windowH-100)){
+	if(!mobileBookActived && !mobileMenuActived && !webMenuActived && currentWindowScroll > 300 && currentWindowScroll < (documentHeight-windowH-100)){
 		if(currentWindowScroll > (lastScrollValue+scrollUpSensitive/3) && headerCanShow){
 			header.css({
 				'transform':'translate(0px,' + -headerHeight + 'px)',
@@ -400,7 +401,7 @@ function headerStatesController(header, headerHeight){
 			// console.log('after: '+$(window).height());
 			headerCanShow = true;
 		}
-	}else if(!webMenuActived && currentWindowScroll <= 300 && !headerCanShow){
+	}else if(!mobileBookActived && !mobileMenuActived && !webMenuActived && currentWindowScroll <= 300 && !headerCanShow){
 		header.css({
 			'transform':'translate(0px,' + 0 + 'px)',
 			'transition':'transform 0.3s'
