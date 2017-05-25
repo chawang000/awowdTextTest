@@ -1,7 +1,5 @@
 $(document).ready(function(){
-	if(!isMobile){
-		deerFunctions();	
-	}
+	deerFunctions();	
 	function deerFunctions(){
 		var allCircles = $('svg #dots circle');
 	var allPolygons = $('svg #lines polygon');
@@ -22,6 +20,7 @@ $(document).ready(function(){
 	}
 
 	$('#homeSection_2').on('mouseenter',function(){
+		if(isMobile) return;
 		for(var i = 0; i < allShapes.length; i++){
 			var randomTime = 1 + Math.random()*2;
 			$(allShapes[i]).css({
@@ -70,6 +69,7 @@ $(document).ready(function(){
 
 
 	$('#homeSection_2').on('mouseleave',function(){
+		if(isMobile) return;
 		var randomTime = 1 + Math.random()*1;
 		for(var i = 0; i < allShapes.length; i++){
 			$(allShapes[i]).css({

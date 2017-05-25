@@ -31,8 +31,9 @@ var eventListenerAdded = true;
 // =========================================================================
 $(document).ready(function(){
     animateTitleArray = document.getElementsByClassName("animatedTitle");
+    webFunctions();
     window.addEventListener("optimizedResize", resizeFunctions);
-    window.addEventListener( 'load', webFunctions, false );
+    // window.addEventListener( 'load', webFunctions, false );
     if(isMobile){
         eventListenerAdded = false;
     }else{
@@ -570,7 +571,7 @@ function contentDivSetter(){
     });
     // Set the container height
     $("#homeSection_4 .contentImage").height(biggestHeight);
-    console.log(biggestHeight);
+    // console.log(biggestHeight);
 
     
     $('.textArea').css({
