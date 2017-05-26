@@ -73,9 +73,9 @@ html,body{
 }
 
 .noScroll{
-	height: 100%;
-	overflow: hidden;
-	-webkit-overflow-scrolling: auto;
+	height: 100% !important;
+	overflow: hidden !important;
+	-webkit-overflow-scrolling: auto !important;
 }
 
 

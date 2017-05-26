@@ -45,7 +45,9 @@ $(document).ready(function(){
 });
 
 
-$(window).on("load", function (){});//Window load END
+$(window).on("load", function (){
+    setChameleonHeight();
+});//Window load END
 
 
 var resizeFunctions = function(){
@@ -66,6 +68,7 @@ var resizeFunctions = function(){
 
 // RUN EVERY CALL
     contentDivSetter();
+    setChameleonHeight();
     for (var i = 0; i < animateTitleArray.length; i++){
         var animatedTitle = animateTitleArray[i];
         var lastTitle = animateTitleArray[i-1];
@@ -79,9 +82,11 @@ var webFunctions = function(){
         // WINDOW LOAD SETTER
     // if(isMobile) return;
     // console.log("webFunctions");
+
     textToSpan();
     contentDivSetter();
     chameleonColor();
+    deerFunctions();
    
     // SETTER AND CALCULATION OF EACH SECTION
     for (var i = 0; i < animateTitleArray.length; i++){
@@ -558,20 +563,7 @@ function contentDivSetter(){
         // 'height': windowH + 'px',
         'min-height': windowH + 'px'
     });
-
-
-    var biggestHeight = 0;
-    // Loop through elements children to find & set the biggest height
-    $("#homeSection_4 .contentImage *").each(function(){
-     // If this elements height is bigger than the biggestHeight
-     if ($(this).height() > biggestHeight ) {
-       // Set the biggestHeight to this Height
-       biggestHeight = $(this).height();
-     }
-    });
-    // Set the container height
-    $("#homeSection_4 .contentImage").height(biggestHeight);
-    // console.log(biggestHeight);
+    
 
     
     $('.textArea').css({
@@ -616,20 +608,36 @@ function textToSpan(){
 // -------------------------------------------------------------------------
 // * 
 // =========================================================================
+
+ function setChameleonHeight(){
+    var biggestHeight = 0;
+    // Loop through elements children to find & set the biggest height
+    $("#homeSection_4 .contentImage *").each(function(){
+     // If this elements height is bigger than the biggestHeight
+     if ($(this).height() > biggestHeight ) {
+       // Set the biggestHeight to this Height
+       biggestHeight = $(this).height();
+     }
+    });
+    // Set the container height
+    $("#homeSection_4 .contentImage").height(biggestHeight);
+    // console.log(biggestHeight);
+}
+
 function chameleonColor(){
     var chameleonPink = {
         imgObj:$('#chameleonPink'),
-        backgroundColor:'#cc3341'
+        bgColor:'rgb(204,51,65)'
     }
 
     var chameleonBlue = {
         imgObj:$('#chameleonBlue'),
-        backgroundColor:'#58ADDD'
+        bgColor:'rgb(88,173,221)'
     }
 
     var chameleonOrange = {
         imgObj:$('#chameleonOrange'),
-        backgroundColor:'#A6D83A'
+        bgColor:'rgb(166,216,58)'
     }
 
 
@@ -652,25 +660,41 @@ function chameleonColor(){
 
     function changeColor(count,lastImgCount){
         var bgColorTime = 1000;
-        var chameleonColorDelay = 700;
+        var chameleonColorDelay = 1500;
         // console.log(chameleons[count].imgObj);
         // console.log(chameleons[lastImgCount].imgObj);
         var currentChameleon = chameleons[count].imgObj;
         var lastChameleon = chameleons[lastImgCount].imgObj;
 
-        $('#homeSection_4').animate({
-            backgroundColor:chameleons[count].backgroundColor
-        },bgColorTime,function(){
-            window.setTimeout(function(){
-                currentChameleon.animate({
-                    opacity: 1
-                },3000);
-                lastChameleon.animate({
-                    opacity: 0
-                },3000);
-            } ,chameleonColorDelay);
-            
+        $('#homeSection_4').css({
+            backgroundColor:chameleons[count].bgColor
         });
+
+
+        window.setTimeout(function(){
+            $(currentChameleon).delay(chameleonColorDelay).css({
+                opacity: 1,
+                transition: '4s'
+            });
+            $(lastChameleon).delay(chameleonColorDelay).css({
+                opacity: 0,
+                transition: '4s'
+            });
+        } ,chameleonColorDelay);
+        
+
+        // $('#homeSection_4').animate({
+        //     backgroundColor:chameleons[count].backgroundColor
+        // },bgColorTime,function(){
+        //     window.setTimeout(function(){
+        //         currentChameleon.animate({
+        //             opacity: 1
+        //         },3000);
+        //         lastChameleon.animate({
+        //             opacity: 0
+        //         },3000);
+        //     } ,chameleonColorDelay);
+        // });
     }
 }
 

@@ -385,7 +385,8 @@ function headerStatesController(header, headerHeight){
 	// console.log(currentWindowScroll);
 	// var currentWindowScroll = -$('#main')[0].getBoundingClientRect().top;
 	// console.log(documentHeight);
-	if(!mobileBookActived && !mobileMenuActived && !webMenuActived && currentWindowScroll > 300 && currentWindowScroll < (documentHeight-windowH-100)){
+	var menuCanBeScrolled = !mobileBookActived && !mobileMenuActived && !webMenuActived && !mobileTransitioning && !webTransitioning;
+	if(menuCanBeScrolled && currentWindowScroll > 300 && currentWindowScroll < (documentHeight-windowH-100)){
 		if(currentWindowScroll > (lastScrollValue+scrollUpSensitive/3) && headerCanShow){
 			header.css({
 				'transform':'translate(0px,' + -headerHeight + 'px)',
@@ -401,7 +402,7 @@ function headerStatesController(header, headerHeight){
 			// console.log('after: '+$(window).height());
 			headerCanShow = true;
 		}
-	}else if(!mobileBookActived && !mobileMenuActived && !webMenuActived && currentWindowScroll <= 300 && !headerCanShow){
+	}else if(menuCanBeScrolled && currentWindowScroll <= 300 && !headerCanShow){
 		header.css({
 			'transform':'translate(0px,' + 0 + 'px)',
 			'transition':'transform 0.3s'
