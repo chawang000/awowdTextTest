@@ -129,7 +129,6 @@ html, body {
   vertical-align: bottom;
   font-size: 12px;
   letter-spacing: 4px;
-  color: #000;
   font-family: 'Avenir Next LT Pro Regular'; }
 
 /*menu icon*/
@@ -464,7 +463,7 @@ input[type=email]:focus, textarea:focus {
   top: 0px;
   left: 0px;
   width: 100%;
-  height: 80px;
+  height: 60px;
   /*background: #fff;*/
   overflow: hidden;
   z-index: 11; }
@@ -474,7 +473,7 @@ input[type=email]:focus, textarea:focus {
   top: 0;
   left: 0;
   width: 100%;
-  height: 160px;
+  height: 120px;
   transition: transform .5s;
   /*transition-timing-function: linear;*/
   transition-timing-function: ease-out;
@@ -486,7 +485,7 @@ input[type=email]:focus, textarea:focus {
   left: 0;
   width: 100%;
   /*opacity: 0;*/
-  height: 80px;
+  height: 60px;
   transition: opacity 1s;
   transition-timing-function: ease-in;
   /*background: blue;*/ }
@@ -588,7 +587,8 @@ input[type=email]:focus, textarea:focus {
 
 #webHeader .menuLogo {
   position: absolute;
-  margin-top: 27px; }
+  margin-top: 17px;
+  color: #000; }
 
 #webHeaderLevel1 {
   /*text-align: left;*/
@@ -608,7 +608,7 @@ input[type=email]:focus, textarea:focus {
   text-align: center;
   margin-left: 50%;
   left: -50px;
-  top: 31px;
+  top: 21px;
   font-size: 12px;
   letter-spacing: 2px;
   color: #000;
@@ -618,7 +618,7 @@ input[type=email]:focus, textarea:focus {
 #webHeader .menu_icon {
   position: absolute;
   right: 0;
-  top: 24px; }
+  top: 14px; }
 
 #webBookLifeDisplay {
   position: relative;
@@ -932,7 +932,7 @@ html, body {
 
 #videoBG {
   /*background-color: black;*/
-  margin-top: 80px;
+  /*margin-top: $webHeaderHeight;*/
   width: 100%;
   height: 100vh;
   /*overflow: hidden;*/
@@ -990,7 +990,7 @@ html, body {
 #textPara_1, #mobilePara_1 {
   /*float: left;*/
   color: white;
-  opacity: 0.7; }
+  opacity: 1; }
 
 #mobilePara_1 {
   top: 65vh; }

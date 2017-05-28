@@ -386,7 +386,7 @@ function headerStatesController(header, headerHeight){
 	// var currentWindowScroll = -$('#main')[0].getBoundingClientRect().top;
 	// console.log(documentHeight);
 	var menuCanBeScrolled = !mobileBookActived && !mobileMenuActived && !webMenuActived && !mobileTransitioning && !webTransitioning;
-	if(menuCanBeScrolled && currentWindowScroll > 300 && currentWindowScroll < (documentHeight-windowH-100)){
+	if(menuCanBeScrolled && currentWindowScroll > 300){
 		if(currentWindowScroll > (lastScrollValue+scrollUpSensitive/3) && headerCanShow){
 			header.css({
 				'transform':'translate(0px,' + -headerHeight + 'px)',
@@ -405,7 +405,7 @@ function headerStatesController(header, headerHeight){
 	}else if(menuCanBeScrolled && currentWindowScroll <= 300 && !headerCanShow){
 		header.css({
 			'transform':'translate(0px,' + 0 + 'px)',
-			'transition':'transform 0.3s'
+			'transition':'transform 0.4s'
 		});
 		headerCanShow = true;
 	}
@@ -709,15 +709,15 @@ function mobileMenuClose(mobileBurgerToggle){
 // * prevent scrolling background when the menu or book page is opening
 // =========================================================================
 function lockScroll(){
-	// bodyScrollValue = $(window).scrollTop();
-	// $(window).scrollTop(0);
+	bodyScrollValue = $(window).scrollTop();
+	$(window).scrollTop(0);
 	$('html,body').addClass('noScroll');
 	// console.log(bodyScrollValue);
 }
 
 function releaseScroll(){
 	$('html,body').removeClass('noScroll');
-	// $(window).scrollTop(bodyScrollValue);
+	$(window).scrollTop(bodyScrollValue);
 }
 
 
