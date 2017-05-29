@@ -52,9 +52,9 @@ html, body {
   /*transition: box-shadow .2s ease-in-out;*/ }
 
 .noScroll {
-  height: 100% !important;
-  overflow: hidden !important;
-  -webkit-overflow-scrolling: auto !important; }
+  height: 100%;
+  overflow: hidden;
+  -webkit-overflow-scrolling: auto; }
 
 /*================================================================================*/
 /*=====================================MOBILE=====================================*/
@@ -129,6 +129,7 @@ html, body {
   vertical-align: bottom;
   font-size: 12px;
   letter-spacing: 4px;
+  color: #000;
   font-family: 'Avenir Next LT Pro Regular'; }
 
 /*menu icon*/
@@ -463,7 +464,7 @@ input[type=email]:focus, textarea:focus {
   top: 0px;
   left: 0px;
   width: 100%;
-  height: 60px;
+  height: 80px;
   /*background: #fff;*/
   overflow: hidden;
   z-index: 11; }
@@ -473,7 +474,7 @@ input[type=email]:focus, textarea:focus {
   top: 0;
   left: 0;
   width: 100%;
-  height: 120px;
+  height: 160px;
   transition: transform .5s;
   /*transition-timing-function: linear;*/
   transition-timing-function: ease-out;
@@ -485,7 +486,7 @@ input[type=email]:focus, textarea:focus {
   left: 0;
   width: 100%;
   /*opacity: 0;*/
-  height: 60px;
+  height: 80px;
   transition: opacity 1s;
   transition-timing-function: ease-in;
   /*background: blue;*/ }
@@ -587,8 +588,7 @@ input[type=email]:focus, textarea:focus {
 
 #webHeader .menuLogo {
   position: absolute;
-  margin-top: 17px;
-  color: #000; }
+  margin-top: 27px; }
 
 #webHeaderLevel1 {
   /*text-align: left;*/
@@ -608,7 +608,7 @@ input[type=email]:focus, textarea:focus {
   text-align: center;
   margin-left: 50%;
   left: -50px;
-  top: 21px;
+  top: 31px;
   font-size: 12px;
   letter-spacing: 2px;
   color: #000;
@@ -618,7 +618,7 @@ input[type=email]:focus, textarea:focus {
 #webHeader .menu_icon {
   position: absolute;
   right: 0;
-  top: 14px; }
+  top: 24px; }
 
 #webBookLifeDisplay {
   position: relative;
@@ -788,15 +788,10 @@ html, body {
 .content {
   width: 100%;
   /*height: 100vh;*/
-  /*min-height: 100vh;*/
-  /*  padding-top: 100px;
-    padding-bottom: 100px;*/
+  /*min-height: 800px;*/
+  padding-top: 100px;
+  padding-bottom: 100px;
   /*background-color: #eee;*/ }
-
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: table; }
 
 .blankSpace {
   width: 100%;
@@ -817,8 +812,8 @@ html, body {
 .wrapper {
   position: relative;
   width: 90%;
-  margin-left: auto;
-  margin-right: auto; }
+  margin-left: 5%;
+  margin-right: 5%; }
 
 .threeFifthContainer {
   text-align: center;
@@ -838,6 +833,23 @@ html, body {
   position: relative;
   display: inline-block; }
 
+/*.imageShow{
+  transform: translateX(0px,0px);
+  opacity: 1;
+  transition: all 1s;
+}
+
+.imageDown{
+  transform: translateX(0px,200px);
+  opacity: 0;
+  transition: all 1s;
+}
+
+.imageUp{
+  transform: translateX(0px,200px);
+  opacity: 0;
+  transition: all 1s;
+}*/
 .floatLeft {
   float: left;
   margin-left: 10%; }
@@ -891,14 +903,14 @@ html, body {
   font-family: 'Avenir Next LT Pro Regular';
   font-size: 25px;
   letter-spacing: 2px;
-  opacity: 0.7; }
+  color: rgba(0, 0, 0, 0.7); }
 
 .videoText {
   display: block;
   width: 450px;
   /*height: 400px;*/
   text-align: left;
-  margin-top: 500px; }
+  margin-top: 200px; }
 
 .animatedTitle {
   /*display: inline-block;*/
@@ -932,89 +944,38 @@ html, body {
 
 #videoBG {
   /*background-color: black;*/
-  margin-top: 60px;
   width: 100%;
-  /*height: 100vh;*/
+  height: 100vh;
   /*overflow: hidden;*/
   position: relative;
   z-index: -100; }
 
-#videoDisplay {
+#videoBG video {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden; }
+  width: 100%; }
 
-#videoBG video {
-  position: absolute;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  top: 30%;
-  left: 50%;
-  z-index: -1;
-  transform: translate(-50%, -30%); }
-
+/*#title_p1{
+  color:#fff;
+}*/
 #videoBG .threeFifthContainer {
-  /*position: absolute;*/
-  /*position: relative;*/
-  /*bottom: 0;*/
+  position: absolute;
+  top: 0;
   left: 0;
   margin-top: 200px; }
 
-.mobileText {
-  display: none;
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-  width: 84%;
-  opacity: 0.7;
-  padding-bottom: 50px;
-  letter-spacing: 1px; }
+#textPara_1 {
+  /*float: left;*/ }
 
-#deerPNG {
-  display: none; }
+#textPara_2 {
+  /*float: right;*/ }
 
-.mobileText .mobileTitle {
-  letter-spacing: 2px;
-  font-size: 30px;
-  font-family: 'Avenir Next LT Pro Bold'; }
+#textPara_3 {
+  /*float: right;*/ }
 
-.mobileText .mobileSmallText {
-  font-size: 20px;
-  font-family: 'Avenir Next LT Pro Regular'; }
-
-#textPara_1, #mobilePara_1 {
-  /*float: left;*/
-  color: white;
-  opacity: 1; }
-
-#mobilePara_1 {
-  top: 50vh; }
-
-#mobilePara_2 {
-  margin-top: 50px; }
-
-#mobilePara_3 {
-  margin-top: 30px; }
-
-#mobilePara_4 {
-  margin-top: -50px; }
-
-#textPara_2, #mobilePara_2 {
-  /*float: right;*/
-  color: black; }
-
-#textPara_3, #mobilePara_3 {
-  /*float: right;*/
-  color: white; }
-
-#textPara_4, #mobilePara_4 {
-  /*float: left;*/
-  color: white; }
+#textPara_4 {
+  /*float: left;*/ }
 
 #homeSection_3 {
   background: #000; }
@@ -1022,96 +983,9 @@ html, body {
 #homeSection_4 .contentImage img {
   position: absolute;
   left: 0;
-  top: 0;
-  opacity: 0; }
-
-#homeSection_4 .contentImage img:last-child {
-  opacity: 1; }
+  top: 0; }
 
 #homeSection_4 {
-  position: relative;
-  /*  background-color: #cc3341;
-    -webkit-transition: background-color 1s;
-         -moz-transition: background-color 1s;
-          -ms-transition: background-color 1s;
-           -o-transition: background-color 1s;
-              transition: background-color 1s;*/ }
-
-#chameleonBackground {
-  position: absolute;
-  z-index: -99;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  /*background-color: red;*/ }
-
-.chameBg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transition: opacity 1s;
-  font-size: 0;
-  margin: 0;
-  padding: 0; }
-
-#chameBgGreen {
-  background-color: #a6d83a; }
-
-#chameBgRed {
   background-color: #cc3341; }
-
-#chameBgBlue {
-  background-color: #58addd; }
-
-.chameBg {
-  opacity: 0; }
-
-.chameBg:last-child {
-  opacity: 1; }
-
-/*IsMobile in JS*/
-@media (max-width: 768px) {
-  .mobileText, #deerPNG {
-    display: block; }
-
-  .threeFifthContainer, #deerSVG {
-    display: none; }
-
-  .twoFifthContainer {
-    width: 70%;
-    margin-left: 15%; }
-
-  #homeSection_4 .twoFifthContainer {
-    width: 90%;
-    margin-left: 5%; }
-
-  .floatLeft {
-    float: none;
-    margin-left: 0px; }
-
-  .floatRight {
-    float: none;
-    margin-right: 0px; }
-
-  .floatLeftNoMargin, .floatRightNoMargin {
-    float: none; }
-
-  .titleTargetPosition {
-    font-size: 30px; }
-
-  .smallText p {
-    font-size: 20px; }
-
-  .wrapper {
-    width: 100%; }
-
-  .textArea {
-    margin-left: 8%;
-    margin-right: auto;
-    width: 84%;
-    max-width: 100%; } }
 
 /*# sourceMappingURL=style.css.map */

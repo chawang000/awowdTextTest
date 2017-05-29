@@ -5,7 +5,8 @@ $mibileThinMarginLeft: 3%;
 $mibileInnerMarginLeft: 5%;
 $mibileFullMarginLeft: $mibileThinMarginLeft + $mibileInnerMarginLeft;
 
-$webHeaderHeight: 80px;
+$webHeaderHeight: 60px;
+$webHeaderTextColor: #000;
 
 html{
 	height: 100vh;
@@ -73,9 +74,9 @@ html,body{
 }
 
 .noScroll{
-	height: 100%;
-	overflow: hidden;
-	-webkit-overflow-scrolling: auto;
+	height: 100% !important;
+	overflow: hidden !important;
+	-webkit-overflow-scrolling: auto !important;
 }
 
 
@@ -152,7 +153,7 @@ html,body{
 	margin-top: 6px;
 	height: 17px;
 	width: 1px;
-	background-color: #000;
+	background-color: $webHeaderTextColor;
 }
 
 .awowdName{
@@ -163,7 +164,6 @@ html,body{
 	vertical-align: bottom;
 	font-size: 12px;
 	letter-spacing: 4px;
-	color: #000;
 	font-family: 'Avenir Next LT Pro Regular';
 }
 
@@ -196,7 +196,7 @@ html,body{
 	left: 0;
 	right: 0;
 	margin: auto;
-	background-color: #000;
+	background-color: $webHeaderTextColor;
 	transition: all 0.2s;
 }
 
@@ -700,7 +700,8 @@ input[type=email]:focus, textarea:focus {
 
 #webHeader .menuLogo{
 	position: absolute;
-	margin-top: 27px;
+	margin-top: 17px;
+	color: $webHeaderTextColor;
 }
 
 
@@ -726,10 +727,10 @@ input[type=email]:focus, textarea:focus {
 	text-align: center;
 	margin-left: 50%;
 	left: -50px;
-	top: 31px;
+	top: 21px;
 	font-size: 12px;
 	letter-spacing: 2px;
-	color: #000;
+	color: $webHeaderTextColor;
 	font-family: 'Avenir Next LT Pro Regular';
 	/*background: blue;*/
 }
@@ -737,7 +738,7 @@ input[type=email]:focus, textarea:focus {
 #webHeader .menu_icon{
 	position: absolute;
 	right: 0;
-	top: 24px;
+	top: 14px;
 }
 
 

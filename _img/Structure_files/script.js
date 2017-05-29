@@ -1,5 +1,7 @@
-// TODO add mobile style after if(isMobile) return;
-
+// TODO TITLE ANIMATION SHOULD NOT FIRE IF THE WINDOW HEIGHT IS SMALLER THAN CERTAIN PX
+// TODO SOMETIMES NON OF THE PROPERTY IS SAVED, PROPERTY READ AS UNDEFINED
+// TODO MORE STYLES FOR TITLE AND PARA ANIMATION
+// TODO FIX ANIMATION DISTANCE TOO SHORT BUG,IF WINDOW IS NOT WIDE ENOUGH,THERE IS NO SCROLL ANIMATION
 
 var detectionDistance = 150,//TODO this value is depending on (#videoBG .threeFifthContainer)' margin-top for the first para
     stopDistance = 250,
@@ -21,54 +23,81 @@ var textBaseFontSize, // set in contentDivSetter()
     titleLastFrameProgress; // set in scrollDetection()
 // SPEED VARIABLES
 
-var eventListenerAdded = true;
+$(document).ready(function(){
+    (function() {
+        var throttle = function(type, name, obj) {
+            obj = obj || window;
+            var running = false;
+            var func = function() {
+                if (running) { return; }
+                running = true;
+                 requestAnimationFrame(function() {
+                    obj.dispatchEvent(new CustomEvent(name));
+                    running = false;
+                });
+            };
+            obj.addEventListener(type, func);
+        };
 
+        /* init - you can init any event */
+        throttle("resize", "optimizedResize");
+    })();
+
+    
+    window.addEventListener( 'load', webFunctions, false );
+    window.addEventListener( 'scroll', webScrollFunctions ,true );
+    window.addEventListener("optimizedResize", webResizeFunctions);
+});
 
 // =========================================================================
 // WINDOW LOAD SETTER
 // -------------------------------------------------------------------------
 // * calculate here to ensure content are fully loaded and styled
 // =========================================================================
-$(document).ready(function(){
-    animateTitleArray = document.getElementsByClassName("animatedTitle");
-    webFunctions();
-    window.addEventListener("optimizedResize", resizeFunctions);
-    // window.addEventListener( 'load', webFunctions, false );
-    if(isMobile){
-        eventListenerAdded = false;
-    }else{
-        window.addEventListener( 'scroll', webScrollFunctions ,true );
-        eventListenerAdded = true;
-    }
-    
-    
-});
-
-
 $(window).on("load", function (){
-    setChameleonHeight();
+    // console.log('window width is'+ $(window).width());
+    // if(isMobile) {
+    //     // some code..
+    //     $('html').css({
+    //         'height': '100vh',
+    //         'overflow': 'hidden'
+    //     });
+
+    //     $('body').css({
+    //         'height': '100%',
+    //         'overflow-y': 'scroll',
+    //         '-webkit-overflow-scrolling': 'touch'
+    //     });
+
+    //     $('#mobileHeader').css('display','inherit');
+    //     $('#webHeader').css('display','none');
+    //     // console.log('mobile device')
+    // }else{
+    //      $('html').css({
+    //         'height': 'auto',
+    //         'overflow': 'visible'
+    //     });
+
+    //     $('body').css({
+    //         'height': 'auto',
+    //         'overflow-y': 'visible',
+    //         '-webkit-overflow-scrolling': 'auto'
+    //     });
+    //     $('#mobileHeader').css('display','none');
+    //     $('#webHeader').css('display','inherit');
+    //     // console.log('web');
+    //     // webFunctions();
+    // }
+    
 });//Window load END
+// $(window).bind("load",webFunctions);
 
 
-var resizeFunctions = function(){
+var webResizeFunctions = function(){
     // RESIZE AND RECALCULATE THE ATTRIBUTES
     // * scroll event will be fired if the window is scrolled after resize
-    // * bool eventListenerAdded to make sure on run one time
-
-// RUN ONE TIME
-    if(isMobile && eventListenerAdded) {
-        // console.log('removeEventListener scroll');
-        window.removeEventListener( 'scroll', webScrollFunctions ,true );
-        eventListenerAdded = false;
-    }else if(!isMobile && !eventListenerAdded){
-        // console.log('addEventListener scroll');
-        window.addEventListener( 'scroll', webScrollFunctions ,true );
-        eventListenerAdded = true;
-    }
-
-// RUN EVERY CALL
+    // if(isMobile) return;
     contentDivSetter();
-    setChameleonHeight();
     for (var i = 0; i < animateTitleArray.length; i++){
         var animatedTitle = animateTitleArray[i];
         var lastTitle = animateTitleArray[i-1];
@@ -78,15 +107,28 @@ var resizeFunctions = function(){
     }
 }
 
+//  RESIZE
+// $(window).resize(function(){
+//     // RESIZE AND RECALCULATE THE ATTRIBUTES
+//     // * scroll event will be fired if the window is scrolled after resize
+//     // if(isMobile) return;
+//     contentDivSetter();
+//     for (var i = 0; i < animateTitleArray.length; i++){
+//         var animatedTitle = animateTitleArray[i];
+//         var lastTitle = animateTitleArray[i-1];
+//         var nextTitle = animateTitleArray[i+1];
+//         setToInitialPosition(animatedTitle);//set to initial position before caculation
+//         animationInitialize(animatedTitle,lastTitle,nextTitle);
+//     }
+// });
+
 var webFunctions = function(){
         // WINDOW LOAD SETTER
-    // if(isMobile) return;
-    // console.log("webFunctions");
-
+    console.log("webFunctions");
+    animateTitleArray = document.getElementsByClassName("animatedTitle");
     textToSpan();
     contentDivSetter();
     chameleonColor();
-    deerFunctions();
    
     // SETTER AND CALCULATION OF EACH SECTION
     for (var i = 0; i < animateTitleArray.length; i++){
@@ -98,16 +140,8 @@ var webFunctions = function(){
 }
 
 var webScrollFunctions = function(){
-    // console.log($(document).scrollTop())
     // console.log('scroll');
-    // if(isMobile) return;
-    var currentScroll = currentWindowScroll;
-    // console.log(currentWindowScroll)
-    // if(isMobile){
-    //     currentScroll = -$('#main')[0].getBoundingClientRect().top;
-    //     // console.log('getBoundingClientRect');
-    // }
-    
+    var currentScroll = $(document).scrollTop();
     for (var i = 0; i < animateTitleArray.length; i++){
         var animatedTitle = animateTitleArray[i];
         var lastTitle = animateTitleArray[i-1];
@@ -158,12 +192,6 @@ var webScrollFunctions = function(){
 // * it will reset positions of all elements based on current scroll
 // =========================================================================
 function animationInitialize(animatedTitle,lastTitle,nextTitle){
-    // console.log('animation Initialde');
-    var sectionDiv = $(animatedTitle).parents('div.content');
-    if(sectionDiv[0] == null){
-        sectionDiv = $(animatedTitle).parents('#videoBG');
-    }
-
     var targetPosElement =  document.getElementById(animatedTitle.getAttribute('data-target-element'));
     var animatedTitleParent = $(animatedTitle).parent('p');
     var firstTextSpan = animatedTitleParent.find('.textSpan:first-child');
@@ -173,17 +201,16 @@ function animationInitialize(animatedTitle,lastTitle,nextTitle){
     var animatedTitleTop = lastWordPos.top + $(lastWord).height();//because inline-block top is based on last element top
     animatedTitle.animatedTitleTop = animatedTitleTop;
 
-    // function mobileContentDivSetter(animatedTitle){
-
-    // }
-
 
     // CALCULATE PARA SCROLL DISTANCE
     // * paraScrollDistance is need for how much distance the paragraph can be scrolled
     // * calculated by comparing parent div bottom boarder and textArea bottom boarder
     var paraScrollDistance = caculateParaScrollDistance();
     function caculateParaScrollDistance(){
-        
+        var sectionDiv = $(animatedTitle).parents('div.content');
+        if(sectionDiv[0] == null){
+            sectionDiv = $(animatedTitle).parents('#videoBG');
+        }
 
         var sectionBottom = sectionDiv.offset().top + sectionDiv.height();
         var textArea = $(animatedTitle).parents('.textArea');
@@ -213,20 +240,10 @@ function animationInitialize(animatedTitle,lastTitle,nextTitle){
             removePeriod(animatedTitle);
             targetPosElement.innerHTML = $(animatedTitle).find('.textSpan')[0].innerHTML;
             $(targetPosElement).css({
-                // 'opacity':0,
+                'opacity':0,
                 'font-family':textTargetFontFamily,
                 'font-size':textTargetFontSize + 'px'
             });
-
-            if(isMobile){
-                $(targetPosElement).css({
-                    'opacity':0.7,
-                });
-            }else{
-                $(targetPosElement).css({
-                    'opacity':0,
-                });
-            }
         }
 
         var titleParentPos = animatedTitleParent.offset();
@@ -263,13 +280,7 @@ function animationInitialize(animatedTitle,lastTitle,nextTitle){
     // -------------------------------------------------------------------------
     // * to ensure elements are positioned correctly after refresh or resize
     // * setter is based on three states. ABOVE, DURING AND COMPLETE
-
-    if(isMobile){
-        addPeriod(animatedTitle);   
-    }else{
-        setCurrentState();
-    }
-    
+    setCurrentState();
     function setCurrentState(){
         var currentScroll = $(document).scrollTop();
         var animatedTitleCurrentTop = animatedTitleTop - currentScroll;
@@ -302,11 +313,11 @@ function animationInitialize(animatedTitle,lastTitle,nextTitle){
         var imgIsAbove = lastTitleTargetTop <= stopDistance && !imgShow;
         var imgIsBelow = animatedTitleCurrentTop >= (detectionDistance - paraScrollDistance) && !imgShow;
 
-        // if(imgIsAbove){
-        //     setImageTransform(animatedTitle,-imgTransformDistance,imgFadeOpacity,0);
-        // }else if(imgIsBelow){
-        //     setImageTransform(animatedTitle,imgTransformDistance,imgFadeOpacity,0);
-        // }
+        if(imgIsAbove){
+            setImageTransform(animatedTitle,-imgTransformDistance,imgFadeOpacity,0);
+        }else if(imgIsBelow){
+            setImageTransform(animatedTitle,imgTransformDistance,imgFadeOpacity,0);
+        }
     }
 
     animatedTitle.consoleElement = paraScrollDistance;// used for debug
@@ -337,7 +348,7 @@ function setImageTransform(theTitle,imgTransform,imgOpacity,transformTime){
 function scrollDetection(animatedTitle,lastTitle,nextTitle,currentScroll){
 
     var paraScrollDistance = animatedTitle.paraScrollDistance;
-    // console.log(currentScroll);
+    console.log(currentScroll);
     var animatedTitleCurrentTop = animatedTitle.animatedTitleTop - currentScroll;
     var targetPosElement = animatedTitle.targetPosElement;
     var targetTop = animatedTitle.targetFixedTop - currentScroll;
@@ -370,7 +381,7 @@ function scrollDetection(animatedTitle,lastTitle,nextTitle,currentScroll){
     if(paraLastFrameProgress <= scrollFullDistance && paraScrollProgress > scrollFullDistance){
         textParaScroll(animatedTitle,scrollFullDistance,lastTitle);
         if(typeof nextTitle != 'undefined'){
-            // setImageTransform(animatedTitle,-imgTransformDistance,imgFadeOpacity,imgTransformTime);
+            setImageTransform(animatedTitle,-imgTransformDistance,imgFadeOpacity,imgTransformTime);
             removePeriod(animatedTitle);
         }
     }
@@ -378,20 +389,20 @@ function scrollDetection(animatedTitle,lastTitle,nextTitle,currentScroll){
     // set position to where title was not scrolled
     if(titleLastFrameProgress >= 0 && titleCurrentProgress < 0){
         setToInitialPosition(animatedTitle);
-        // setImageTransform(animatedTitle,0,1,imgTransformTime);
+        setImageTransform(animatedTitle,0,1,imgTransformTime);
         addPeriod(animatedTitle);
     }
     // TITLE FINAL POSITION (SCROLL DOWN)
     // set position to where title should be at finnal position
     if(titleLastFrameProgress <= animateDistance && titleCurrentProgress > animateDistance){
         setTitleProgressingPosition(animatedTitle,animateDistance);
-        // setImageTransform(nextTitle,0,1,imgTransformTime);
+        setImageTransform(nextTitle,0,1,imgTransformTime);
     }
     // TITLE FINAL POSITION (SCROLL UP)
     // leave the final position
     if(titleLastFrameProgress >= animateDistance && titleCurrentProgress < animateDistance){
         setTitleProgressingPosition(animatedTitle,animateDistance);
-        // setImageTransform(nextTitle,imgTransformDistance,imgFadeOpacity,imgTransformTime);
+        setImageTransform(nextTitle,imgTransformDistance,imgFadeOpacity,imgTransformTime);
     }
 
 
@@ -536,7 +547,6 @@ function textParaScroll(animatedTitle,paraScrollProgress,lastTitle){
 
 
 
-
 // =========================================================================
 // SET ATTRIBUTES THAT ARE NOT VERIED FROM DEFERENT PARAGRAPHS
 // -------------------------------------------------------------------------
@@ -547,39 +557,20 @@ function textParaScroll(animatedTitle,paraScrollProgress,lastTitle){
 function contentDivSetter(){
     var windowW = $(window).width();
     var windowH = $(window).height();
-    var contentDivMinHeight = 600;
-    var mobileMenuHeight = $('#mobileHeader').height();
-    var webMenuHeight = $('#webHeader').height();
-
-
-    // if(windowH < contentDivMinHeight){//videoBG should be at least as tall as the content div to ensure the text animation
-    //     $('#videoBG').css({
-    //         'height': contentDivMinHeight + 'px'
-    //     });
-    // }else{
-    //     $('#videoBG').css({
-    //         'height': windowH + 'px'
-    //     });
-    // }
-
-    if(isMobile){
+    var contentDivHeight = 8/16 * windowW;
+    if(windowH < contentDivHeight + 200){//videoBG should be at least as tall as the content div to ensure the text animation
         $('#videoBG').css({
-            'margin-top':mobileMenuHeight+'px',
-            'height':windowH-mobileMenuHeight+'px'
+            'height': contentDivHeight + 200 + 'px'
         });
     }else{
         $('#videoBG').css({
-            'margin-top':webMenuHeight+'px',
-            'height':windowH-webMenuHeight+'px'
+            'height': windowH + 'px'
         });
     }
-    
 
     $('.content').css({
-        // 'height': windowH + 'px',
-        'min-height': windowH + 'px'
+        'height': contentDivHeight + 'px'
     });
-    
 
     
     $('.textArea').css({
@@ -624,41 +615,25 @@ function textToSpan(){
 // -------------------------------------------------------------------------
 // * 
 // =========================================================================
-
- function setChameleonHeight(){
-    var biggestHeight = 0;
-    // Loop through elements children to find & set the biggest height
-    $("#homeSection_4 .contentImage *").each(function(){
-     // If this elements height is bigger than the biggestHeight
-     if ($(this).height() > biggestHeight ) {
-       // Set the biggestHeight to this Height
-       biggestHeight = $(this).height();
-     }
-    });
-    // Set the container height
-    $("#homeSection_4 .contentImage").height(biggestHeight);
-    // console.log(biggestHeight);
-}
-
 function chameleonColor(){
-    var chameleonRed = {
-        imgObj:$('#chameleonRed'),
-        bgColor:'chameBgRed'
+    var chameleonPink = {
+        imgObj:$('#chameleonPink'),
+        backgroundColor:'#cc3341'
     }
 
     var chameleonBlue = {
         imgObj:$('#chameleonBlue'),
-        bgColor:'chameBgBlue'
+        backgroundColor:'#73B6DD'
     }
 
-    var chameleonGreen = {
-        imgObj:$('#chameleonGreen'),
-        bgColor:'chameBgGreen'
+    var chameleonOrange = {
+        imgObj:$('#chameleonOrange'),
+        backgroundColor:'#ff6026'
     }
 
 
 
-    var chameleons = [chameleonRed,chameleonBlue,chameleonGreen];
+    var chameleons = [chameleonPink,chameleonBlue,chameleonOrange];
 
     var count = 0;//start from the second image
 
@@ -672,55 +647,27 @@ function chameleonColor(){
             
         }
         
-    }, 5000);
+    }, 6000);
 
     function changeColor(count,lastImgCount){
-        var bgColorTime = 1000;
-        var chameleonColorDelay = 1500;
         // console.log(chameleons[count].imgObj);
         // console.log(chameleons[lastImgCount].imgObj);
         var currentChameleon = chameleons[count].imgObj;
         var lastChameleon = chameleons[lastImgCount].imgObj;
-        var currentBackground = document.getElementById(chameleons[count].bgColor)
-        var lastBackground = document.getElementById(chameleons[lastImgCount].bgColor);
 
-        // console.log(lastBackground);
-        // $('#homeSection_4').css({
-        //     backgroundColor:chameleons[count].bgColor
-        // });
-        $(lastBackground).css({
-            opacity:0
+        $('#homeSection_4').animate({
+            backgroundColor:chameleons[count].backgroundColor
+        },500,function(){
+            window.setTimeout(function(){
+                currentChameleon.animate({
+                    opacity: 1
+                },3000);
+                lastChameleon.animate({
+                    opacity: 0
+                },3000);
+            } ,500);
+            
         });
-        $(currentBackground).css({
-            opacity:1
-        })
-
-
-
-        window.setTimeout(function(){
-            $(currentChameleon).delay(chameleonColorDelay).css({
-                opacity: 1,
-                transition: '3s'
-            });
-            $(lastChameleon).delay(chameleonColorDelay).css({
-                opacity: 0,
-                transition: '3s'
-            });
-        } ,chameleonColorDelay);
-        
-
-        // $('#homeSection_4').animate({
-        //     backgroundColor:chameleons[count].backgroundColor
-        // },bgColorTime,function(){
-        //     window.setTimeout(function(){
-        //         currentChameleon.animate({
-        //             opacity: 1
-        //         },3000);
-        //         lastChameleon.animate({
-        //             opacity: 0
-        //         },3000);
-        //     } ,chameleonColorDelay);
-        // });
     }
 }
 
