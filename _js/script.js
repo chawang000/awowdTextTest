@@ -101,11 +101,12 @@ var webScrollFunctions = function(){
     // console.log($(document).scrollTop())
     // console.log('scroll');
     // if(isMobile) return;
-    var currentScroll = $(document).scrollTop();
-    if(isMobile){
-        currentScroll = -$('#main')[0].getBoundingClientRect().top;
-        // console.log('getBoundingClientRect');
-    }
+    var currentScroll = currentWindowScroll;
+    // console.log(currentWindowScroll)
+    // if(isMobile){
+    //     currentScroll = -$('#main')[0].getBoundingClientRect().top;
+    //     // console.log('getBoundingClientRect');
+    // }
     
     for (var i = 0; i < animateTitleArray.length; i++){
         var animatedTitle = animateTitleArray[i];
@@ -547,6 +548,8 @@ function contentDivSetter(){
     var windowW = $(window).width();
     var windowH = $(window).height();
     var contentDivMinHeight = 600;
+    var mobileMenuHeight = $('#mobileHeader').height();
+    var webMenuHeight = $('#webHeader').height();
 
 
     // if(windowH < contentDivMinHeight){//videoBG should be at least as tall as the content div to ensure the text animation
@@ -558,6 +561,19 @@ function contentDivSetter(){
     //         'height': windowH + 'px'
     //     });
     // }
+
+    if(isMobile){
+        $('#videoBG').css({
+            'margin-top':mobileMenuHeight+'px',
+            'height':windowH-mobileMenuHeight+'px'
+        });
+    }else{
+        $('#videoBG').css({
+            'margin-top':webMenuHeight+'px',
+            'height':windowH-webMenuHeight+'px'
+        });
+    }
+    
 
     $('.content').css({
         // 'height': windowH + 'px',
@@ -625,24 +641,24 @@ function textToSpan(){
 }
 
 function chameleonColor(){
-    var chameleonPink = {
-        imgObj:$('#chameleonPink'),
-        bgColor:'rgb(204,51,65)'
+    var chameleonRed = {
+        imgObj:$('#chameleonRed'),
+        bgColor:'chameBgRed'
     }
 
     var chameleonBlue = {
         imgObj:$('#chameleonBlue'),
-        bgColor:'rgb(88,173,221)'
+        bgColor:'chameBgBlue'
     }
 
-    var chameleonOrange = {
-        imgObj:$('#chameleonOrange'),
-        bgColor:'rgb(166,216,58)'
+    var chameleonGreen = {
+        imgObj:$('#chameleonGreen'),
+        bgColor:'chameBgGreen'
     }
 
 
 
-    var chameleons = [chameleonPink,chameleonBlue,chameleonOrange];
+    var chameleons = [chameleonRed,chameleonBlue,chameleonGreen];
 
     var count = 0;//start from the second image
 
@@ -656,7 +672,7 @@ function chameleonColor(){
             
         }
         
-    }, 7000);
+    }, 5000);
 
     function changeColor(count,lastImgCount){
         var bgColorTime = 1000;
@@ -665,20 +681,30 @@ function chameleonColor(){
         // console.log(chameleons[lastImgCount].imgObj);
         var currentChameleon = chameleons[count].imgObj;
         var lastChameleon = chameleons[lastImgCount].imgObj;
+        var currentBackground = document.getElementById(chameleons[count].bgColor)
+        var lastBackground = document.getElementById(chameleons[lastImgCount].bgColor);
 
-        $('#homeSection_4').css({
-            backgroundColor:chameleons[count].bgColor
+        // console.log(lastBackground);
+        // $('#homeSection_4').css({
+        //     backgroundColor:chameleons[count].bgColor
+        // });
+        $(lastBackground).css({
+            opacity:0
         });
+        $(currentBackground).css({
+            opacity:1
+        })
+
 
 
         window.setTimeout(function(){
             $(currentChameleon).delay(chameleonColorDelay).css({
                 opacity: 1,
-                transition: '4s'
+                transition: '3s'
             });
             $(lastChameleon).delay(chameleonColorDelay).css({
                 opacity: 0,
-                transition: '4s'
+                transition: '3s'
             });
         } ,chameleonColorDelay);
         

@@ -932,9 +932,9 @@ html, body {
 
 #videoBG {
   /*background-color: black;*/
-  /*margin-top: $webHeaderHeight;*/
+  margin-top: 60px;
   width: 100%;
-  height: 100vh;
+  /*height: 100vh;*/
   /*overflow: hidden;*/
   position: relative;
   z-index: -100; }
@@ -993,13 +993,16 @@ html, body {
   opacity: 1; }
 
 #mobilePara_1 {
-  top: 65vh; }
+  top: 50vh; }
 
 #mobilePara_2 {
-  padding-top: 50px; }
+  margin-top: 50px; }
 
 #mobilePara_3 {
-  padding-top: 80px; }
+  margin-top: 30px; }
+
+#mobilePara_4 {
+  margin-top: -50px; }
 
 #textPara_2, #mobilePara_2 {
   /*float: right;*/
@@ -1026,12 +1029,48 @@ html, body {
   opacity: 1; }
 
 #homeSection_4 {
-  background-color: #cc3341;
-  -webkit-transition: background-color 1s;
-  -moz-transition: background-color 1s;
-  -ms-transition: background-color 1s;
-  -o-transition: background-color 1s;
-  transition: background-color 1s; }
+  position: relative;
+  /*  background-color: #cc3341;
+    -webkit-transition: background-color 1s;
+         -moz-transition: background-color 1s;
+          -ms-transition: background-color 1s;
+           -o-transition: background-color 1s;
+              transition: background-color 1s;*/ }
+
+#chameleonBackground {
+  position: absolute;
+  z-index: -99;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /*background-color: red;*/ }
+
+.chameBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 1s;
+  font-size: 0;
+  margin: 0;
+  padding: 0; }
+
+#chameBgGreen {
+  background-color: #a6d83a; }
+
+#chameBgRed {
+  background-color: #cc3341; }
+
+#chameBgBlue {
+  background-color: #58addd; }
+
+.chameBg {
+  opacity: 0; }
+
+.chameBg:last-child {
+  opacity: 1; }
 
 /*IsMobile in JS*/
 @media (max-width: 768px) {
@@ -1044,6 +1083,10 @@ html, body {
   .twoFifthContainer {
     width: 70%;
     margin-left: 15%; }
+
+  #homeSection_4 .twoFifthContainer {
+    width: 90%;
+    margin-left: 5%; }
 
   .floatLeft {
     float: none;

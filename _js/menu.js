@@ -1,6 +1,8 @@
 //TODO headerStatesController() fix the bug that mobile menu can be scrolled after opening.
 
 
+var currentWindowScroll = 0;
+
 
 // MOBILE VAR
 var headerCanShow = true,
@@ -376,10 +378,10 @@ function headerStatesController(header, headerHeight){
 	// var body = $('#main')[0];
 	// var compare = body.getBoundingClientRect();
 	if(isMobile){
-		var currentWindowScroll = -$('#main')[0].getBoundingClientRect().top;
+		currentWindowScroll = -$('#main')[0].getBoundingClientRect().top;
 		scrollUpSensitive = scrollUpSensitive/2;
 	}else{
-		var currentWindowScroll = $(document).scrollTop();
+		currentWindowScroll = $(document).scrollTop();
 	}
 	
 	// console.log(currentWindowScroll);
