@@ -464,20 +464,20 @@ input[type=email]:focus, textarea:focus {
   left: 0px;
   width: 100%;
   height: 60px;
-  /*background: #fff;*/
+  background: #fff;
   overflow: hidden;
   z-index: 11; }
 
 #webHeaderWrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
   height: 120px;
   transition: transform .5s;
   /*transition-timing-function: linear;*/
   transition-timing-function: ease-out;
-  background: #fff; }
+  /*background: #fff;*/ }
 
 .webHeaderSublevel {
   position: relative;
@@ -635,6 +635,88 @@ input[type=email]:focus, textarea:focus {
   height: 1000px;
   background-color: blue; }
 
+#footerLeft {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  /*background: blue;*/
+  padding-top: 60px;
+  padding-bottom: 40px;
+  text-align: left; }
+
+a.socialMediaIcon {
+  display: inline-block;
+  width: 45px;
+  height: 45px;
+  padding: 5% 5% 5% 0;
+  /*background: purple;*/ }
+
+a.socialMediaIcon img {
+  transition: transform 0.3s; }
+
+a.socialMediaIcon img:hover {
+  transform: scale(1.2) rotate(0deg); }
+
+#copyRightText {
+  width: 100%;
+  height: 100px;
+  padding-top: 20px;
+  /*background: pink;*/
+  font-family: 'Avenir Next LT Pro Regular';
+  letter-spacing: 1px;
+  font-size: 12px;
+  color: #777; }
+
+#footerRight {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  color: #777; }
+
+#mobileTop {
+  display: none;
+  color: #777;
+  padding-top: 20px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto; }
+
+#footerRight {
+  /*height: 100px;
+  background: red;*/
+  text-align: left;
+  /*white-space: nowrap*/ }
+
+#footerRight h4 {
+  font-family: 'Avenir Next LT Pro Bold';
+  font-size: 21px;
+  letter-spacing: 2px; }
+
+#mobileTop h4 {
+  font-family: 'Avenir Next LT Pro Bold';
+  font-size: 18px;
+  letter-spacing: 2px; }
+
+#mobileTop h4 {
+  /*text-align: center;*/ }
+
+#footerRight p, #mobileTop p {
+  margin-top: 0px;
+  font-family: 'Avenir Next LT Pro Regular';
+  font-size: 16px;
+  letter-spacing: 1px; }
+
+#mobileTop p {
+  margin-top: 0px;
+  font-family: 'Avenir Next LT Pro Regular';
+  font-size: 14px;
+  letter-spacing: 1px; }
+
+.footerBold {
+  font-family: "Avenir Next LT Pro Bold"; }
+
+#footerEmail {
+  white-space: nowrap; }
+
 .techDisplay {
   overflow: hidden;
   /*background-color: blue;*/
@@ -780,9 +862,17 @@ html, body {
   padding: 0;
   margin: 0; }
 
+a {
+  color: #3989ed;
+  text-decoration: none; }
+
+a[href^=tel] {
+  text-decoration: inherit;
+  color: inherit; }
+
 .container {
   width: 100%;
-  overflow: hidden;
+  /*overflow: hidden;*/
   /*background-color: red;*/ }
 
 .content {
@@ -815,10 +905,12 @@ html, body {
   width: 100%; }
 
 .wrapper {
-  position: relative;
+  /*position: relative;*/
   width: 90%;
+  /*max-width: 1200px;*/
   margin-left: auto;
-  margin-right: auto; }
+  margin-right: auto;
+  /*background: green;*/ }
 
 .threeFifthContainer {
   text-align: center;
@@ -1072,15 +1164,25 @@ html, body {
 .chameBg:last-child {
   opacity: 1; }
 
+@media (min-width: 1200px) {
+  .titleTargetPosition {
+    font-size: 70px; }
+
+  .smallText p {
+    font-size: 40px; }
+
+  .textArea {
+    max-width: 800px; } }
+/*Mobile*/
 /*IsMobile in JS*/
 @media (max-width: 768px) {
   .mobileText, #deerPNG {
     display: block; }
 
-  .threeFifthContainer, #deerSVG {
+  #main .threeFifthContainer, #main #deerSVG {
     display: none; }
 
-  .twoFifthContainer {
+  #main .twoFifthContainer {
     width: 70%;
     margin-left: 15%; }
 
@@ -1112,6 +1214,30 @@ html, body {
     margin-left: 8%;
     margin-right: auto;
     width: 84%;
-    max-width: 100%; } }
+    max-width: 100%; }
+
+  /*FOOTER*/
+  #bottom .threeFifthContainer, #bottom .twoFifthContainer {
+    width: 90%;
+    margin-left: 5%; }
+
+  #footerLeft {
+    width: 90%;
+    padding-top: 0px;
+    padding-bottom: 0;
+    /*text-align: center;*/ }
+
+  #copyRightText {
+    padding-top: 0; }
+
+  #bottom #mobileTop {
+    display: block; }
+
+  #bottom #footerRight {
+    display: none; }
+
+  a.socialMediaIcon {
+    width: 35px;
+    height: 35px; } }
 
 /*# sourceMappingURL=style.css.map */

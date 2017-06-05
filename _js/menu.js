@@ -389,6 +389,7 @@ function headerStatesController(header, headerHeight){
 	// console.log(documentHeight);
 	var menuCanBeScrolled = !mobileBookActived && !mobileMenuActived && !webMenuActived && !mobileTransitioning && !webTransitioning;
 	if(menuCanBeScrolled && currentWindowScroll > 300){
+		if(isMobile && currentWindowScroll > documentHeight -100) return;//prevent bouncing trigger the menu on mobile device
 		if(currentWindowScroll > (lastScrollValue+scrollUpSensitive/3) && headerCanShow){
 			header.css({
 				'transform':'translate(0px,' + -headerHeight + 'px)',

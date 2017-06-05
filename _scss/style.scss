@@ -1,4 +1,5 @@
 @import 'menu';
+@import 'footer';
 @import 'technology';
 /*BASKERVILLE*/
 @font-face {
@@ -34,9 +35,22 @@ html,body{
     margin:0;
 }
 
+
+
+a{
+  color: #3989ed;
+  text-decoration: none;
+}
+
+a[href^=tel] {
+text-decoration:inherit;
+color: inherit;
+}
+
+
 .container{
     width: 100%;
-    overflow: hidden;
+    /*overflow: hidden;*/
     /*background-color: red;*/
 }
 
@@ -78,10 +92,12 @@ html,body{
 }
 
 .wrapper{
-    position: relative;
+    /*position: relative;*/
     width: 90%;
+    /*max-width: 1200px;*/
     margin-left: auto;
     margin-right: auto;
+    /*background: green;*/
 }
 
 .threeFifthContainer{
@@ -395,18 +411,33 @@ html,body{
 }
 
 
+@media (min-width: 1200px) {
+  .titleTargetPosition{
+    font-size: 70px;
+  }
+  .smallText p{
+    font-size: 40px;
+  }
 
+  .textArea{
+    max-width: 800px;    
+  }
+
+}
+
+
+/*Mobile*/
 /*IsMobile in JS*/
 @media (max-width: 768px) {
   .mobileText,#deerPNG{
     display: block
   }
 
-  .threeFifthContainer,#deerSVG{
+  #main .threeFifthContainer,#main #deerSVG{
     display: none;
   }
 
-  .twoFifthContainer{
+  #main .twoFifthContainer{
     width: 70%;
     margin-left: 15%;
   }
@@ -446,6 +477,37 @@ html,body{
     margin-right: auto;
     width: 84%;
     max-width: 100%;
+  }
+
+
+  /*FOOTER*/
+  #bottom .threeFifthContainer,#bottom .twoFifthContainer{
+    width: 90%;
+    margin-left: 5%;
+  }
+
+  #footerLeft{
+    width: 90%;
+    padding-top: 0px;
+    padding-bottom: 0;
+    /*text-align: center;*/
+  }
+
+  #copyRightText{
+    padding-top: 0;
+  }
+
+  #bottom #mobileTop{
+    display: block;
+  }
+
+  #bottom #footerRight{
+    display: none;
+  }
+
+  a.socialMediaIcon{
+    width: 35px;
+    height: 35px;
   }
 }
 
