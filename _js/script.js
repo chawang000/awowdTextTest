@@ -487,8 +487,23 @@ function setToInitialPosition(animatedTitle){
         'transform':'translate( ' + 0 +'px, ' + 0 + 'px)'
     });
 
+     var currentR = parseInt(animatedTitle.currentR),
+        currentG = parseInt(animatedTitle.currentG),
+        currentB = parseInt(animatedTitle.currentB);
+        currentA = parseFloat(animatedTitle.currentA);
+    // if(typeof currentA == 'undefined'){
+    //     currentA = 1;
+    // }else{
+    //     currentA = parseFloat(currentA);
+    // }
+
+    var colorR = parseInt(currentR+(animatedTitle.colorSpeedR*titleCurrentProgress));
+    var colorG = parseInt(currentG+(animatedTitle.colorSpeedG*titleCurrentProgress));
+    var colorB = parseInt(currentB+(animatedTitle.colorSpeedB*titleCurrentProgress));
+    var colorA = currentA+(animatedTitle.colorSpeedA*titleCurrentProgress);
+
     $(animatedTitle).css({
-        // 'color':'rgb(' + textNextColor + ','+ textNextColor + ',' + textNextColor + ')',
+        'color':'rgb(' + colorR + ','+ colorG + ',' + colorB + ')',
         'transform':'translate( ' + 0 +'px, ' + 0 + 'px)',
         'font-family':textBaseFontFamily,
         'font-size': textBaseFontSize + titleCurrentProgress + 'px',
@@ -531,13 +546,25 @@ function setTitleProgressingPosition(animatedTitle,titleCurrentProgress){
 
     // TEXT COLOR
 
-    var nextR = parseInt(animatedTitle.colorSpeedR*titleCurrentProgress);
-    var nextG = parseInt(animatedTitle.colorSpeedG*titleCurrentProgress);
-    var nextB = parseInt(animatedTitle.colorSpeedB*titleCurrentProgress);
+    var currentR = parseInt(animatedTitle.currentR),
+        currentG = parseInt(animatedTitle.currentG),
+        currentB = parseInt(animatedTitle.currentB);
+        currentA = parseFloat(animatedTitle.currentA);
+    // if(typeof currentA == 'undefined'){
+    //     currentA = 1;
+    // }else{
+    //     currentA = parseFloat(currentA);
+    // }
+
+    var colorR = parseInt(currentR+(animatedTitle.colorSpeedR*titleCurrentProgress));
+    var colorG = parseInt(currentG+(animatedTitle.colorSpeedG*titleCurrentProgress));
+    var colorB = parseInt(currentB+(animatedTitle.colorSpeedB*titleCurrentProgress));
+    var colorA = currentA+(animatedTitle.colorSpeedA*titleCurrentProgress);
+
     // var nextA = animatedTitle.colorSpeedA;
 
     $(animatedTitle).css({
-                        'color':'rgb(' + nextR + ','+ nextG + ',' + nextB + ')',
+                        'color':'rgb(' + colorR + ','+ colorG + ',' + colorB + ')',
                         'transform':'translate( ' + textNextPositionX +'px, ' + textNextPositionY + 'px)',
                         'font-family':textTargetFontFamily,
                         'font-size': textBaseFontSize + titleCurrentProgress * textFontSizeSpeed + 'px',
