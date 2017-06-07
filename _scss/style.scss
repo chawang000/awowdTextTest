@@ -411,7 +411,7 @@ color: inherit;
 }
 
 
-@media (min-width: 1200px) {
+@media (min-width: 1600px) {
   .titleTargetPosition{
     font-size: 70px;
   }
@@ -421,6 +421,20 @@ color: inherit;
 
   .textArea{
     max-width: 800px;    
+  }
+
+}
+
+@media (min-width: 2000px) {
+  .titleTargetPosition{
+    font-size: 90px;
+  }
+  .smallText p{
+    font-size: 50px;
+  }
+
+  .textArea{
+    max-width: 1000px;    
   }
 
 }

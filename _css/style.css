@@ -1164,7 +1164,7 @@ a[href^=tel] {
 .chameBg:last-child {
   opacity: 1; }
 
-@media (min-width: 1200px) {
+@media (min-width: 1600px) {
   .titleTargetPosition {
     font-size: 70px; }
 
@@ -1173,6 +1173,15 @@ a[href^=tel] {
 
   .textArea {
     max-width: 800px; } }
+@media (min-width: 2000px) {
+  .titleTargetPosition {
+    font-size: 90px; }
+
+  .smallText p {
+    font-size: 50px; }
+
+  .textArea {
+    max-width: 1000px; } }
 /*Mobile*/
 /*IsMobile in JS*/
 @media (max-width: 768px) {
