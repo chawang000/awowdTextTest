@@ -240,6 +240,37 @@ function animationInitialize(animatedTitle,lastTitle,nextTitle){
 
         getAnimatingSpeed();
         function getAnimatingSpeed(){
+            var currentColorString = $(animatedTitle).css('color');
+            var currentColor = currentColorString.substring(currentColorString.indexOf('(') + 1, currentColorString.lastIndexOf(')')).split(/,\s*/),
+                currentR = currentColor[0],
+                currentG = currentColor[1],
+                currentB = currentColor[2],
+                currentA = currentColor[3];
+            if(typeof currentA == 'undefined'){
+                currentA = 1;
+            }
+
+            var targetColorString = $(nextTitle).css('color');
+            var targetColor = targetColorString.substring(targetColorString.indexOf('(') + 1, targetColorString.lastIndexOf(')')).split(/,\s*/),
+                targetR = targetColor[0],
+                targetG = targetColor[1],
+                targetB = targetColor[2],
+                targetA = targetColor[3];
+            if(typeof targetA == 'undefined'){
+                targetA = 1;
+            }
+            animatedTitle.currentR = currentR;
+            animatedTitle.currentG = currentG;
+            animatedTitle.currentB = currentB;
+            animatedTitle.currentA = currentA;
+            animatedTitle.colorSpeedR = (targetR - currentR) / animateDistance;
+            animatedTitle.colorSpeedG = (targetG - currentG) / animateDistance;
+            animatedTitle.colorSpeedB = (targetB - currentB) / animateDistance;
+            animatedTitle.colorSpeedA = (targetA - currentA) / animateDistance;
+            // console.log(currentA);
+
+
+            // Font Size Speed
             animatedTitle.textFontSizeSpeed = (textTargetFontSize - textBaseFontSize) / animateDistance;
         }
 
@@ -496,8 +527,17 @@ function setTitleProgressingPosition(animatedTitle,titleCurrentProgress){
     var textNestOffsetX = globalSpeed * innerOffsetSpeedX * (animateDistance - titleCurrentProgress);
     var textNestOffsetY = -1 * globalSpeed * innerOffsetSpeedY * (animateDistance - titleCurrentProgress);
     var textFontSizeSpeed = globalSpeed * animatedTitle.textFontSizeSpeed;
+
+
+    // TEXT COLOR
+
+    var nextR = parseInt(animatedTitle.colorSpeedR*titleCurrentProgress);
+    var nextG = parseInt(animatedTitle.colorSpeedG*titleCurrentProgress);
+    var nextB = parseInt(animatedTitle.colorSpeedB*titleCurrentProgress);
+    // var nextA = animatedTitle.colorSpeedA;
+
     $(animatedTitle).css({
-                        // 'color':'rgb(' + textNextColor + ','+ textNextColor + ',' + textNextColor + ')',
+                        'color':'rgb(' + nextR + ','+ nextG + ',' + nextB + ')',
                         'transform':'translate( ' + textNextPositionX +'px, ' + textNextPositionY + 'px)',
                         'font-family':textTargetFontFamily,
                         'font-size': textBaseFontSize + titleCurrentProgress * textFontSizeSpeed + 'px',
