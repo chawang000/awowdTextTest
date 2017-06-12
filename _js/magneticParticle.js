@@ -11,7 +11,6 @@ class Particle {
     this.d = d;
     this.lerp = lerp;
     this.color = color;
-    
   }
 
 
@@ -89,9 +88,9 @@ class Canvas {
     mouse.x -= offset.left;
     mouse.y = e.clientY;
     mouse.y -= offset.top;
-    // mouse.x-=this.canvas.width/2;
-    // mouse.y-=this.canvas.height/2;
-    // console.log(offset.left);
+    mouse.x-=this.canvas.width/2;
+    mouse.y-=this.canvas.height/2;
+    console.log(e.clientX);
     // this.moveToMouse();
     // console.log(this.particles);
 
@@ -138,8 +137,17 @@ class Canvas {
 
   createParticles() {
     var cols = Math.floor(this.canvas.width / this.particleSpacing),
-      rows = Math.floor(this.canvas.height / this.particleSpacing),
-      colGutter = (this.particleSpacing + (this.canvas.width - cols * this.particleSpacing)) / 2,
+      rows = Math.floor(this.canvas.height / this.particleSpacing);
+      if (cols%2 == 0){
+        cols = cols - 1;
+      }
+      
+      if (rows%2 == 0){
+        rows = rows - 1;
+      }
+      console.log(rows);
+
+    var colGutter = (this.particleSpacing + (this.canvas.width - cols * this.particleSpacing)) / 2,
       rowGutter = (this.particleSpacing + (this.canvas.height - rows * this.particleSpacing)) / 2;
 
     this.particles = [];
@@ -151,6 +159,10 @@ class Canvas {
         this.particles.push(particle);
       }
     }
+    var randomInt = parseInt(this.particles.length-1)/2;
+    this.particles[randomInt].color = '#ff3800';
+    this.particles[randomInt].d = this.particles[randomInt].d*1.5;
+    // console.log(this.particles[randomInt]);
   }
 
   draw() {
@@ -163,11 +175,10 @@ class Canvas {
   }
 
   animate() {
-    // if(isNaN(mouse.delta) || mouse.delta <= 0) { return; }  
+    var randomInt = parseInt(this.particles.length-1)/2;
+    this.particles[randomInt].x += 1;
+    console.log(this.particles[randomInt].x);
     this.draw();
-    // if(this.active){
-    //   console.log('hovering');
-    // }
     // this.canvas.addEventListener('mouseenter', (e) => this.moveToMouse(e));
     this.animationFrame = window.requestAnimationFrame(() => this.animate());
   }
