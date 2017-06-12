@@ -77,7 +77,9 @@ html,body{
 	height: 100% !important;
 	overflow: hidden !important;
 	-webkit-overflow-scrolling: auto !important;
+	margin-left: calc(100vw - 100%);
 }
+
 
 
 
@@ -496,6 +498,7 @@ input[type=email]:focus, textarea:focus {
 	top: 0;
 	width: 100% - $mibileFullMarginLeft*2;
 	padding-left: $mibileFullMarginLeft;
+	padding-bottom:50px;
 	height: auto;
 	/*background: url(../_img/IMG_5832.JPG);*/
 	background: #fff;

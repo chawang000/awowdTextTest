@@ -40,13 +40,14 @@ $(document).ready(function(){
         // window.addEventListener( 'scroll', webScrollFunctions ,true );
         eventListenerAdded = true;
     }
-    
+
+    setChameleonHeight();
+    mobilePicLoop();
 });
 
 
 $(window).on("load", function (){
-    setChameleonHeight();
-    mobilePicLoop();
+    
 });//Window load END
 
 function mobilePicLoop(){
@@ -93,13 +94,13 @@ var resizeFunctions = function(){
 // RUN EVERY CALL
     contentDivSetter();
     setChameleonHeight();
-    for (var i = 0; i < animateTitleArray.length; i++){
-        var animatedTitle = animateTitleArray[i];
-        var lastTitle = animateTitleArray[i-1];
-        var nextTitle = animateTitleArray[i+1];
-        setToInitialPosition(animatedTitle);//set to initial position before caculation
-        animationInitialize(animatedTitle,lastTitle,nextTitle);
-    }
+    // for (var i = 0; i < animateTitleArray.length; i++){
+    //     var animatedTitle = animateTitleArray[i];
+    //     var lastTitle = animateTitleArray[i-1];
+    //     var nextTitle = animateTitleArray[i+1];
+    //     setToInitialPosition(animatedTitle);//set to initial position before caculation
+    //     animationInitialize(animatedTitle,lastTitle,nextTitle);
+    // }
 }
 
 var webFunctions = function(){
@@ -622,7 +623,7 @@ function contentDivSetter(){
     var mobileMenuHeight = $('#mobileHeader').height();
     var webMenuHeight = $('#webHeader').height();
     var videoText = $('#videoBG .threeFifthContainer');
-    console.log(windowH-videoText.height());
+    // console.log(windowH-videoText.height());
     var videoMarginTop = (windowH-videoText.height())*0.5;
     if(videoMarginTop < 200){
         videoMarginTop = 200;
@@ -706,18 +707,21 @@ function textToSpan(){
 // =========================================================================
 
  function setChameleonHeight(){
-    var biggestHeight = 0;
-    // Loop through elements children to find & set the biggest height
-    $("#homeSection_4 .contentImage *").each(function(){
-     // If this elements height is bigger than the biggestHeight
-     if ($(this).height() > biggestHeight ) {
-       // Set the biggestHeight to this Height
-       biggestHeight = $(this).height();
-     }
-    });
+    // var biggestHeight = 0;
+    // // Loop through elements children to find & set the biggest height
+    // $("#homeSection_4 .contentImage *").each(function(){
+    //  // If this elements height is bigger than the biggestHeight
+    //  if ($(this).height() > biggestHeight ) {
+    //    // Set the biggestHeight to this Height
+    //    biggestHeight = $(this).height();
+    //  }
+    // });
+
+    var chameHeight = $("#homeSection_4 .contentImage").width()/3*4;
+
     // Set the container height
-    $("#homeSection_4 .contentImage").height(biggestHeight);
-    // console.log(biggestHeight);
+    $("#homeSection_4 .contentImage").height(chameHeight);
+    console.log(chameHeight);
 }
 
 function chameleonColor(){
@@ -750,11 +754,11 @@ function chameleonColor(){
             count = 0;
             changeColor(count,chameleons.length-1);
         }
-    }, 5000);
+    }, 4000);
 
     function changeColor(count,lastImgCount){
-        var bgColorTime = 1000;
-        var chameleonColorDelay = 1500;
+        var bgColorTime = 500;
+        var chameleonColorDelay = 800;
         // console.log(chameleons[count].imgObj);
         // console.log(chameleons[lastImgCount].imgObj);
         var currentChameleon = chameleons[count].imgObj;

@@ -54,7 +54,8 @@ html, body {
 .noScroll {
   height: 100% !important;
   overflow: hidden !important;
-  -webkit-overflow-scrolling: auto !important; }
+  -webkit-overflow-scrolling: auto !important;
+  margin-left: calc(100vw - 100%); }
 
 /*================================================================================*/
 /*=====================================MOBILE=====================================*/
@@ -419,6 +420,7 @@ input[type=email]:focus, textarea:focus {
   top: 0;
   width: 84%;
   padding-left: 8%;
+  padding-bottom: 50px;
   height: auto;
   /*background: url(../_img/IMG_5832.JPG);*/
   background: #fff;
@@ -806,12 +808,13 @@ a.socialMediaIcon img:hover {
 
 #techSectionOne .techTextContent {
   position: relative;
-  margin-top: 5%; }
+  margin-top: -5%; }
 
 #techSectionOne .techImg {
-  margin-left: -10%;
+  margin-left: auto;
   margin-right: auto;
-  width: 120%; }
+  margin-top: -5%;
+  width: 80%; }
 
 #techSectionTwo {
   background-color: #333; }
@@ -831,8 +834,13 @@ a.socialMediaIcon img:hover {
   width: 400px;
   height: 300px; }
 
+#techSectionThree .techImg {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto; }
+
 #techSectionThree .techTextContent {
-  margin-top: -20%; }
+  margin-top: -25%; }
 
 .techDisplay:last-child {
   border-bottom: 1px solid #ccc; }
@@ -841,11 +849,18 @@ a.socialMediaIcon img:hover {
   .techTextContent {
     width: 90%; }
 
+  #techSectionOne .techImg {
+    margin-top: 0;
+    width: 100%; }
+
   #techSectionTwo .techImg {
     margin: auto;
     padding: 100px 0 100px 0;
     width: 70%;
-    height: 40vh; } }
+    height: 40vh; }
+
+  #techSectionThree .techTextContent {
+    margin-top: -15%; } }
 #aboutBG {
   position: fixed;
   width: 100%;
@@ -862,8 +877,8 @@ a.socialMediaIcon img:hover {
 #aboutUpper {
   width: 100%;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.7);
-  opacity: 0.8; }
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 0.9; }
 
 #aboutLogo {
   width: 150px;
@@ -1030,7 +1045,7 @@ a[href^=tel] {
 .alignRight {
   text-align: right; }
 
-.twoFifthContainer img, .threeFifthContainer img {
+#main .twoFifthContainer img, #main .threeFifthContainer img {
   width: 100%;
   height: auto;
   margin-top: 10vh; }
@@ -1046,7 +1061,7 @@ a[href^=tel] {
 .titleTargetPosition {
   margin: 0px;
   /*VERY IMPORTANT, PREVENT STRANGE SPACES*/
-  margin-top: 10vh;
+  margin-top: 15vh;
   margin-bottom: 50px;
   width: 100%;
   /*height: 150px;*/
@@ -1057,7 +1072,8 @@ a[href^=tel] {
   letter-spacing: 2px;
   position: relative;
   float: left;
-  clear: both; }
+  clear: both;
+  opacity: 0.7; }
 
 .smallText p {
   /*VERY IMPORTANT, PREVENT STRANGE SPACES*/
@@ -1306,7 +1322,7 @@ a[href^=tel] {
     width: 70%;
     margin-left: 15%; }
 
-  .twoFifthContainer img, .threeFifthContainer img {
+  #main .twoFifthContainer img, #main .threeFifthContainer img {
     margin-top: 0; }
 
   #homeSection_4 .twoFifthContainer {

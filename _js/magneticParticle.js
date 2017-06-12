@@ -1,7 +1,20 @@
 
 // Particle
 class Particle {
+
   constructor(context, x, y, d = 6, color = '#ccc', lerp = 0.01) {
+    // if(d === undefined){
+    //   d =6;
+    // }
+
+    // if(color === undefined){
+    //   color ='#ccc';
+    // }
+
+    // if(lerp === undefined){
+    //   lerp =0.01;
+    // }
+
     this.context = context;
 
     this.originX = x;

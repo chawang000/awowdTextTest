@@ -246,10 +246,10 @@ function showMobileMenu(){
 // =========================================================================
 // =========================================================================
 function webHeaderSetter(){
-	windowH = $(window).height();
+	windowH = window.innerHeight;
 	documentHeight = $(document).height();
 	webHeaderHeight = webHeaderDisplay.height();
-	webMenuHeight = $(window).height() - webHeaderHeight;
+	webMenuHeight = windowH - webHeaderHeight;
 	webMenuDisplay.css({
 		'height':webMenuHeight + 'px'
 	});
@@ -437,7 +437,7 @@ function bookBlurStyle(){
 // * prevent scrolling background when the menu or book page is opening
 // =========================================================================
 function mobileHeaderSetter(){
-	windowH = $(window).height();
+	windowH = window.innerHeight;
 	var mOutterWidth = mobileEmailOuter.width();
 	var mEmailSendWidth = menuBookSendButton.width();
 	mUpperHeight = parseInt(mobileUpperHeader.css('height'));
@@ -453,7 +453,7 @@ function mobileHeaderSetter(){
 }
 
 function resetMenuHeights(){
-	windowH = $(window).height();
+	windowH = window.innerHeight;
 	mUpperHeight = parseInt(mobileUpperHeader.css('height'));
 	mLowerHeight = parseInt(mobileLowerHeader.css('height'));
 	mMenuHeight = windowH - mUpperHeight - mLowerHeight - mHeaderOffset;
@@ -714,14 +714,73 @@ function mobileMenuClose(mobileBurgerToggle){
 function lockScroll(){
 	bodyScrollValue = $(window).scrollTop();
 	$(window).scrollTop(0);
-	$('html,body').addClass('noScroll');
+	if(!isMobile){
+		disableScroll();
+	}else{
+		$('body').addClass('noScroll');
+	}
+	
+	// $('body').addClass('noScroll');
+	var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+	function preventDefault(e) {
+	  e = e || window.event;
+	  if (e.preventDefault)
+	      e.preventDefault();
+	  e.returnValue = false;  
+	}
+
+	function preventDefaultForScrollKeys(e) {
+	    if (keys[e.keyCode]) {
+	        preventDefault(e);
+	        return false;
+	    }
+	}
+
+	function disableScroll() {
+	  if (window.addEventListener) // older FF
+	      window.addEventListener('DOMMouseScroll', preventDefault, false);
+	  window.onwheel = preventDefault; // modern standard
+	  window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
+	  window.ontouchmove  = preventDefault; // mobile
+	  document.onkeydown  = preventDefaultForScrollKeys;
+	}
+	// $('#mobileBookLowerDisplay').css({
+	// 	'overflow-y':'scroll'
+	// })
+	// console.log('inner: '+ document.body.clientWidth + 'outter: '+window.outerWidth)
 	// console.log(bodyScrollValue);
 }
 
 function releaseScroll(){
-	$('html,body').removeClass('noScroll');
+	enableScroll();
+	$('body').removeClass('noScroll');
 	$(window).scrollTop(bodyScrollValue);
+	var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+	function preventDefault(e) {
+	  e = e || window.event;
+	  if (e.preventDefault)
+	      e.preventDefault();
+	  e.returnValue = false;  
+	}
+
+	function preventDefaultForScrollKeys(e) {
+	    if (keys[e.keyCode]) {
+	        preventDefault(e);
+	        return false;
+	    }
+	}
+
+	function enableScroll() {
+	    if (window.removeEventListener)
+	        window.removeEventListener('DOMMouseScroll', preventDefault, false);
+	    window.onmousewheel = document.onmousewheel = null; 
+	    window.onwheel = null; 
+	    window.ontouchmove = null;  
+	    document.onkeydown = null;  
+	}
 }
+
+
 
 
 

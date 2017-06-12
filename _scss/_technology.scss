@@ -103,13 +103,14 @@
 
 #techSectionOne .techTextContent{
 	position: relative;
-	margin-top: 5%;
+	margin-top: -5%;
 }
 
 #techSectionOne .techImg{
-	margin-left: -10%;
+	margin-left: auto;
 	margin-right: auto;
-	width: 120%;
+	margin-top: -5%;
+	width: 80%;
 }
 
 
@@ -141,8 +142,14 @@
 #techSectionTwo canvas{
 }
 
+#techSectionThree .techImg{
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 #techSectionThree .techTextContent{
-	margin-top: -20%;
+	margin-top: -25%;
 }
 
 .techDisplay:last-child{
@@ -156,15 +163,23 @@
 
 
 @media (max-width: 768px) {
-  .techTextContent{
-  	width: 90%;
-  }
+  	.techTextContent{
+	  	width: 90%;
+	}
 
-  #techSectionTwo .techImg{
-	margin: auto;
-	padding: 100px 0 100px 0;
-	width: 70%;
-	height: 40vh;
+	#techSectionOne .techImg{
+		margin-top: 0;
+		width: 100%;
+	}
+
+  	#techSectionTwo .techImg{
+		margin: auto;
+		padding: 100px 0 100px 0;
+		width: 70%;
+		height: 40vh;
+	}
+	#techSectionThree .techTextContent{
+		margin-top: -15%;
 	}
 
 }
