@@ -11,6 +11,7 @@ class Particle {
     this.d = d;
     this.lerp = lerp;
     this.color = color;
+    this.active = false;
   }
 
 
@@ -54,23 +55,15 @@ class Particle {
 // Canvas
 class Canvas {
   constructor(element, particleSpacing = 25) {
-    
     this.canvas = element;
     this.context = element.getContext('2d');
 
     this.particleSpacing = particleSpacing;
-    this.active = false;
     
     window.addEventListener('resize', () => this.init());
     this.init();
-
-    // console.log(this.active)
-   $(element).on('mouseenter',function(){
-    // this.active = true;
-    // console.log(active);
-   });
-    // while(element.mouseover(console.log('hovering')));
-    
+    element.addEventListener('mousemove', (e) => this.moveToMouse(e));
+    element.addEventListener('touchstart', (e) => this.moveToMouse(e));
   }
 
   moveToMouse(e) {
@@ -83,16 +76,16 @@ class Canvas {
         delta:0
     };
 
-    var offset = $('#magneticCanvas').offset();
+    var offset = $('#magneticCanvas')[0].getBoundingClientRect();
     mouse.x = e.clientX; 
     mouse.x -= offset.left;
     mouse.y = e.clientY;
     mouse.y -= offset.top;
-    mouse.x-=this.canvas.width/2;
-    mouse.y-=this.canvas.height/2;
-    console.log(e.clientX);
+    // mouse.x-=this.canvas.width/2;
+    // mouse.y-=this.canvas.height/2;
+    // console.log(offset.left);
     // this.moveToMouse();
-    // console.log(this.particles);
+    // console.log(mouse.y);
 
     if (this.particles) {
       for (let i = 0; i < this.particles.length; i++) {
@@ -103,6 +96,11 @@ class Canvas {
         if( dis <= 300 ){
           this.particles[i].x += (mouse.x - this.particles[i].x)/dis*1.5;
         this.particles[i].y += (mouse.y - this.particles[i].y)/dis*1.5;
+        // this.particles[i].active = true;
+
+
+        // this.particles[i].color = 'rgba(0, 0, 0,' + (0.3+(150-dis)/150*0.3) +')';
+
         }else{
           // this.particles[i].color = 'rgba(0, 0, 0, 0.3)';
           // this.particles[i].active = false;
@@ -120,15 +118,8 @@ class Canvas {
   }
   
   resize() {
-    var canvasParentExist = $('#techSectionTwo .techImg') != null;
-    if(canvasParentExist){
-      this.canvas.width = $('#techSectionTwo .techImg').width();
-      this.canvas.height = $('#techSectionTwo .techImg').height();
-    }else{
-      this.canvas.width = 400;
-      this.canvas.height = 300;
-    }
-    
+    this.canvas.width = 400;
+    this.canvas.height = 300;
   }
 
   clear() {
@@ -139,15 +130,12 @@ class Canvas {
     var cols = Math.floor(this.canvas.width / this.particleSpacing),
       rows = Math.floor(this.canvas.height / this.particleSpacing);
       if (cols%2 == 0){
-        cols = cols - 1;
+        cols = cols-1;
       }
-      
       if (rows%2 == 0){
-        rows = rows - 1;
+        rows = rows-1;
       }
-      console.log(rows);
-
-    var colGutter = (this.particleSpacing + (this.canvas.width - cols * this.particleSpacing)) / 2,
+      var colGutter = (this.particleSpacing + (this.canvas.width - cols * this.particleSpacing)) / 2,
       rowGutter = (this.particleSpacing + (this.canvas.height - rows * this.particleSpacing)) / 2;
 
     this.particles = [];
@@ -159,10 +147,10 @@ class Canvas {
         this.particles.push(particle);
       }
     }
-    var randomInt = parseInt(this.particles.length-1)/2;
-    this.particles[randomInt].color = '#ff3800';
-    this.particles[randomInt].d = this.particles[randomInt].d*1.5;
-    // console.log(this.particles[randomInt]);
+
+    var centerDot = parseInt(this.particles.length-1)/2;
+    this.particles[centerDot].d = this.particles[centerDot].d*1.2;
+    this.particles[centerDot].color = '#ff3f00';
   }
 
   draw() {
@@ -175,11 +163,8 @@ class Canvas {
   }
 
   animate() {
-    var randomInt = parseInt(this.particles.length-1)/2;
-    this.particles[randomInt].x += 1;
-    console.log(this.particles[randomInt].x);
+    // if(isNaN(mouse.delta) || mouse.delta <= 0) { return; }  
     this.draw();
-    // this.canvas.addEventListener('mouseenter', (e) => this.moveToMouse(e));
     this.animationFrame = window.requestAnimationFrame(() => this.animate());
   }
 
