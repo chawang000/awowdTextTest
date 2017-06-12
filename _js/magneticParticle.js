@@ -118,8 +118,14 @@ class Canvas {
   }
   
   resize() {
-    this.canvas.width = 400;
-    this.canvas.height = 300;
+    var canvasParentExist = $('#techSectionTwo .techImg') != null;
+    if(canvasParentExist){
+      this.canvas.width = $('#techSectionTwo .techImg').width();
+      this.canvas.height = $('#techSectionTwo .techImg').height();
+    }else{
+      this.canvas.width = 400;
+      this.canvas.height = 300;
+    }
   }
 
   clear() {
