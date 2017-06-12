@@ -37,7 +37,7 @@ $(document).ready(function(){
     if(isMobile){
         eventListenerAdded = false;
     }else{
-        window.addEventListener( 'scroll', webScrollFunctions ,true );
+        // window.addEventListener( 'scroll', webScrollFunctions ,true );
         eventListenerAdded = true;
     }
     
@@ -83,12 +83,10 @@ var resizeFunctions = function(){
 
 // RUN ONE TIME
     if(isMobile && eventListenerAdded) {
-        // console.log('removeEventListener scroll');
-        window.removeEventListener( 'scroll', webScrollFunctions ,true );
+        // window.removeEventListener( 'scroll', webScrollFunctions ,true );
         eventListenerAdded = false;
     }else if(!isMobile && !eventListenerAdded){
-        // console.log('addEventListener scroll');
-        window.addEventListener( 'scroll', webScrollFunctions ,true );
+        // window.addEventListener( 'scroll', webScrollFunctions ,true );
         eventListenerAdded = true;
     }
 
@@ -109,31 +107,22 @@ var webFunctions = function(){
     // if(isMobile) return;
     // console.log("webFunctions");
 
-    textToSpan();
+    // textToSpan();
     contentDivSetter();
     chameleonColor();
     deerFunctions();
    
     // SETTER AND CALCULATION OF EACH SECTION
-    for (var i = 0; i < animateTitleArray.length; i++){
-        var animatedTitle = animateTitleArray[i];
-        var lastTitle = animateTitleArray[i-1];
-        var nextTitle = animateTitleArray[i+1];
-        animationInitialize(animatedTitle,lastTitle,nextTitle);
-    }
+    // for (var i = 0; i < animateTitleArray.length; i++){
+    //     var animatedTitle = animateTitleArray[i];
+    //     var lastTitle = animateTitleArray[i-1];
+    //     var nextTitle = animateTitleArray[i+1];
+    //     animationInitialize(animatedTitle,lastTitle,nextTitle);
+    // }
 }
 
 var webScrollFunctions = function(){
-    // console.log($(document).scrollTop())
-    // console.log('scroll');
-    // if(isMobile) return;
     var currentScroll = currentWindowScroll;
-    // console.log(currentWindowScroll)
-    // if(isMobile){
-    //     currentScroll = -$('#main')[0].getBoundingClientRect().top;
-    //     // console.log('getBoundingClientRect');
-    // }
-    
     for (var i = 0; i < animateTitleArray.length; i++){
         var animatedTitle = animateTitleArray[i];
         var lastTitle = animateTitleArray[i-1];
@@ -141,17 +130,6 @@ var webScrollFunctions = function(){
         scrollDetection(animatedTitle,lastTitle,nextTitle,currentScroll);
     }
 }
-// SCROLL
-    // $(window).scroll(function(){
-    //     // RESIZE AND RECALCULATE THE ATTRIBUTES
-    //     for (var i = 0; i < animateTitleArray.length; i++){
-    //         var animatedTitle = animateTitleArray[i];
-    //         var lastTitle = animateTitleArray[i-1];
-    //         var nextTitle = animateTitleArray[i+1];
-    //         scrollDetection(animatedTitle,lastTitle,nextTitle);
-    //     }
-    // });
-
 
 
 // =========================================================================

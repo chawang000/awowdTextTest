@@ -149,6 +149,7 @@ color: inherit;
 .twoFifthContainer img, .threeFifthContainer img{
   width: 100%;
   height: auto;
+  margin-top: 10vh;
 }
 
 .textArea{
@@ -162,6 +163,7 @@ color: inherit;
 
 .titleTargetPosition{
     margin:0px;/*VERY IMPORTANT, PREVENT STRANGE SPACES*/
+    margin-top: 10vh;
     margin-bottom: 50px;
     width: 100%;
     /*height: 150px;*/
@@ -481,9 +483,14 @@ color: inherit;
     display: none;
   }
 
+
   #main .twoFifthContainer{
     width: 70%;
     margin-left: 15%;
+  }
+
+  .twoFifthContainer img, .threeFifthContainer img{
+    margin-top: 0;
   }
 
   #homeSection_4 .twoFifthContainer{
