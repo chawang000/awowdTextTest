@@ -771,7 +771,7 @@ a.socialMediaIcon img:hover {
 .showMoreButton, .showLessButton {
   height: 50px;
   padding-top: 25px;
-  padding-bottom: 100px;
+  padding-bottom: 50px;
   /*font-size: 0.8em;*/
   color: #3989ed;
   /*cursor: pointer;*/ }
@@ -783,7 +783,7 @@ a.socialMediaIcon img:hover {
   cursor: pointer; }
 
 .additionalDisplay {
-  height: 175px;
+  height: 125px;
   overflow: hidden; }
 
 .additionalWrapper {
@@ -802,7 +802,7 @@ a.socialMediaIcon img:hover {
 /*SECTION BRAIN*/
 #techSectionOne {
   background: #cfcfcf;
-  margin-top: 80px; }
+  margin-top: 60px; }
 
 #techSectionOne .techTextContent {
   position: relative;
@@ -814,16 +814,28 @@ a.socialMediaIcon img:hover {
   width: 120%; }
 
 #techSectionTwo {
-  background-color: #fff; }
+  background-color: #333; }
+
+#techSectionTwo .techTitle {
+  color: #eee; }
+
+#techSectionTwo .techTextContent {
+  color: #ccc; }
 
 #techSectionTwo .techTitle {
   /*padding-top: 300px;*/ }
 
 #techSectionTwo .techImg {
   margin: auto;
-  padding: 300px 200px 200px 200px;
+  padding: 200px 100px 100px 100px;
   width: 400px;
   height: 300px; }
+
+#techSectionThree .techTextContent {
+  margin-top: -20%; }
+
+.techDisplay:last-child {
+  border-bottom: 1px solid #ccc; }
 
 @media (max-width: 768px) {
   .techTextContent {
@@ -832,8 +844,8 @@ a.socialMediaIcon img:hover {
   #techSectionTwo .techImg {
     margin: auto;
     padding: 100px 0 100px 0;
-    width: 90%;
-    height: 60vh; } }
+    width: 70%;
+    height: 40vh; } }
 #aboutBG {
   position: fixed;
   width: 100%;
@@ -1121,6 +1133,32 @@ a[href^=tel] {
   z-index: -1;
   transform: translate(-50%, -30%); }
 
+#videoBG #mobilePic {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: none; }
+
+#mobilePic img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 2s; }
+
+#mobilePic #picDarker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: 0; }
+
+#mobilePic img:first-child {
+  opacity: 1; }
+
 #videoBG .threeFifthContainer {
   /*position: absolute;*/
   /*position: relative;*/
@@ -1256,10 +1294,10 @@ a[href^=tel] {
 /*Mobile*/
 /*IsMobile in JS*/
 @media (max-width: 768px) {
-  .mobileText, #deerPNG {
+  .mobileText, #deerPNG, #videoBG #mobilePic {
     display: block; }
 
-  #main .threeFifthContainer, #main #deerSVG {
+  #main .threeFifthContainer, #main #deerSVG, #videoBG video {
     display: none; }
 
   #main .twoFifthContainer {
@@ -1281,13 +1319,13 @@ a[href^=tel] {
   .floatLeftNoMargin, .floatRightNoMargin {
     float: none; }
 
-  .titleTargetPosition {
+  .titleTargetPosition, .techTitle {
     font-size: 30px; }
 
-  .smallText p, #aboutMainText {
+  .smallText p, #aboutMainText, .techTextContent {
     font-size: 16px; }
 
-  #aboutMainText {
+  #aboutMainText, .techTextContent {
     line-height: 28px; }
 
   .wrapper {

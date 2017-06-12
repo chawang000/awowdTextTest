@@ -263,6 +263,36 @@ color: inherit;
   transform: translate(-50%, -30%);
 }
 
+#videoBG #mobilePic{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: none;
+}
+
+#mobilePic img{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 2s;
+}
+
+#mobilePic #picDarker{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: 0;
+}
+
+#mobilePic img:first-child {
+  opacity: 1;
+}
+
 #videoBG .threeFifthContainer{
   /*position: absolute;*/
   /*position: relative;*/
@@ -443,11 +473,11 @@ color: inherit;
 /*Mobile*/
 /*IsMobile in JS*/
 @media (max-width: 768px) {
-  .mobileText,#deerPNG{
+  .mobileText,#deerPNG,#videoBG #mobilePic{
     display: block
   }
 
-  #main .threeFifthContainer,#main #deerSVG{
+  #main .threeFifthContainer,#main #deerSVG,#videoBG video{
     display: none;
   }
 
@@ -475,15 +505,15 @@ color: inherit;
     float: none;
   }
 
-  .titleTargetPosition{
+  .titleTargetPosition,.techTitle{
     font-size: 30px;
   }
 
-  .smallText p,#aboutMainText{
+  .smallText p,#aboutMainText,.techTextContent{
     font-size: 16px;
   }
 
-  #aboutMainText{
+  #aboutMainText,.techTextContent{
     line-height: 28px;
   }
 

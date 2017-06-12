@@ -59,7 +59,7 @@
 .showMoreButton, .showLessButton{
 	height: 50px;
 	padding-top: 25px;
-	padding-bottom: 100px;
+	padding-bottom: 50px;
 	/*font-size: 0.8em;*/
 	color:#3989ed;
 	/*cursor: pointer;*/
@@ -74,7 +74,7 @@
 
 
 .additionalDisplay{
-	height: 175px;
+	height: 125px;
 	overflow: hidden;
 }
 
@@ -98,7 +98,7 @@
 /*SECTION BRAIN*/
 #techSectionOne{
 	background: #cfcfcf;
-	margin-top: 80px;
+	margin-top: 60px;
 }
 
 #techSectionOne .techTextContent{
@@ -116,7 +116,15 @@
 
 
 #techSectionTwo{
-	background-color: #fff;
+	background-color: #333;
+}
+
+#techSectionTwo .techTitle{
+	color: #eee;
+}
+
+#techSectionTwo .techTextContent{
+	color: #ccc;
 }
 
 #techSectionTwo .techTitle{
@@ -126,11 +134,19 @@
 
 #techSectionTwo .techImg{
 	margin: auto;
-	padding: 300px 200px 200px 200px;
+	padding: 200px 100px 100px 100px;
 	width: 400px;
 	height: 300px;
 }
 #techSectionTwo canvas{
+}
+
+#techSectionThree .techTextContent{
+	margin-top: -20%;
+}
+
+.techDisplay:last-child{
+	border-bottom: 1px solid #ccc;
 }
 
 
@@ -147,8 +163,8 @@
   #techSectionTwo .techImg{
 	margin: auto;
 	padding: 100px 0 100px 0;
-	width: 90%;
-	height: 60vh;
+	width: 70%;
+	height: 40vh;
 	}
 
 }

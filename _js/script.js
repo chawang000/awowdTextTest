@@ -41,13 +41,39 @@ $(document).ready(function(){
         eventListenerAdded = true;
     }
     
-    
 });
 
 
 $(window).on("load", function (){
     setChameleonHeight();
+    mobilePicLoop();
 });//Window load END
+
+function mobilePicLoop(){
+    var allPics = $('#mobilePic img');
+    var count = 0;
+
+    var picLoop = setInterval(function(){ 
+        if(count < allPics.length-1){
+            count += 1;
+            changePic(count,count-1);
+        }else{
+            count = 0;
+            changePic(count,allPics.length-1);
+        }
+    }, 4000);
+
+
+    function changePic(count,lastImg){
+        // console.log(lastImg)
+        $(allPics[count]).css({
+            opacity:1
+        });
+        $(allPics[lastImg]).css({
+            opacity:0
+        })
+    }
+}
 
 
 var resizeFunctions = function(){
@@ -617,6 +643,15 @@ function contentDivSetter(){
     var contentDivMinHeight = 600;
     var mobileMenuHeight = $('#mobileHeader').height();
     var webMenuHeight = $('#webHeader').height();
+    var videoText = $('#videoBG .threeFifthContainer');
+    console.log(windowH-videoText.height());
+    var videoMarginTop = (windowH-videoText.height())*0.5;
+    if(videoMarginTop < 200){
+        videoMarginTop = 200;
+    }
+    videoText.css({
+        'margin-top': videoMarginTop+'px'
+    })
 
 
     // if(windowH < contentDivMinHeight){//videoBG should be at least as tall as the content div to ensure the text animation
@@ -736,9 +771,7 @@ function chameleonColor(){
         }else{
             count = 0;
             changeColor(count,chameleons.length-1);
-            
         }
-        
     }, 5000);
 
     function changeColor(count,lastImgCount){
